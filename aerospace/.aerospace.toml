@@ -52,8 +52,13 @@ on-focus-changed = ['move-mouse window-lazy-center']
 # make all window floating by default
 check-further-callbacks = true
 run = 'layout floating'
+
 [[on-window-detected]]
 if.app-id = 'com.apple.MobileSMS'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
 run = 'move-node-to-workspace 2'
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
