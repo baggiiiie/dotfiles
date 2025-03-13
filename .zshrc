@@ -100,6 +100,7 @@ export JAVA_HOME=$JAVA_17_HOME
 alias ls="eza --icons=always"
 alias la="ls -alh"
 # alias cd="z"
+alias c="clear"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
 alias vimrc="nvim ~/.vimrc"
@@ -112,3 +113,5 @@ alias nv="nvim"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export EDITOR=nvim
+
