@@ -37,9 +37,6 @@ ssh-add ~/.ssh/ydai_ssh
 ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
 export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
 
-# Tool initializations
-eval "$(zoxide init zsh)"
-
 # Theme configuration
 source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -88,6 +85,10 @@ source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab/fzf-tab.plugin.zsh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Tool initializations
+# eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
 # Java version management
 export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
 export JAVA_23_HOME=$(/usr/libexec/java_home -v23)
@@ -98,7 +99,7 @@ export JAVA_HOME=$JAVA_17_HOME
 # Aliases
 alias ls="eza --icons=always"
 alias la="ls -alh"
-alias cd="z"
+# alias cd="z"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
 alias vimrc="nvim ~/.vimrc"
