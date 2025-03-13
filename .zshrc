@@ -15,11 +15,14 @@ export PATH
 HISTFILE=$HOME/.zhistory
 SAVEHIST=1000
 HISTSIZE=999
-setopt share_history
-setopt hist_expire_dups_first
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
 setopt hist_ignore_dups
-setopt hist_verify
-
+setopt hist_find_no_dups
 
 # FZF configuration (must come before vi-mode)
 # ZVM_INIT_MODE is needed so ^R works for vi-mode insert mode
