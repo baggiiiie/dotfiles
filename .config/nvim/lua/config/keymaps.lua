@@ -9,6 +9,9 @@ local map = LazyVim.safe_keymap_set
 map({ "n", "x" }, "y", '"+y')
 map("n", "p", '""p')
 
+vim.keymap.set({ "c", "n", "i", "x", "v" }, "<C-a>", "<Home>", { desc = "Move to beginning of line" })
+vim.keymap.set({ "c", "n", "i", "x", "v" }, "<C-e>", "<End>", { desc = "Move to end of line" })
+
 function CopyRelativePath()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
   vim.fn.setreg("+", filepath) -- write to clipboard
@@ -17,5 +20,5 @@ vim.keymap.set(
   "n",
   "<leader>yp",
   CopyRelativePath,
-  { noremap = true, silent = true, desc = "Copy full path to clipboard" }
+  { noremap = true, silent = true, desc = "Copy relative path to clipboard" }
 )
