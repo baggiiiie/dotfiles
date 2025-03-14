@@ -1,11 +1,26 @@
--- https://github.com/soer9459/NeoVim/blob/main/lua/user/plugins/telescope.lua
+if true then
+  return {
+    "nvim-telescope/telescope.nvim",
+    opts = {
+      defaults = {
+        layout_strategy = "horizontal", -- Can be "vertical", "center", "bottom_pane", etc.
+        layout_config = {
+          preview_width = 0.7, -- Increase preview width (0.5 = 50% of window width)
+          width = 0.9, -- Make the whole Telescope window larger
+          height = 0.8, -- Increase the height of the Telescope popup
+        },
+        path_display = { "filename_first" },
+        -- sorting_strategy = "ascending",
+      },
+    },
+  }
+end
 
+-- https://github.com/soer9459/NeoVim/blob/main/lua/user/plugins/telescope.lua
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "debugloop/telescope-undo.nvim",
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   },
   config = function()
     local ts = require("telescope")
@@ -59,7 +74,7 @@ return {
             return math.floor(rows * h_pct)
           end,
           preview_cutoff = 10,
-          preview_height = 0.5,
+          preview_height = 0.6,
         },
       },
     }
@@ -70,10 +85,10 @@ return {
         mappings = {
           n = {
             ["o"] = require("telescope.actions.layout").toggle_preview,
-            ["<C-c>"] = require("telescope.actions").close,
+            -- ["<C-c>"] = require("telescope.actions").close,
           },
           i = {
-            ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
+            -- ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
           },
         },
       }),
@@ -88,13 +103,6 @@ return {
           },
         },
       },
-      extensions = {
-        undo = vim.tbl_extend("error", fullscreen_setup, {
-          diff_context_lines = 4,
-          preview_title = "Diff",
-        }),
-      },
     })
-    ts.load_extension("fzf")
   end,
 }
