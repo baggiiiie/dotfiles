@@ -1,69 +1,100 @@
+-- https://github.com/soer9459/NeoVim/blob/main/lua/user/plugins/telescope.lua
+
 return {
   "nvim-telescope/telescope.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "debugloop/telescope-undo.nvim",
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  },
   config = function()
-    local telescope = require("telescope")
-    local builtin = require("telescope.builtin")
-
-    -- Your relative path formatter function
-    local function format_relative_path(filename, lnum)
-      local relpath = vim.fn.fnamemodify(filename, ":.")
-      local line_info = string.format(":%d", lnum)
-      return relpath .. line_info
-    end
-
-    -- Apply to specific builtin functions
-    local original_lsp_references = builtin.lsp_references
-    builtin.lsp_references = function(opts)
-      opts = opts or {}
-      opts.show_line = false
-      opts.entry_maker = function(entry)
-        local display_text = format_relative_path(entry.filename, entry.lnum)
-        return {
-          value = entry,
-          ordinal = display_text,
-          display = display_text,
-          filename = entry.filename,
-          lnum = entry.lnum,
-        }
-      end
-      original_lsp_references(opts)
-    end
-
-    -- Do the same for other pickers you frequently use
-    local original_live_grep = builtin.live_grep
-    builtin.live_grep = function(opts)
-      opts = opts or {}
-      local original_entry_maker = opts.entry_maker
-      opts.entry_maker = function(entry)
-        if original_entry_maker then
-          entry = original_entry_maker(entry)
-        end
-        if entry and entry.filename and entry.lnum then
-          local display_text = format_relative_path(entry.filename, entry.lnum)
-          entry.display = display_text
-          entry.ordinal = display_text
-        end
-        return entry
-      end
-      original_live_grep(opts)
-    end
-
-    -- Setup telescope with your defaults
-    telescope.setup({
-      defaults = {
-        layout_strategy = "horizontal",
-        layout_config = {
-          preview_width = 0.7,
-          width = 0.9,
-          height = 0.8,
+    local ts = require("telescope")
+    local h_pct = 0.90
+    local w_pct = 0.80
+    local w_limit = 75
+    local standard_setup = {
+      borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+      preview = { hide_on_startup = true },
+      layout_strategy = "vertical",
+      layout_config = {
+        vertical = {
+          mirror = true,
+          prompt_position = "top",
+          width = function(_, cols, _)
+            return math.min(math.floor(w_pct * cols), w_limit)
+          end,
+          height = function(_, _, rows)
+            return math.floor(rows * h_pct)
+          end,
+          preview_cutoff = 10,
+          preview_height = 0.4,
         },
       },
+    }
+    local fullscreen_setup = {
+      borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+      preview = { hide_on_startup = false },
+      layout_strategy = "flex",
+      layout_config = {
+        flex = { flip_columns = 100 },
+        horizontal = {
+          mirror = false,
+          prompt_position = "top",
+          width = function(_, cols, _)
+            return math.floor(cols * w_pct)
+          end,
+          height = function(_, _, rows)
+            return math.floor(rows * h_pct)
+          end,
+          -- preview_cutoff = 10,
+          preview_width = 0.7,
+        },
+        vertical = {
+          mirror = true,
+          prompt_position = "top",
+          width = function(_, cols, _)
+            return math.floor(cols * w_pct)
+          end,
+          height = function(_, _, rows)
+            return math.floor(rows * h_pct)
+          end,
+          preview_cutoff = 10,
+          preview_height = 0.5,
+        },
+      },
+    }
+    ts.setup({
+      defaults = vim.tbl_extend("error", fullscreen_setup, {
+        sorting_strategy = "ascending",
+        path_display = { "filename_first" },
+        mappings = {
+          n = {
+            ["o"] = require("telescope.actions.layout").toggle_preview,
+            ["<C-c>"] = require("telescope.actions").close,
+          },
+          i = {
+            ["<C-o>"] = require("telescope.actions.layout").toggle_preview,
+          },
+        },
+      }),
+      pickers = {
+        find_files = {
+          find_command = {
+            "fd",
+            "--type",
+            "f",
+            "-H",
+            "--strip-cwd-prefix",
+          },
+        },
+      },
+      extensions = {
+        undo = vim.tbl_extend("error", fullscreen_setup, {
+          diff_context_lines = 4,
+          preview_title = "Diff",
+        }),
+      },
     })
-
-    -- You can keep your specific keybinding if needed
-    vim.keymap.set("n", "gr", builtin.lsp_references, {
-      desc = "Show References (Relative Paths + Line Numbers)",
-    })
+    ts.load_extension("fzf")
   end,
 }
