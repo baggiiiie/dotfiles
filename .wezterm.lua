@@ -106,12 +106,10 @@ config.keys = {
 	},
 	{ key = ",", mods = "ALT", action = act.ActivateTabRelative(-1) },
 	{ key = ".", mods = "ALT", action = act.ActivateTabRelative(1) },
-	-- { key = "LeftArrow", mods = "ALT", action = act.MoveTabRelative(-1) },
-	-- { key = "RightArrow", mods = "ALT", action = act.MoveTabRelative(1) },
 	-- copy mode to ctrl-v
 	{ key = "c", mods = "ALT", action = wezterm.action.ActivateCopyMode },
-	-- launcher
-	{ key = "Space", mods = "CTRL", action = wezterm.action.ShowLauncher },
+	{ key = "UpArrow", mods = "SHIFT", action = act.ScrollByPage(-0.3) },
+	{ key = "DownArrow", mods = "SHIFT", action = act.ScrollByPage(0.3) },
 }
 
 -- and finally, return the configuration to wezterm
