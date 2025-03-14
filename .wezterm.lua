@@ -9,8 +9,9 @@ local act = wezterm.action
 -- config.font = wezterm.font("Fira Code", { weight = "Medium" })
 -- config.harfbuzz_features = { "zero", "cv02", "cv04", "cv14", "onum", "cv30" }
 
+config.default_prog = { "zsh" }
+
 config.front_end = "WebGpu"
---
 -- config.freetype_load_target = "Light"
 -- config.freetype_render_target = "Normal"
 -- config.font = wezterm.font("Berkeley Mono", { weight = "Regular" })
@@ -48,9 +49,9 @@ config.colors = {
 }
 
 config.inactive_pane_hsb = {
-    -- hue = 0.9,
-    saturation = 0.5,
-    brightness = 0.3,
+	-- hue = 0.9,
+	saturation = 0.5,
+	brightness = 0.3,
 }
 
 config.window_padding = {
@@ -111,7 +112,6 @@ config.keys = {
 	{ key = "c", mods = "ALT", action = wezterm.action.ActivateCopyMode },
 	-- launcher
 	{ key = "Space", mods = "CTRL", action = wezterm.action.ShowLauncher },
-
 }
 
 -- and finally, return the configuration to wezterm
