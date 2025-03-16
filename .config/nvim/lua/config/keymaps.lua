@@ -25,14 +25,21 @@ vim.keymap.set("n", "zh", function()
   return scroll_amount .. "zh"
 end, { noremap = true, expr = true, silent = true, desc = "Scroll right by half screen" })
 
--- copy relative path
+-- Copy full path
+function CopyFullPath()
+  local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":p")
+  vim.fn.setreg("+", filepath) -- write to clipboard
+end
+vim.keymap.set("n", "<leader>yf", CopyFullPath, { noremap = true, silent = true, desc = "Copy full path to clipboard" })
+
+-- Copy relative path
 function CopyRelativePath()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
   vim.fn.setreg("+", filepath) -- write to clipboard
 end
 vim.keymap.set(
   "n",
-  "<leader>yp",
+  "<leader>yr",
   CopyRelativePath,
   { noremap = true, silent = true, desc = "Copy relative path to clipboard" }
 )
