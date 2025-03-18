@@ -2,9 +2,21 @@
 
 -- NOTE: please use :h Telescope to save myself hours
 
+local actions = require("telescope.actions")
+local layout = require("telescope.actions.layout")
 return {
   "nvim-telescope/telescope.nvim",
+
   opts = {
+    pickers = {
+      buffers = {
+        mappings = {
+          i = {
+            ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+          },
+        },
+      },
+    },
     defaults = {
       layout_strategy = "flex",
       layout_config = {
@@ -18,12 +30,12 @@ return {
       path_display = { "filename_first" },
       mappings = {
         n = {
-          ["p"] = require("telescope.actions.layout").toggle_preview,
-          ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
+          ["p"] = layout.toggle_preview,
+          ["<C-p>"] = layout.toggle_preview,
           -- ["<C-c>"] = require("telescope.actions").close,
         },
         i = {
-          ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
+          ["<C-p>"] = layout.toggle_preview,
         },
       },
     },
