@@ -11,6 +11,9 @@ return {
     pickers = {
       buffers = {
         mappings = {
+          n = {
+            ["d"] = actions.delete_buffer + actions.move_to_top,
+          },
           i = {
             ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
           },
@@ -23,8 +26,8 @@ return {
         flex = { flip_columns = 100 },
         horizontal = {
           preview_width = 0.7, -- Increase preview width (0.5 = 50% of window width)
-          width = 0.9, -- Make the whole Telescope window larger
-          height = 0.8, -- Increase the height of the Telescope popup
+          width = 0.95, -- Make the whole Telescope window larger
+          height = 0.85, -- Increase the height of the Telescope popup
         },
       },
       path_display = { "filename_first" },

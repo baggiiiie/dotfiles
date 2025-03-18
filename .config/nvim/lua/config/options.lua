@@ -5,3 +5,4 @@
 -- remove clipboard, so that 'd', 'c' and etc won't yank to clipboard
 vim.opt.clipboard = ""
 vim.opt.winbar = "%=%m %f"
+vim.opt.wrap = true
