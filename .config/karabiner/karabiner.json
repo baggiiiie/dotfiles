@@ -998,10 +998,7 @@
                 },
                 "to_if_alone": [
                   {
-                    "key_code": "delete_or_backspace",
-                    "modifiers": [
-                      "fn"
-                    ]
+                    "key_code": "delete_forward"
                   }
                 ],
                 "to_if_held_down": [

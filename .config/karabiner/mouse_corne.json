@@ -1,0 +1,443 @@
+{
+  "description": "[MAC]Move mouse cursor by right_shift + arrows, scroll by right_command + arrows",
+  "manipulators": [
+    {
+      "description": "Toggle Hyper sublayer m",
+      "from": {
+        "key_code": "m",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "parameters": {
+        "basic.to_if_alone_timeout_milliseconds": 150,
+        "basic.to_delayed_action_delay_milliseconds": 150,
+        "basic.to_if_held_down_threshold_milliseconds": 150
+      },
+      "to_delayed_action": {
+        "to_if_canceled": [
+          {
+            "key_code": "m"
+          }
+        ]
+      },
+      "to_if_alone": [
+        {
+          "halt": true,
+          "key_code": "m"
+        }
+      ],
+      "to_if_held_down": [
+        {
+          "set_variable": {
+            "key_up_value": 0,
+            "name": "hyper_sublayer_m",
+            "value": 1
+          }
+        }
+      ],
+      "type": "basic"
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "type": "basic",
+      "from": {
+        "key_code": "e",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "y": -1536
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "type": "basic",
+      "from": {
+        "key_code": "d",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "y": 1536
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "type": "basic",
+      "from": {
+        "key_code": "s",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "x": -1536
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "type": "basic",
+      "from": {
+        "key_code": "f",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "x": 1536
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Move mouse cursor faster",
+      "type": "basic",
+      "from": {
+        "key_code": "l",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "speed_multiplier": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Left click",
+      "type": "basic",
+      "from": {
+        "key_code": "spacebar",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "pointing_button": "button1"
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Right click",
+      "type": "basic",
+      "from": {
+        "key_code": "left_command",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "pointing_button": "button2"
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Scroll up",
+      "type": "basic",
+      "from": {
+        "key_code": "r",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "vertical_wheel": 50
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Scroll down",
+      "type": "basic",
+      "from": {
+        "key_code": "w",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "vertical_wheel": -50
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Scroll left",
+      "type": "basic",
+      "from": {
+        "key_code": "a",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "horizontal_wheel": 50
+          }
+        }
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "identifiers": [
+            {
+              "vendor_id": 7504
+            },
+            {
+              "is_built_in_keyboard": false
+            }
+          ],
+          "type": "device_if"
+        },
+        {
+          "name": "hyper_sublayer_m",
+          "type": "variable_if",
+          "value": 1
+        }
+      ],
+      "description": "Scroll right",
+      "type": "basic",
+      "from": {
+        "key_code": "g",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "mouse_key": {
+            "horizontal_wheel": -50
+          }
+        }
+      ]
+    }
+  ]
+}
