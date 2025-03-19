@@ -150,7 +150,7 @@ alt-shift-semicolon = 'mode service'
 # https://nikitabobko.github.io/AeroSpace/guide#multiple-monitors
 1 = 'main'                      # Main monitor
 2 = '^built-in retina display$' # Case insensitive regex match
-3 = '^1$'                       # Case insensitive regex match
+3 = 3                           # Case insensitive regex match
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 # 'service' binding mode declaration.
