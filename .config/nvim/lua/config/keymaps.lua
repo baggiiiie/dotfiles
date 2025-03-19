@@ -17,11 +17,11 @@ vim.keymap.set("n", "<S-cr>", "O<esc>j", { desc = "Create new line in normal mod
 
 -- horizontal scrolling
 vim.keymap.set("n", "zl", function()
-  local scroll_amount = math.floor(vim.api.nvim_win_get_width(0) / 2)
+  local scroll_amount = math.floor(vim.api.nvim_win_get_width(0) / 3)
   return scroll_amount .. "zl"
 end, { noremap = true, expr = true, silent = true, desc = "Scroll left by half screen" })
 vim.keymap.set("n", "zh", function()
-  local scroll_amount = math.floor(vim.api.nvim_win_get_width(0) / 2)
+  local scroll_amount = math.floor(vim.api.nvim_win_get_width(0) / 3)
   return scroll_amount .. "zh"
 end, { noremap = true, expr = true, silent = true, desc = "Scroll right by half screen" })
 
