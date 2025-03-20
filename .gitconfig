@@ -55,10 +55,16 @@
 # a matter of taste (uncomment if you dare)
 
 [core]
+	pager = delta
         # fsmonitor = true
         # untrackedCache = true
 [merge]
+	conflictStyle = zdiff3
         # (just 'diff3' if git version < 2.3)
         # conflictstyle = zdiff3 
 [pull]
         rebase = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
