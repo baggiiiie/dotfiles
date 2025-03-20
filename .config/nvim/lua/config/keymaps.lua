@@ -58,3 +58,10 @@ vim.keymap.set(
   ":Telescope file_browser<CR>",
   { noremap = true, silent = true, desc = "File Browser from cwd" }
 )
+
+vim.keymap.set(
+  "n",
+  "<leader>fm",
+  ":Telescope marks mark_type=local<CR>",
+  { noremap = true, silent = true, desc = "Find marks in current buffer" }
+)
