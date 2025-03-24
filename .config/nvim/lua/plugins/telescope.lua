@@ -21,16 +21,28 @@ return {
       },
     },
     defaults = {
-      layout_strategy = "flex",
+      -- layout_strategy = "flex",
+      -- for some reason flex doesn't give vertical preview?
+      layout_strategy = vim.o.lines > 40 and "vertical" or "horizontal",
+      preview = { hide_on_startup = false },
       layout_config = {
-        flex = { flip_columns = 100 },
+        flex = { flip_columns = 80 },
         horizontal = {
           preview_width = 0.7, -- Increase preview width (0.5 = 50% of window width)
           width = 0.95, -- Make the whole Telescope window larger
           height = 0.85, -- Increase the height of the Telescope popup
+          prompt_position = "top",
+        },
+        vertical = {
+          preview_height = 0.5, -- Increase preview width (0.5 = 50% of window width)
+          width = 0.95, -- Make the whole Telescope window larger
+          height = 0.85, -- Increase the height of the Telescope popup
+          prompt_position = "top",
         },
       },
+      sorting_strategy = "ascending",
       path_display = { "filename_first" },
+      dynamic_preview_title = true,
       mappings = {
         n = {
           ["p"] = layout.toggle_preview,
