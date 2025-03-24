@@ -34,9 +34,11 @@ vmap L g$
 map <C-a> <ESC>^
 imap <C-a> <ESC>I
 vmap <C-a> g^
+xmap <C-a> g^
 map <C-e> <ESC>$
 imap <C-e> <ESC>A
 vmap <C-e> g$
+xmap <C-e> g$
 
 imap <C-k> <ESC>C
 nnoremap <CR> o<Esc>k
