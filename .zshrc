@@ -1,3 +1,15 @@
+# Get platform type
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS-specific configurations
+    export PLATFORM="macOS"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Linux-specific configurations
+    export PLATFORM="Linux"
+else
+    # Fallback for other systems
+    export PLATFORM="Unknown"
+fi
+
 # NOTE: some configs are from: https://github.com/josean-dev/dev-environment-files/blob/main/.zshrc
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -6,20 +18,27 @@ fi
 # vscode stuff
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
-# Path configurations
-PATH=/opt/homebrew/bin:$PATH
-PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
-PATH="/Users/ydai/.rd/bin:$PATH"
-export PATH
+# Conditional PATH modifications
+if [[ "$PLATFORM" == "macOS" ]]; then
+  PATH=/opt/homebrew/bin:$PATH
+  PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+  PATH="/Users/ydai/.rd/bin:$PATH"
+  export PATH
 
-# SSH configuration
-eval "$(ssh-agent -s)" > /dev/null 2>&1
-ssh-add ~/.ssh/ydai_ssh
-ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
-export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
+  # SSH configuration
+  eval "$(ssh-agent -s)" > /dev/null 2>&1
+  ssh-add ~/.ssh/ydai_ssh
+  ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
+  export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
+
+elif [[ "$PLATFORM" == "Linux" ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+fi
+
 
 # Theme configuration
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # History configuration
@@ -106,8 +125,8 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=1 --color=always
 autoload -U compinit; compinit
 # Plugins (load after vi-mode and key bindings)
 source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab/fzf-tab.plugin.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Tool initializations
 # eval "$(zoxide init zsh)"
