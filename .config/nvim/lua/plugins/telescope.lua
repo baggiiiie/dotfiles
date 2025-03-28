@@ -23,7 +23,7 @@ return {
     defaults = {
       -- layout_strategy = "flex",
       -- for some reason flex doesn't give vertical preview?
-      layout_strategy = vim.o.lines > 40 and "vertical" or "horizontal",
+      layout_strategy = vim.o.lines > 100 and "vertical" or "horizontal",
       preview = { hide_on_startup = false },
       layout_config = {
         flex = { flip_columns = 80 },
