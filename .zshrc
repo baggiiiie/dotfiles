@@ -152,6 +152,7 @@ alias tl="tldr"
 alias diff="diff -y --color=always"
 alias nv="nvim"
 alias cat="bat"
+alias venv="source .venv/bin/activate"
 
 
 export NVM_DIR="$HOME/.nvm"
