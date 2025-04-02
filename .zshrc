@@ -24,13 +24,21 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
   PATH="/Users/ydai/.rd/bin:$PATH"
   export PATH
-  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+  # Java version management
+  export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
+  export JAVA_23_HOME=$(/usr/libexec/java_home -v23)
+  alias java17='export JAVA_HOME=$JAVA_17_HOME'
+  alias java23='export JAVA_HOME=$JAVA_23_HOME'
+  export JAVA_HOME=$JAVA_17_HOME
 
   # SSH configuration
   eval "$(ssh-agent -s)" > /dev/null 2>&1
   ssh-add ~/.ssh/ydai_ssh
   ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
   export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
+
+  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 elif [[ "$PLATFORM" == "Linux" ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -133,13 +141,6 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # eval "$(zoxide init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-# Java version management
-export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
-export JAVA_23_HOME=$(/usr/libexec/java_home -v23)
-alias java17='export JAVA_HOME=$JAVA_17_HOME'
-alias java23='export JAVA_HOME=$JAVA_23_HOME'
-export JAVA_HOME=$JAVA_17_HOME
-
 # Aliases
 alias ls="eza --icons=always"
 alias la="ls -alh"
@@ -154,6 +155,8 @@ alias diff="diff -y --color=always"
 alias nv="nvim"
 alias cat="bat"
 alias venv="source .venv/bin/activate"
+alias k="kubectl"
+alias e="eosctl"
 
 
 export NVM_DIR="$HOME/.nvm"
