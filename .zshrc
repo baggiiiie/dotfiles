@@ -24,6 +24,7 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
   PATH="/Users/ydai/.rd/bin:$PATH"
   export PATH
+  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
   # SSH configuration
   eval "$(ssh-agent -s)" > /dev/null 2>&1
