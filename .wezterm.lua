@@ -15,7 +15,7 @@ config.front_end = "WebGpu"
 -- config.freetype_load_target = "Light"
 -- config.freetype_render_target = "Normal"
 -- config.font = wezterm.font("Berkeley Mono", { weight = "Regular" })
-config.font = wezterm.font("MesloLGS Nerd Font Mono")
+config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
 -- config.font = wezterm.font("Monaspace Argon", { weight = "Medium" })
 -- config.harfbuzz_features = { "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig" }
 -- For example, changing the color scheme:
