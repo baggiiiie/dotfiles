@@ -7,10 +7,14 @@ function SaveSessionWithName()
   -- Get the current working directory
   local full_path = vim.fn.getcwd()
   -- Extract just the directory name (last part of the path)
-  local dir_name = vim.fn.fnamemodify(full_path, ":t")
+  -- local dir_name = vim.fn.fnamemodify(full_path, ":t")
+  local dir_name = full_path
   -- Prompt for the command to run
   local session_name = vim.fn.input("Enter session name for: " .. dir_name)
-  local full_command = ":SessionSave " .. dir_name .. ":" .. session_name
+  if session_name ~= "" then
+    session_name = ":" .. session_name
+  end
+  local full_command = ":SessionSave " .. dir_name .. session_name
   vim.cmd(full_command)
 end
 
@@ -19,7 +23,7 @@ return {
   lazy = false,
   keys = {
     -- Will use Telescope if installed or a vim.ui.select picker otherwise
-    { "<leader>ar", "<cmd>SessionSearch<CR>", desc = "Find a session" },
+    { "<leader>af", "<cmd>SessionSearch<CR>", desc = "Find a session" },
     { "<leader>as", SaveSessionWithName, desc = "Save a session" },
     { "<leader>aa", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
   },
