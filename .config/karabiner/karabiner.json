@@ -285,6 +285,46 @@
                     "value": 1
                   }
                 ],
+                "description": "Move mouse cursor slower",
+                "from": {
+                  "key_code": "l",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "mouse_key": {
+                      "speed_multiplier": 0.4
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "identifiers": [
+                      {
+                        "vendor_id": 1452
+                      },
+                      {
+                        "vendor_id": 76
+                      },
+                      {
+                        "is_built_in_keyboard": true
+                      }
+                    ],
+                    "type": "device_if"
+                  },
+                  {
+                    "name": "hyper_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Left click",
                 "from": {
                   "key_code": "spacebar",
