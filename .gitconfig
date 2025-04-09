@@ -1,18 +1,11 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
-#	name = Yingchao Dai
-#	email = ydai@HV6V3VHP72.(none)
 	name = baggiiiie
 	email = yingchao.dai22@gmail.com
 [credential]
-	helper = 
 	helper = /usr/local/share/gcm-core/git-credential-manager
-[credential "https://dev.azure.com"]
-	useHttpPath = true
 [credential "https://git.illumina.com"]
 	provider = github
-# clearly makes git better
 
 [column]
         ui = auto
@@ -37,7 +30,6 @@
         all = true
 
 # why the hell not?
-
 [help]
         autocorrect = prompt
 [commit]
@@ -63,7 +55,7 @@
         # (just 'diff3' if git version < 2.3)
         # conflictstyle = zdiff3 
 [pull]
-        rebase = true
+  rebase = true
 [interactive]
 	diffFilter = delta --color-only
 [delta]
