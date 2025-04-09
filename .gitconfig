@@ -4,8 +4,12 @@
 	email = yingchao.dai22@gmail.com
 [credential]
 	helper = /usr/local/share/gcm-core/git-credential-manager
-[credential "https://git.illumina.com"]
-	provider = github
+
+[includeIf "hasconfig:remote.*.url:https://git.illumina.com/**"]
+  path = ~/.gitconfig-work
+
+[includeIf "hasconfig:remote.*.url:https://git.illumina.com*"]
+  path = ~/.gitconfig-work
 
 [column]
         ui = auto
