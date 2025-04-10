@@ -34,8 +34,10 @@ return {
   opts = {
     -- ⚠️ This will only work if Telescope.nvim is installed
     -- The following are already the default values, no need to provide them if these are already the settings you want.
+    suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
     auto_restore_last_session = false, -- On startup, loads the last saved session if session for cwd does not exist
     use_git_branch = true, -- Include git branch name in session name
+    show_auto_restore_notif = true,
     session_lens = {
       -- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
       load_on_setup = true,
