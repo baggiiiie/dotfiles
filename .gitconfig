@@ -12,9 +12,6 @@
 [includeIf "hasconfig:remote.*.url:https://git.illumina.com/**"]
   path = ~/.gitconfig-work
 
-[includeIf "hasconfig:remote.*.url:https://git.illumina.com*"]
-  path = ~/.gitconfig-work
-
 [column]
         ui = auto
 [branch]
