@@ -41,7 +41,7 @@ return {
     session_lens = {
       -- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
       load_on_setup = true,
-      previewer = true,
+      previewer = false,
       mappings = {
         -- Mode can be a string or a table, e.g. {"i", "n"} for both insert and normal mode
         delete_session = { "i", "<C-D>" },
@@ -53,7 +53,7 @@ return {
       theme_conf = {
         border = true,
         layout_strategy = vim.o.lines > 100 and "vertical" or "horizontal",
-        preview = { hide_on_startup = false },
+        preview = { hide_on_startup = true },
         layout_config = {
           flex = { flip_columns = 80 },
           horizontal = {
