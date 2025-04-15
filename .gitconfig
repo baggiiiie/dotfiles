@@ -9,6 +9,9 @@
 [credential "https://git.illumina.com"]
 	provider = github
 
+[includeIf "hasconfig:remote.*.url:git@git.illumina.com:*/**"]
+   path = ~/.gitconfig-work
+
 [includeIf "hasconfig:remote.*.url:https://git.illumina.com/**"]
   path = ~/.gitconfig-work
 
