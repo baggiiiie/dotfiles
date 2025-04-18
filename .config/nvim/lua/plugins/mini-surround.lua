@@ -1,3 +1,7 @@
+if true then
+  return {}
+end
+
 return {
   "echasnovski/mini.surround",
   keys = function(_, keys)
