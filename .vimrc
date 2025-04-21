@@ -60,3 +60,8 @@ nmap <leader>} viwS}
 
 noremap <leader>y "*y
 noremap <leader>p "*p
+" map <expr> M printf('`%c zz',getchar()) 
+nnoremap <expr> ' "'" . nr2char(getchar()) . 'zz'
+nnoremap <expr> ` "`" . nr2char(getchar()) . 'zz'
+
+
