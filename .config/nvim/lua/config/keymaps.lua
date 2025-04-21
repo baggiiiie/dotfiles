@@ -9,6 +9,16 @@ local map = LazyVim.safe_keymap_set
 map({ "n", "x" }, "y", '"+y')
 map("n", "p", '""p')
 
+-- Map ' to automatically center after jumping to mark
+vim.keymap.set("n", "`", function()
+  local mark = vim.fn.nr2char(vim.fn.getchar())
+  vim.cmd("normal! `" .. mark .. "zz")
+end, { noremap = true, silent = true })
+vim.keymap.set("n", "G", function()
+  vim.cmd("normal! G")
+  vim.cmd("normal! zz")
+end, { noremap = true })
+
 -- easier editing
 vim.keymap.set({ "c", "n", "i", "x", "v" }, "<C-a>", "<Home>", { desc = "Move to beginning of line" })
 vim.keymap.set({ "c", "n", "i", "x", "v" }, "<C-e>", "<End>", { desc = "Move to end of line" })
@@ -75,3 +85,6 @@ local function confirm_and_delete_buffer()
   end
 end
 vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
+
+vim.opt.spelllang = { "en_us" }
+vim.opt.spell = true
