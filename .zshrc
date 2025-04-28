@@ -38,7 +38,8 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
   export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
 
-  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+  # alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+  alias tailscale="$HOME/go/bin/tailscale"
 
 elif [[ "$PLATFORM" == "Linux" ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
