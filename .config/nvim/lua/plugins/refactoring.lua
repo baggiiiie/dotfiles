@@ -5,6 +5,89 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
+  keys = {
+    { "<leader>r", "", desc = "+refactor", mode = { "n", "v" } },
+    {
+      "<leader>ri",
+      ":Refactor inline_var ",
+      -- function()
+      --   require("refactoring").refactor("Inline Variable")
+      -- end,
+      mode = { "n", "v" },
+      desc = "Inline Variable",
+    },
+    {
+      "<leader>rb",
+      ":Refactor extract_block ",
+      -- function()
+      --   require("refactoring").refactor("Extract Block")
+      -- end,
+      desc = "Extract Block",
+    },
+    {
+      "<leader>rf",
+      ":Refactor extract_block_to_file ",
+      -- function()
+      --   require("refactoring").refactor("Extract Block To File")
+      -- end,
+      desc = "Extract Block To File",
+    },
+    {
+      "<leader>rP",
+      function()
+        require("refactoring").debug.printf({ below = false })
+      end,
+      desc = "Debug Print",
+    },
+    {
+      "<leader>rp",
+      function()
+        require("refactoring").debug.print_var({ normal = true })
+      end,
+      desc = "Debug Print Variable",
+    },
+    {
+      "<leader>rc",
+      function()
+        require("refactoring").debug.cleanup({})
+      end,
+      desc = "Debug Cleanup",
+    },
+    {
+      "<leader>rf",
+      ":Refactor extract_block_to_file ",
+      -- function()
+      --   require("refactoring").refactor("Extract Function")
+      -- end,
+      mode = "v",
+      desc = "Extract Block to File",
+    },
+    -- {
+    --   "<leader>rF",
+    --   function()
+    --     require("refactoring").refactor("Extract Function To File")
+    --   end,
+    --   mode = "v",
+    --   desc = "Extract Function To File",
+    -- },
+    {
+      "<leader>rv",
+      ":Refactor extract_var ",
+      -- function()
+      --   require("refactoring").refactor("Extract Variable")
+      -- end,
+      mode = "v",
+      desc = "Extract Variable",
+    },
+    {
+      "<leader>rp",
+      function()
+        require("refactoring").debug.print_var()
+      end,
+      mode = "v",
+      desc = "Debug Print Variable",
+    },
+  },
   opts = {
     prompt_func_return_type = {
       go = false,
