@@ -26,20 +26,19 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   export PATH
 
   # Java version management
-  export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
-  export JAVA_23_HOME=$(/usr/libexec/java_home -v23)
-  alias java17='export JAVA_HOME=$JAVA_17_HOME'
-  alias java23='export JAVA_HOME=$JAVA_23_HOME'
-  export JAVA_HOME=$JAVA_17_HOME
+  # export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
+  # export JAVA_23_HOME=$(/usr/libexec/java_home -v23)
+  # alias java17='export JAVA_HOME=$JAVA_17_HOME'
+  # alias java23='export JAVA_HOME=$JAVA_23_HOME'
+  # export JAVA_HOME=$JAVA_17_HOME
 
   # SSH configuration
-  eval "$(ssh-agent -s)" > /dev/null 2>&1
-  ssh-add ~/.ssh/ydai_ssh
-  ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
-  export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
+  # eval "$(ssh-agent -s)" > /dev/null 2>&1
+  # ssh-add ~/.ssh/ydai_ssh
+  # ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
+  # export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
 
   # alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-  alias tailscale="$HOME/go/bin/tailscale"
 
 elif [[ "$PLATFORM" == "Linux" ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
