@@ -1,0 +1,12 @@
+{
+  "keyMappings": "# Insert your preferred key mappings here.\nunmap /\nunmap >\nunmap <\nunmap t",
+  "scrollStepSize": 120,
+  "settingsVersion": "2.2.1",
+  "userDefinedLinkHintCss": "div > .vimiumHintMarker {\n/* linkhint boxes */\nbackground: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#AFE9FF),\n  color-stop(100%,#AFC2FF));\nborder: 1px solid #7A8AFF;\n}\n\ndiv > .vimiumHintMarker span {\n/* linkhint text */\ncolor: #4021FF;\nfont-weight: bold;\nfont-size: 15px;\n}\n\ndiv > .vimiumHintMarker > .matchingCharacter {\n}",
+  "exclusionRules": [
+    {
+      "passKeys": "jl<>t",
+      "pattern": "https?://www.youtube.com/watch*"
+    }
+  ]
+}
