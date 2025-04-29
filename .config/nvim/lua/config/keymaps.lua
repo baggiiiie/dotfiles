@@ -88,6 +88,9 @@ vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
 
 vim.opt.spelllang = { "en_us" }
 vim.opt.spell = true
+
+vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
+
 --
 -- vim.keymap.set("x", "<leader>re", ":Refactor extract ")
 -- vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
