@@ -1,11 +1,13 @@
 tap "daipeihust/tap"
-tap "homebrew/services"
 tap "koekeishiya/formulae"
 tap "nikitabobko/tap"
+
 brew "bat"
 brew "black"
 brew "eza"
 brew "fd"
+brew "fzf"
+brew "git"
 brew "git-delta"
 brew "lazygit"
 brew "neovim"
@@ -24,10 +26,12 @@ brew "zsh-vi-mode"
 brew "pngpaste" if OS.mac?
 brew "daipeihust/tap/im-select" if OS.mac?
 brew "koekeishiya/formulae/yabai" if OS.mac?
-cask "aerospace@0.16.2" if OS.mac?
 cask "alt-tab" if OS.mac?
 cask "font-meslo-lg-nerd-font"
 cask "git-credential-manager" if OS.mac?
+cask "karabiner-elements" if OS.mac?
 cask "monitorcontrol" if OS.mac?
+cask "obsidian" if OS.mac?
 cask "shortcat" if OS.mac?
 cask "sublime-text" if OS.mac?
+cask "wezterm" if OS.mac?
