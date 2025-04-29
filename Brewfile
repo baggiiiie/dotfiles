@@ -30,6 +30,7 @@ cask "alt-tab" if OS.mac?
 cask "font-meslo-lg-nerd-font"
 cask "git-credential-manager" if OS.mac?
 cask "karabiner-elements" if OS.mac?
+cask "mac-mouse-fix" if OS.mac?
 cask "monitorcontrol" if OS.mac?
 cask "obsidian" if OS.mac?
 cask "shortcat" if OS.mac?
