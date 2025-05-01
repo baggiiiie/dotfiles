@@ -66,7 +66,10 @@ config.keys = {
 	{
 		key = "v",
 		mods = "ALT",
-		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+		action = wezterm.action.SplitPane({
+			direction = "Left",
+			size = { Percent = 30 },
+		}),
 	},
 	{
 		key = "s",
