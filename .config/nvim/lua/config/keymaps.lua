@@ -20,8 +20,10 @@ vim.keymap.set("n", "G", function()
 end, { noremap = true })
 
 -- easier editing
-vim.keymap.set({ "c", "n", "i", "x", "v" }, "<C-a>", "<Home>", { desc = "Move to beginning of line" })
-vim.keymap.set({ "c", "n", "i", "x", "v" }, "<C-e>", "<End>", { desc = "Move to end of line" })
+vim.keymap.set({ "c", "n", "x", "v" }, "<C-a>", "^", { desc = "Move to beginning of line" })
+vim.keymap.set({ "i" }, "<C-a>", "<esc>^a", { desc = "Move to beginning of line" })
+vim.keymap.set({ "c", "n", "x", "v" }, "<C-e>", "$", { desc = "Move to end of line" })
+vim.keymap.set({ "i" }, "<C-e>", "<esc>$a", { desc = "Move to end of line" })
 vim.keymap.set("n", "<cr>", "o<esc>k", { desc = "Create new line in normal mode" })
 vim.keymap.set("n", "<S-cr>", "O<esc>j", { desc = "Create new line in normal mode" })
 
