@@ -34,5 +34,6 @@ cask "mac-mouse-fix" if OS.mac?
 cask "monitorcontrol" if OS.mac?
 cask "obsidian" if OS.mac?
 cask "shortcat" if OS.mac?
+cask "shottr" if OS.mac?
 cask "sublime-text" if OS.mac?
 cask "wezterm" if OS.mac?
