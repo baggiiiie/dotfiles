@@ -20,7 +20,7 @@ fi
 
 # Conditional PATH modifications
 if [[ "$PLATFORM" == "macOS" ]]; then
-  PATH=/opt/homebrew/bin:$PATH
+  PATH="/opt/homebrew/bin:$PATH"
   PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
   PATH="/Users/ydai/.rd/bin:$PATH"
   export PATH
@@ -162,5 +162,10 @@ alias e="eosctl"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 export EDITOR=nvim
+export VISUAL=$EDITOR
+
+export MANPAGER='nvim +Man!'
 
