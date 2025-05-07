@@ -51,7 +51,7 @@ end
 
 vim.api.nvim_create_user_command("ToggleSidebar", Toggle_Sidebar, {})
 
-vim.keymap.set("n", "<Leader>zs", Toggle_Sidebar, { noremap = true, silent = true, desc = "Toggle sidebar" })
+-- vim.keymap.set("n", "<Leader>zs", Toggle_Sidebar, { noremap = true, silent = true, desc = "Toggle sidebar" })
 
 vim.api.nvim_create_autocmd({ "WinNew" }, {
   callback = function()
