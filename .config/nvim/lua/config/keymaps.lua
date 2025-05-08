@@ -56,28 +56,6 @@ vim.keymap.set(
   { noremap = true, silent = true, desc = "Copy relative path to clipboard" }
 )
 
--- telescope resume to last search
-vim.keymap.set(
-  "n",
-  "<leader>tr",
-  require("telescope.builtin").resume,
-  { noremap = true, silent = true, desc = "Resume last telescope search" }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>ff",
-  ":Telescope file_browser<CR>",
-  { noremap = true, silent = true, desc = "File Browser from cwd" }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>fm",
-  ":Telescope marks mark_type=local<CR>",
-  { noremap = true, silent = true, desc = "Find marks in current buffer" }
-)
-
 local function confirm_and_delete_buffer()
   local confirm = vim.fn.confirm("Delete buffer and file?", "&Yes\n&No", 2)
 
@@ -88,37 +66,4 @@ local function confirm_and_delete_buffer()
 end
 vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
 
-vim.opt.spelllang = { "en_us" }
-vim.opt.spell = true
-
 vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
-
---
--- vim.keymap.set("x", "<leader>re", ":Refactor extract ")
--- vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
--- vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
--- vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
---
--- vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
---
--- vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
--- vim.keymap.set("n", "<leader>rf", ":Refactor extract_block_to_file")
-
-local opts = { noremap = true, silent = false }
--- Create a new note after asking for its title.
-vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", opts)
-
--- Open notes.
-vim.api.nvim_set_keymap("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
--- Open notes associated with the selected tags.
-vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
-
--- Search for the notes matching a given query.
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>zf",
-  "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>",
-  opts
-)
--- Search for the notes matching the current visual selection.
-vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)

@@ -7,6 +7,31 @@ local layout = require("telescope.actions.layout")
 return {
   "nvim-telescope/telescope.nvim",
 
+  keys = {
+
+    {
+      "<leader>ff",
+      ":Telescope file_browser<CR>",
+      desc = "File Browser from cwd",
+    },
+    {
+      "<leader>fm",
+      ":Telescope marks mark_type=local<CR>",
+      desc = "Find marks in current buffer",
+    },
+    {
+      "<leader>tr",
+      function()
+        require("telescope.builtin").resume()
+      end,
+      desc = "Resume last telescope search",
+    },
+    {
+      "<leader>fF",
+      ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+      desc = "File Browser from current buffer",
+    },
+  },
   opts = {
     pickers = {
       buffers = {
