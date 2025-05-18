@@ -23,6 +23,8 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   PATH="/opt/homebrew/bin:$PATH"
   PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
   PATH="/Users/ydai/.rd/bin:$PATH"
+  PATH="$HOME/bin/go:$PATH"
+  export GOPATH=$HOME/go
   export PATH
 
   # Java version management
@@ -144,6 +146,7 @@ eval "$(zoxide init --cmd cd zsh)"
 # Aliases
 alias ls="eza --icons=always"
 alias la="ls -alh"
+alias tree="eza --tree --icons=always"
 # alias cd="z"
 alias c="clear"
 alias lg="lazygit"
