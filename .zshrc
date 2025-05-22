@@ -23,8 +23,8 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   PATH="/opt/homebrew/bin:$PATH"
   PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
   PATH="/Users/ydai/.rd/bin:$PATH"
-  PATH="$HOME/bin/go:$PATH"
-  export GOPATH=$HOME/go
+  GOPATH=$HOME/go
+  PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
   export PATH
 
   # Java version management
@@ -151,10 +151,11 @@ alias tree="eza --tree --icons=always"
 alias c="clear"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
+alias sshrc="nvim ~/.ssh/config"
 alias vimrc="nvim ~/.vimrc"
 alias wezrc="nvim ~/.wezterm.lua"
 alias tl="tldr"
-alias diff="diff -y --color=always"
+alias diff="delta"
 alias nv="nvim"
 alias cat="bat"
 alias venv="source .venv/bin/activate"
@@ -168,7 +169,7 @@ export NVM_DIR="$HOME/.nvm"
 
 
 export EDITOR=nvim
-export VISUAL=$EDITOR
+export VISUAL=nvim
 
 export MANPAGER='nvim +Man!'
 
