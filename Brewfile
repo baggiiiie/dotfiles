@@ -3,7 +3,6 @@ tap "koekeishiya/formulae"
 tap "nikitabobko/tap"
 
 brew "bat"
-brew "black"
 brew "eza"
 brew "fzf"
 brew "git"
