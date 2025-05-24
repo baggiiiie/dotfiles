@@ -71,10 +71,6 @@
     "branch": "master",
     "commit": "482ae358c67aec2a4939d68a1a4fe4c8064ccd16"
   },
-  "markdown-preview.nvim": {
-    "branch": "master",
-    "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee"
-  },
   "mason-lspconfig.nvim": {
     "branch": "main",
     "commit": "1a31f824b9cd5bc6f342fc29e9a53b60d74af245"
@@ -98,6 +94,10 @@
   "mini.pairs": {
     "branch": "main",
     "commit": "69864a2efb36c030877421634487fd90db1e4298"
+  },
+  "no-neck-pain.nvim": {
+    "branch": "main",
+    "commit": "a60021e199b585f560ffb380e8c464ab75d0030b"
   },
   "noice.nvim": {
     "branch": "main",

@@ -21,7 +21,7 @@ return {
     },
     {
       "<leader>zf",
-      "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>",
+      "<Cmd>ZkNotes { sort = { 'modified' } }<CR>",
       desc = "zk find match with title",
     },
     {
