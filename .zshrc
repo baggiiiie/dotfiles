@@ -147,7 +147,6 @@ eval "$(zoxide init --cmd cd zsh)"
 alias ls="eza --icons=always"
 alias la="ls -alh"
 alias tree="eza --tree --icons=always"
-# alias cd="z"
 alias c="clear"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
@@ -161,6 +160,8 @@ alias cat="bat"
 alias venv="source .venv/bin/activate"
 alias k="kubectl"
 alias e="eosctl"
+alias tx="tmux"
+alias devsync="bash $HOME/Desktop/repos/devsync/dev-sync.sh"
 
 
 export NVM_DIR="$HOME/.nvm"
@@ -173,3 +174,18 @@ export VISUAL=nvim
 
 export MANPAGER='nvim +Man!'
 
+export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
+
+PATH="$PATH:$HOME/.cargo/bin"
+source <(COMPLETE=zsh tms)
