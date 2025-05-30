@@ -1,6 +1,5 @@
 #!/bin/bash
 
-dir=$(find ~/Desktop/repos/ -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
 # tmux_sesh=$(tmux ls | awk -F ":" '{print $1}')
 # dir+=$'\n'"$tmux_sesh"
 
@@ -12,6 +11,7 @@ if [[ $# -eq 1 ]]; then
   fi
   # selected=$1
 else
+  dir=$(find ~/Desktop/repos/ -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
   selected=$(echo "$dir" | fzf)
 fi
 
@@ -23,12 +23,12 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmux new-session -s $selected_name -c $selected
+  tmux new-session -s "$selected_name" -c "$selected"
   exit 0
 fi
 
-if ! tmux has-session -t=$selected_name 2>/dev/null; then
-  tmux new-session -ds $selected_name -c $selected
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+  tmux new-session -ds "$selected_name" -c "$selected"
 fi
 
-tmux switch-client -t $selected_name
+tmux switch-client -t "$selected_name"
