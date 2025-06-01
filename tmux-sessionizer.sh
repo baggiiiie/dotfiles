@@ -5,14 +5,12 @@
 
 if [[ $# -eq 1 ]]; then
   if [[ $1 == "open" ]]; then
-    selected=$(tmux ls | awk -F ":" '{print $1}' | fzf)
+    selected=$(tmux ls | awk -F ":" '{print $1}' | sk --layout=reverse)
   else
     selected=$1
   fi
-  # selected=$1
 else
-  dir=$(find ~/Desktop/repos/ -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
-  selected=$(echo "$dir" | fzf)
+  selected=$(fd . "$HOME/Desktop/repos" -d 1 -t d -x basename {} \; | sk --layout=reverse | xargs printf "$HOME/Desktop/repos/%s")
 fi
 
 if [[ -z $selected ]]; then
