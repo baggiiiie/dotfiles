@@ -30,7 +30,8 @@ config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = false
 
 -- For example, changing the color scheme:
-config.color_scheme = "Catppuccin Macchiato"
+-- config.color_scheme = "Catppuccin Macchiato"
+config.color_scheme = "GruvboxDark"
 config.window_background_opacity = 0.85
 config.text_background_opacity = 0.75
 config.macos_window_background_blur = 15
