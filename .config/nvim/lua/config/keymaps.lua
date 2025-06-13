@@ -26,6 +26,7 @@ vim.keymap.set("i", "<C-a>", "<esc>I", { desc = "Move to beginning of line" })
 vim.keymap.set("i", "<C-e>", "<esc>A", { desc = "Move to end of line" })
 vim.keymap.set("n", "<cr>", "o<esc>k", { desc = "Create new line in normal mode" })
 vim.keymap.set("n", "<S-cr>", "O<esc>j", { desc = "Create new line in normal mode" })
+vim.keymap.set("n", "<leader>e", ":Ex<CR>", { desc = "Explorer" })
 
 -- horizontal scrolling
 vim.keymap.set("n", "zl", function()
