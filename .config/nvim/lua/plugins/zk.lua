@@ -6,7 +6,7 @@ return {
   keys = {
     {
       "<leader>zn",
-      "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>",
+      "<Cmd>ZkNew <CR>",
       desc = "zk new note",
     },
     {

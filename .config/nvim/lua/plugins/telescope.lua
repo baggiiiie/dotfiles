@@ -4,6 +4,7 @@
 
 local actions = require("telescope.actions")
 local layout = require("telescope.actions.layout")
+local builtin = require("telescope.builtin")
 return {
   "nvim-telescope/telescope.nvim",
 
@@ -21,9 +22,7 @@ return {
     },
     {
       "<leader>tr",
-      function()
-        require("telescope.builtin").resume()
-      end,
+      builtin.resume,
       desc = "Resume last telescope search",
     },
     {
