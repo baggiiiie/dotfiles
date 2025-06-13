@@ -2,6 +2,20 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    scroll = { enabled = false },
+    dashboard = { enabled = false },
+    animate = { enabled = false },
+    notifier = {
+      enabled = false,
+      timeout = 3000,
+    },
+    snacks_explorer = { enabled = false },
+    explorer = {
+      replace_netrw = false,
+      enabled = false,
+    },
+    picker = { enabled = false },
+
     styles = {
       lazygit = {
         width = 0.95,
