@@ -10,14 +10,14 @@ map({ "n", "x" }, "y", '"+y')
 map("n", "p", '""p')
 
 -- Map ' to automatically center after jumping to mark
-vim.keymap.set("n", "`", function()
-  local mark = vim.fn.nr2char(vim.fn.getchar())
-  vim.cmd("normal! `" .. mark .. "zz")
-end, { noremap = true, silent = true })
-vim.keymap.set("n", "G", function()
-  vim.cmd("normal! G")
-  vim.cmd("normal! zz")
-end, { noremap = true })
+-- vim.keymap.set("n", "`", function()
+--   local mark = vim.fn.nr2char(vim.fn.getchar())
+--   vim.cmd("normal! `" .. mark .. "zz")
+-- end, { noremap = true, silent = true })
+-- vim.keymap.set("n", "G", function()
+--   vim.cmd("normal! G")
+--   vim.cmd("normal! zz")
+-- end, { noremap = true })
 
 -- easier editing
 -- vim.keymap.set({ "c", "n", "x", "v" }, "<C-a>", "^", { desc = "Move to beginning of line" })
@@ -26,7 +26,7 @@ vim.keymap.set("i", "<C-a>", "<esc>I", { desc = "Move to beginning of line" })
 vim.keymap.set("i", "<C-e>", "<esc>A", { desc = "Move to end of line" })
 vim.keymap.set("n", "<cr>", "o<esc>k", { desc = "Create new line in normal mode" })
 vim.keymap.set("n", "<S-cr>", "O<esc>j", { desc = "Create new line in normal mode" })
-vim.keymap.set("n", "<leader>e", ":Ex<CR>", { desc = "Explorer" })
+-- vim.keymap.set("n", "<leader>e", ":Ex<CR>", { desc = "Explorer" })
 
 -- horizontal scrolling
 vim.keymap.set("n", "zl", function()
