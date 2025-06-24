@@ -7,11 +7,33 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "BufWritePost" }, {
+vim.api.nvim_create_autocmd({ "BufRead", "BufEnter", "BufNewFile", "BufWritePost" }, {
   pattern = { "*" },
   callback = function()
-    if vim.fn.getline(1):match("^#!.*sh$") then
-      vim.bo.filetype = "sh"
+    local filename = vim.fn.expand("%:t")
+    -- Only apply to files without extension
+    if string.match(filename, "%.") then
+      return
+    end
+
+    local lines = vim.fn.getline(1, 10)
+    if type(lines) == "string" then
+      lines = table(lines)
+    end
+    for _, line in ipairs(lines) do
+      if
+        string.match(line, "^#!.*sh$")
+        or string.match(line, "^%s*if%s")
+        or string.match(line, "^%s*for%s")
+        or string.match(line, "^%s*while%s")
+        or string.match(line, "^%s*function%s")
+        or string.match(line, "^%s*case%s")
+        or string.match(line, "^%s*[%w_]+%s*=")
+      then
+        print("matching this file to sh")
+        vim.bo.filetype = "sh"
+        break
+      end
     end
   end,
 })

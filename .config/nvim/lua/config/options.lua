@@ -3,9 +3,9 @@
 -- Add any additional options here
 
 -- remove clipboard, so that 'd', 'c' and etc won't yank to clipboard
--- vim.opt.clipboard = ""
-vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
--- vim.opt.winbar = "%=%m %f"
+vim.opt.clipboard = ""
+-- vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
+vim.opt.winbar = "%=%m %f"
 -- vim.opt.wrap = true
 
 vim.opt.spelllang = { "en_us" }

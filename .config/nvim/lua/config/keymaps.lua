@@ -68,3 +68,6 @@ end
 vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
 
 vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
+vim.keymap.set("n", "<S-Tab>", function()
+  vim.cmd("buffer #")
+end, { silent = true, desc = "Switch to last buffer" })
