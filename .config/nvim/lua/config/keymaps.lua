@@ -71,3 +71,9 @@ vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
 vim.keymap.set("n", "<S-Tab>", function()
   vim.cmd("buffer #")
 end, { silent = true, desc = "Switch to last buffer" })
+
+map(
+  "n",
+  "<leader>f/",
+  '<cmd>lua require("telescope.builtin").live_grep({ additional_args = function() return { "--hidden" } end })<cr>'
+)
