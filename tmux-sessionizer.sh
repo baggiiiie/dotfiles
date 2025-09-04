@@ -3,30 +3,28 @@
 # tmux_sesh=$(tmux ls | awk -F ":" '{print $1}')
 # dir+=$'\n'"$tmux_sesh"
 
+REPO_DIR="$HOME/Desktop/repos"
+
 if [[ $# -eq 1 ]]; then
-    if [[ $1 == "open" ]]; then
-        selected=$(tmux ls | awk -F ":" '{print $1}' | sk --layout=reverse)
-    else
-        selected=$1
-    fi
+    session_name=$1
 else
-    selected=$(fd . "$HOME/Desktop/repos" -d 1 -t d -x basename {} \; | sk --layout=reverse | xargs printf "$HOME/Desktop/repos/%s")
+    session_name=$(fd . "$REPO_DIR" -d 1 -t d -x basename {} \; | sk --layout=reverse)
 fi
 
-if [[ -z $selected ]]; then
+if [[ -z $session_name ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+session_path="$REPO_DIR/$session_name"
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$selected_name" -c "$selected"
+    tmux new-session -s "$session_name" -c "$session_path"
     exit 0
 fi
 
-if ! tmux has-session -t="$selected_name" 2>/dev/null; then
-    tmux new-session -ds "$selected_name" -c "$selected"
+if ! tmux has-session -t="$session_name" 2>/dev/null; then
+    tmux new-session -ds "$session_name" -c "$session_path"
 fi
 
-tmux switch-client -t "$selected_name"
+tmux switch-client -t "$session_name"
