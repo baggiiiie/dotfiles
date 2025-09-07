@@ -188,4 +188,6 @@ function y() {
 
 
 PATH="$PATH:$HOME/.cargo/bin"
-source <(COMPLETE=zsh tms)
+
+. "$HOME/.local/bin/env"
+eval "$(atuin init zsh --disable-up-arrow)"
