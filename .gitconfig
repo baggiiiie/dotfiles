@@ -22,12 +22,18 @@
 [tag]
         sort = version:refname
 [init]
-        defaultBranch = main
+    defaultBranch = main
+[difftool]
+    # Run the difftool immediately, don't ask 'are you sure' each time.
+    prompt = false
+[pager]
+    # Use a pager if the difftool output is larger than one screenful,
+    # consistent with the behaviour of `git diff`.
+    difftool = true
 [diff]
-        algorithm = histogram
-        colorMoved = plain
-        mnemonicPrefix = true
-        renames = true
+    # Set difftastic as the default difftool, so we don't need to specify
+    # `-t difftastic` every time.
+    tool = difftastic
 [push]
         default = simple
         autoSetupRemote = true
@@ -54,10 +60,6 @@
 
 # a matter of taste (uncomment if you dare)
 
-[core]
-	pager = delta
-        # fsmonitor = true
-        # untrackedCache = true
 [merge]
 	conflictStyle = zdiff3
         # (just 'diff3' if git version < 2.3)
