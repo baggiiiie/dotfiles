@@ -5,10 +5,14 @@
 
 REPO_DIR="$HOME/Desktop/repos"
 
+function find_dir() {
+    fd . "$REPO_DIR" -d 2 -t d -x basename {} | sk --layout=reverse
+}
+
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
-    session_name=$(fd . "$REPO_DIR" -d 1 -t d -x basename {} \; | sk --layout=reverse)
+    session_name=$(fd . "$REPO_DIR" -d 2 -t d -x sh -c 'echo "$(basename $(dirname {}))/$(basename {})"' | sk --layout=reverse)
 fi
 
 if [[ -z $session_name ]]; then
