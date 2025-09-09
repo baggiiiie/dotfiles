@@ -1,5 +1,5 @@
-.DS_Store
-setup.sh
+^/.DS_Store
+^/others
 
 RCS
 .+,v
