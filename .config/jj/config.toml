@@ -23,3 +23,6 @@ editor = "nvim"
 # 'format_timestamp(timestamp)' = 'timestamp'
 # Relative timestamp rendered as "x days/hours/seconds ago"
 'format_timestamp(timestamp)' = 'timestamp.ago()'
+
+[aliases]
+ab = ["abandon"]
