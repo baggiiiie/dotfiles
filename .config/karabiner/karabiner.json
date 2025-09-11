@@ -3008,7 +3008,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript ~/Desktop/repos/dotfiles/.config/karabiner/toggle-dark-mode.applescript"
+                                        "shell_command": "/usr/bin/osascript ~/.config/karabiner/toggle-dark-mode.applescript"
                                     },
                                     {
                                         "set_variable": {
@@ -3038,7 +3038,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript ~/Desktop/repos/dotfiles/.config/karabiner/search-google.applescript"
+                                        "shell_command": "/usr/bin/osascript ~/.config/karabiner/search-google.applescript"
                                     },
                                     {
                                         "set_variable": {
