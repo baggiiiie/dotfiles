@@ -542,7 +542,7 @@
                         ]
                     },
                     {
-                        "description": "Wezterm mod for tmux",
+                        "description": "Terminal mod for tmux",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -555,10 +555,44 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "k",
+                                    "key_code": "spacebar",
                                     "modifiers": {
                                         "mandatory": [
+                                            "right_control"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "b",
+                                        "modifiers": [
                                             "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Terminal mod for tmux - 2",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.mitchellh\\.ghostty$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "d",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_command"
                                         ]
                                     }
                                 },
