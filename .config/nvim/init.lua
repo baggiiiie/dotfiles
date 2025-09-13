@@ -1,10 +1,10 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
-require("no-neck-pain")
+-- require("no-neck-pain")
 
 -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md
 local lspconfig = require("lspconfig")
-local configs = require("lspconfig/configs")
+-- local configs = require("lspconfig/configs")
 
 lspconfig.gopls.setup({
   settings = {
@@ -17,3 +17,5 @@ lspconfig.gopls.setup({
     },
   },
 })
+
+require("config.floaterm")
