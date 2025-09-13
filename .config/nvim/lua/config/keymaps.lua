@@ -68,12 +68,28 @@ end
 vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
 
 vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
-vim.keymap.set("n", "<S-Tab>", function()
-  vim.cmd("buffer #")
-end, { silent = true, desc = "Switch to last buffer" })
 
-map(
+vim.keymap.set(
   "n",
-  "<leader>f/",
-  '<cmd>lua require("telescope.builtin").live_grep({ additional_args = function() return { "--hidden" } end })<cr>'
+  "<leader>/",
+  "<cmd>lua require('telescope.builtin').live_grep({ additional_args = { '--hidden', '--glob=!.git' }})<cr>",
+  { desc = "Find in files (including hidden)" }
 )
+
+vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", {
+  desc = "Toggle current line blame",
+})
+
+vim.keymap.set("n", "<leader>cD", function()
+  vim.cmd("Copilot disable")
+  vim.notify("Copilot disabled for this session", vim.log.levels.INFO, { title = "Copilot" })
+end, { desc = "Disable Copilot" })
+
+map({ "n", "t" }, "<leader>tt", "<Cmd>Floaterminal<cr>", { desc = "floating terminal" })
+-- map({ "n", "t" }, "<leader>tt", function()
+--   Snacks.terminal("zsh", { cwd = LazyVim.root() })
+-- end, { desc = "floating terminal" })
+
+map("n", "<leader>rr", function()
+  vim.cmd("luafile %")
+end, { desc = "run current file with lua" })
