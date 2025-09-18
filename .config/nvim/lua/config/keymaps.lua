@@ -72,7 +72,8 @@ vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
 vim.keymap.set(
   "n",
   "<leader>/",
-  "<cmd>lua require('telescope.builtin').live_grep({ additional_args = { '--hidden', '--glob=!.git' }})<cr>",
+  require("config.multigrep"),
+  -- "<cmd>lua require('telescope.builtin').live_grep({ additional_args = { '--hidden', '--glob=!.git' }})<cr>",
   { desc = "Find in files (including hidden)" }
 )
 
