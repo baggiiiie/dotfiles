@@ -7,7 +7,7 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufEnter", "BufNewFile", "BufWritePost" }, {
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "BufWritePost" }, {
   pattern = { "*" },
   callback = function()
     local filename = vim.fn.expand("%:t")
@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufEnter", "BufNewFile", "BufWritePost
       return
     end
 
-    local lines = vim.fn.getline(1, 10)
+    local lines = vim.fn.getline(1, 30)
     if type(lines) == "string" then
       lines = table(lines)
     end
@@ -27,8 +27,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufEnter", "BufNewFile", "BufWritePost
         or string.match(line, "^%s*for%s")
         or string.match(line, "^%s*while%s")
         or string.match(line, "^%s*function%s")
-        or string.match(line, "^%s*case%s")
-        or string.match(line, "^%s*[%w_]+%s*=")
       then
         print("matching this file to sh")
         vim.bo.filetype = "sh"

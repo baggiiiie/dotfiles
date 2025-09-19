@@ -4,9 +4,9 @@
 
 -- remove clipboard, so that 'd', 'c' and etc won't yank to clipboard
 vim.opt.clipboard = ""
--- vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
-vim.opt.winbar = "%=%m %f"
--- vim.opt.wrap = true
+vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
+-- vim.opt.winbar = "%=%m %t %y"
+vim.opt.wrap = true
 
 vim.opt.spelllang = { "en_us" }
 vim.opt.spell = true
@@ -26,7 +26,7 @@ vim.opt.undofile = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
-vim.opt.termguicolors = true
+vim.opt.termguicolors = false
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
@@ -35,8 +35,8 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.confirm = false
 
--- vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "100"
 
 vim.g.snacks_animate = false
-vim.g.trouble_lualine = false
+vim.g.trouble_lualine = true
 vim.g.root_spec = { "cwd" }

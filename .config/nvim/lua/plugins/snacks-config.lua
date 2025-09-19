@@ -6,7 +6,7 @@ return {
     dashboard = { enabled = false },
     animate = { enabled = false },
     notifier = {
-      enabled = false,
+      enabled = true,
       timeout = 3000,
     },
     snacks_explorer = { enabled = false },

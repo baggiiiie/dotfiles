@@ -8,7 +8,7 @@ return {
       },
       width = 120,
       autocmds = {
-        enableOnVimEnter = "safe",
+        -- enableOnVimEnter = "safe",
       },
     })
   end,
