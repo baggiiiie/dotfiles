@@ -24,11 +24,29 @@ editor = "nvim"
 # Use merge-tools.meld.merge-args
 # merge-editor = "meld" # Or "vscode" or "vscodium" or "kdiff3" or "vimdiff"
 
+[git]
+# Prevent pushing work in progress or anything explicitly labeled "private"
+private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+# recommended by https://zerowidth.com/2025/jj-tips-and-tricks
+push-new-bookmarks = true
+
+[revset-aliases]
+# set all remote bookmarks (commits pushed to remote branches) to be immutable
+'immutable_heads()' = "builtin_immutable_heads() | remote_bookmarks()"
+
 [template-aliases]
 # Full timestamp in ISO 8601 format
 # 'format_timestamp(timestamp)' = 'timestamp'
 # Relative timestamp rendered as "x days/hours/seconds ago"
 'format_timestamp(timestamp)' = 'timestamp.ago()'
+# 'format_short_id(id)' = 'id.shortest()'
 
 [aliases]
 ab = ["abandon"]
+d = ["diff"]
+rb = ["rebase"]
+c = ["commit"]
+ci = ["commit", "--interactive"]
+e = ["edit"]
+s = ["squash"]
+si = ["squash", "--interactive"]
