@@ -81,7 +81,7 @@ vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>",
   desc = "Toggle current line blame",
 })
 
-vim.keymap.set("n", "<leader>cD", function()
+vim.keymap.set("n", "<leader>cx", function()
   vim.cmd("Copilot disable")
   vim.notify("Copilot disabled for this session", vim.log.levels.INFO, { title = "Copilot" })
 end, { desc = "Disable Copilot" })
