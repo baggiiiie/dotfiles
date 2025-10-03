@@ -13,6 +13,9 @@ web:*.{html,css,js}*
 
 # Using glob patterns to include/exclude files or folders
 --glob=!.git/*
+--glob=!*.svg
+--glob=!*.excalidraw.*
+--glob=!.obsidian/*
 
 
 # Set the colors.
