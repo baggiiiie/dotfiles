@@ -23,50 +23,58 @@
         sort = version:refname
 [init]
     defaultBranch = main
-[difftool]
-    # Run the difftool immediately, don't ask 'are you sure' each time.
-    prompt = false
 [pager]
     # Use a pager if the difftool output is larger than one screenful,
     # consistent with the behaviour of `git diff`.
     difftool = true
+[show]
+    tool = difftastic
 [diff]
     # Set difftastic as the default difftool, so we don't need to specify
     # `-t difftastic` every time.
-    tool = difftastic
+    ; tool = difftastic
+    external = difft
+    colorMoved = default
+[difftool]
+    # Run the difftool immediately, don't ask 'are you sure' each time.
+    prompt = false
 [push]
-        default = simple
-        autoSetupRemote = true
-        followTags = true
+    default = simple
+    autoSetupRemote = true
+    followTags = true
 [fetch]
-        prune = true
-        pruneTags = true
-        all = true
+    prune = true
+    pruneTags = true
+    all = true
 
 # why the hell not?
 [help]
-        autocorrect = prompt
+    autocorrect = prompt
 [commit]
-        verbose = true
+    verbose = true
 [rerere]
-        enabled = true
-        autoupdate = true
+    enabled = true
+    autoupdate = true
 [core]
-        excludesfile = ~/.gitignore
+    excludesfile = ~/.gitignore
 [rebase]
-        autoSquash = true
-        autoStash = true
-        updateRefs = true
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
 
 # a matter of taste (uncomment if you dare)
 
 [merge]
-	conflictStyle = zdiff3
+    conflictStyle = zdiff3
         # (just 'diff3' if git version < 2.3)
         # conflictstyle = zdiff3 
 [pull]
-  rebase = true
+    rebase = true
 [interactive]
-	diffFilter = delta --color-only
+    diffFilter = delta --color-only
 [delta]
-	navigate = true
+    navigate = true
+[color]
+    ui = always
+[difftool "difftastic"]
+	cmd = difft --width=$COLUMNS \"$LOCAL\" \"$REMOTE\"
