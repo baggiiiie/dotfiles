@@ -1,1 +1,1 @@
-stow -t $HOME/ .
+stow -t $HOME/ . "$@"
