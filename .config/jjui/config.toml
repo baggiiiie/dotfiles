@@ -1,0 +1,28 @@
+[ui]
+auto_refresh_interval = 3
+enable_mouse = true
+mouse_events = true
+
+[ui.colors]
+"selected" = { bold = true, bg = "#575048" }
+
+
+[custom_commands]
+"show" = { key = ["ctrl+s"], args = [
+    "show",
+    "$change_id",
+    "--color",
+    "always",
+    # "-s",
+], show = "diff" }
+
+# Copied from https://github.com/idursun/jjui/wiki/Leader-Key, may or may not use
+[leader.e]
+context = ["$file", "$change_id"]
+help = "Edit file in @"
+send = ["$", "$EDITOR $file", "enter"]
+
+[leader.E]
+context = ["$file", "$change_id"]
+help = "Edit file in change"
+send = ["$", "jj edit $change_id && $EDITOR $file", "enter"]
