@@ -17,3 +17,13 @@ gui:
 
   # One of: 'margin' (default) | 'jump'
   scrollOffBehavior: jump
+
+  # gives you more space to show things side-by-side
+  sidePanelWidth: 0.2
+
+git:
+  pagers:
+    - pager: delta --dark --paging=never
+    - pager: ydiff -p cat -s --wrap --width={{columnWidth}}
+      colorArg: never
+    - externalDiffCommand: difft --color=always
