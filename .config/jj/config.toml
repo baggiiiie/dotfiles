@@ -49,6 +49,7 @@ auto-update-stale = true
 
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
 
+"private()" = 'mutable() & description(regex:"(?i)^(private|wip)(\n*$|:)")'
 
 [templates]
 git_push_bookmark = '"yc/test-" ++ change_id.shortest()'
@@ -56,7 +57,7 @@ git_push_bookmark = '"yc/test-" ++ change_id.shortest()'
 # NOTE: this is from: https://github.com/jj-vcs/jj/discussions/5812#discussioncomment-12320164
 # it shows revisions that will be pushed to remote
 log_node = '''
-if(self && !current_working_copy && !immutable && !conflict && in_branch(self),
+if(self && !current_working_copy && !immutable && !conflict && in_branch(self) && !private_commits(self),
   "↑",
   builtin_log_node
 )
@@ -69,6 +70,7 @@ if(self && !current_working_copy && !immutable && !conflict && in_branch(self),
 'format_timestamp(timestamp)' = 'timestamp.ago()'
 # 'format_short_id(id)' = 'id.shortest()'
 "in_branch(commit)" = 'commit.contained_in("immutable_heads()..bookmarks()")'
+"private_commits(commit)" = 'commit.contained_in("private()")'
 
 [aliases]
 ab = ["abandon"]
@@ -88,3 +90,4 @@ spi = ["split", "--interactive"]
 sq = ["squash"]
 sqi = ["squash", "--interactive"]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
+spr = ["util", "exec", "--", "jj-spr"]
