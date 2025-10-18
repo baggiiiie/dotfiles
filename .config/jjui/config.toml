@@ -6,7 +6,6 @@ mouse_events = true
 [ui.colors]
 "selected" = { bold = true, bg = "#575048" }
 
-
 [custom_commands]
 "show" = { key = ["ctrl+s"], args = [
     "show",
