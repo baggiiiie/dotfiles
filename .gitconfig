@@ -9,6 +9,12 @@
 [credential "https://git.illumina.com"]
 	provider = github
 
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+    path = ~/.gitconfig-personal
+
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+    path = ~/.gitconfig-personal
+
 [includeIf "hasconfig:remote.*.url:git@git.illumina.com:*/**"]
     path = ~/.gitconfig-work
 
@@ -94,4 +100,3 @@
     ui = always
 ; [difftool "difftastic"]
 ; 	cmd = difft --width=$COLUMNS \"$LOCAL\" \"$REMOTE\"
-
