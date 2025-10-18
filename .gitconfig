@@ -10,17 +10,17 @@
 	provider = github
 
 [includeIf "hasconfig:remote.*.url:git@git.illumina.com:*/**"]
-  path = ~/.gitconfig-work
+    path = ~/.gitconfig-work
 
 [includeIf "hasconfig:remote.*.url:https://git.illumina.com/**"]
-  path = ~/.gitconfig-work
+    path = ~/.gitconfig-work
 
 [column]
-        ui = auto
+    ui = auto
 [branch]
-        sort = -committerdate
+    sort = -committerdate
 [tag]
-        sort = version:refname
+	sort = version:refname
 [init]
     defaultBranch = main
 [pager]
@@ -32,16 +32,15 @@
 [diff]
     # Set difftastic as the default difftool, so we don't need to specify
     # `-t difftastic` every time.
-    ; tool = difftastic
-    ; tool = difftastic
-    external = difft
+    tool = difftastic
+    ; external = delta
     colorMoved = default
 [difftool]
     # Run the difftool immediately, don't ask 'are you sure' each time.
     prompt = false
 [push]
     default = simple
-    autoSetupRemote = true
+	autoSetupRemote = true
     followTags = true
 [fetch]
     prune = true
@@ -50,20 +49,20 @@
 
 # why the hell not?
 [help]
-    autocorrect = prompt
+	autocorrect = prompt
 [commit]
     verbose = true
 [rerere]
-    enabled = true
-    autoupdate = true
+	enabled = true
+	autoupdate = true
 [core]
     excludesfile = ~/.gitignore
 	pager = diff-so-fancy | less --tabs=4 -RF
 	; pager = delta
 [rebase]
-    autoSquash = true
-    autoStash = true
-    updateRefs = true
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
 
 # a matter of taste (uncomment if you dare)
 
@@ -72,11 +71,9 @@
         # (just 'diff3' if git version < 2.3)
         # conflictstyle = zdiff3 
 [pull]
-    rebase = true
+	rebase = true
 [interactive]
-	; diffFilter = diff-so-fancy --patch
-    diffFilter = delta --color-only
-
+	diffFilter = diff-so-fancy --patch
 
 [delta "split-view"]
     side-by-side = true
@@ -86,6 +83,7 @@
 
 [delta]
     features = split-view
+    side-by-side = true
     navigate = true
     line-numbers = true
 ; [delta]
@@ -96,3 +94,4 @@
     ui = always
 ; [difftool "difftastic"]
 ; 	cmd = difft --width=$COLUMNS \"$LOCAL\" \"$REMOTE\"
+
