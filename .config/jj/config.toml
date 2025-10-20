@@ -11,6 +11,15 @@ email = "yc@yingchaoooo.com"
 name = "ydai"
 email = "yingchao.dai@illumina.com"
 
+[--scope.signing]
+backend = "none"
+
+[signing]
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/baggiiiie-github.pub"
+
+
 # [Settings - Jujutsu docs](https://jj-vcs.github.io/jj/latest/config/#config-files-and-toml)
 [ui]
 default-command = "log"
