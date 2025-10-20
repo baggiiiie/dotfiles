@@ -1,5 +1,5 @@
 [ui]
-auto_refresh_interval = 3
+auto_refresh_interval = 30
 enable_mouse = true
 mouse_events = true
 
@@ -15,13 +15,4 @@ mouse_events = true
     # "-s",
 ], show = "diff" }
 
-# Copied from https://github.com/idursun/jjui/wiki/Leader-Key, may or may not use
-[leader.e]
-context = ["$file", "$change_id"]
-help = "Edit file in @"
-send = ["$", "$EDITOR $file", "enter"]
-
-[leader.E]
-context = ["$file", "$change_id"]
-help = "Edit file in change"
-send = ["$", "jj edit $change_id && $EDITOR $file", "enter"]
+"tug" = { key = ["alt+t"], args = ["tug"] }
