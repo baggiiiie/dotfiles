@@ -27,6 +27,8 @@ font-family = JetBrains Mono
 window-decoration = server
 font-size = 18
 
+mouse-hide-while-typing = true
+
 shell-integration-features = no-cursor
 
 # window-padding-x = 2
