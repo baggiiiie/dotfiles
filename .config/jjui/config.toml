@@ -6,10 +6,24 @@ mouse_events = true
 [ui.colors]
 "selected" = { bold = true, bg = "#575048" }
 
-[custom_commands]
-"show" = { key = ["ctrl+s"], args = [
+[preview]
+revision_command = [
     "show",
+    "--color",
+    "always",
+    "-r",
     "$change_id",
+    "--config",
+    "ui.diff-formatter=delta-non-split-view",
+]
+
+[custom_commands]
+"difft" = { key = ["ctrl+s"], args = [
+    "diff",
+    "-r",
+    "$change_id",
+    "--tool",
+    "difft",
     "--color",
     "always",
     # "-s",

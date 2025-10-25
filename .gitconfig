@@ -89,7 +89,6 @@
 
 [delta]
     features = split-view
-    side-by-side = true
     navigate = true
     line-numbers = true
 ; [delta]
