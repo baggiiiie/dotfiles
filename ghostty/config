@@ -28,6 +28,8 @@ window-decoration = server
 font-size = 18
 
 mouse-hide-while-typing = true
+macos-non-native-fullscreen = true
+macos-titlebar-style = hidden
 
 shell-integration-features = no-cursor
 
