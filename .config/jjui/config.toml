@@ -16,6 +16,17 @@ revision_command = [
     "--config",
     "ui.diff-formatter=delta-non-split-view",
 ]
+file_command = [
+    "diff",
+    "--color",
+    "always",
+    "-r",
+    "$change_id",
+    "--config",
+    "ui.diff-formatter=delta-non-split-view",
+    "$file",
+]
+width_percentage = 60.0
 
 [custom_commands]
 "difft" = { key = ["ctrl+s"], args = [
@@ -30,3 +41,28 @@ revision_command = [
 ], show = "diff" }
 
 "tug" = { key = ["alt+t"], args = ["tug"] }
+
+"open PR in github" = { key = [
+    "G",
+], args = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    """
+  gh pr create -H $(jj log --no-graph --color=never -r $change_id -T 'bookmarks') -w
+""",
+] }
+
+[leader.n]
+context = ["$change_id"]
+help = "New change"
+
+[leader.na]
+help = "After"
+send = [":", "new -A \"$change_id\"", "enter"]
+
+[leader.nb]
+help = "Before"
+send = [":", "new -B \"$change_id\"", "enter"]

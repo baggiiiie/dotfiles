@@ -12,7 +12,9 @@ name = "ydai"
 email = "yingchao.dai@illumina.com"
 
 [--scope.signing]
-backend = "none"
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/ydai_ssh.pub"
 
 [signing]
 behavior = "own"
@@ -36,7 +38,7 @@ graph.style = "square"
 pager = "delta"
 
 editor = "nvim"
-diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+# diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 # diff-editor = "meld"
 # diff-editor = "diffedit3"
 # Use merge-tools.meld.merge-args
@@ -55,7 +57,7 @@ diff-args = [
 
 [git]
 # Prevent pushing work in progress or anything explicitly labeled "private"
-private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'todo:*')"
 # recommended by https://zerowidth.com/2025/jj-tips-and-tricks
 push-new-bookmarks = true
 abandon-unreachable-commits = true
