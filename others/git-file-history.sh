@@ -66,16 +66,22 @@ show_file_commits_fzf() {
             --no-sort \
             --reverse \
             --tiebreak=index \
-            --preview "export GIT_EXTERNAL_DIFF='difft --color=always'; export DFT_WIDTH=\$FZF_PREVIEW_COLUMNS; echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I @ git show --color=always --ext-diff @ -- \"$file\"" \
+            --preview "export GIT_EXTERNAL_DIFF='difft --color=always'; export DFT_WIDTH=\$FZF_PREVIEW_COLUMNS; echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I @ git show --color=always --ext-diff @ \"$file\"" \
             --preview-window=right:80%:wrap \
-            --bind "enter:become(echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I {} git show --ext-diff {} -- $file)" \
+            --bind "ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up" \
+            --bind "enter:execute(echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I {} gh br $file --commit={})" \
             --header="$file | Enter: full commit"
+    # --bind "enter:become(echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I {} git show --ext-diff {} -- $file)"
 }
 
 # Function to show commits for specific lines with fzf
 show_line_commits_fzf() {
     local file="$1"
     local range="$2"
+    # TODO: mabey add a start line to `gh br $file:start_line` ?
+    # if ! grep -q ',' <<<"$range"; then
+    #     start_line=$(echo "$range" | cut -d',' -f1)
+    # fi
 
     echo -e "${GREEN}Loading commits for lines ${BLUE}$range${GREEN} in: ${BLUE}$file${NC}"
     echo -e "${YELLOW}Use arrow keys to navigate, Enter to view full commit, Esc to exit${NC}\n"
@@ -86,9 +92,10 @@ show_line_commits_fzf() {
             --no-sort \
             --reverse \
             --tiebreak=index \
-            --preview "export GIT_EXTERNAL_DIFF='difft --color=always'; export DFT_WIDTH=\$FZF_PREVIEW_COLUMNS; echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I @ git show --ext-diff --color=always @ -- \"$file\"" \
+            --preview "export GIT_EXTERNAL_DIFF='difft --color=always'; export DFT_WIDTH=\$FZF_PREVIEW_COLUMNS; echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I @ git show --ext-diff --color=always @ -L $range:$file" \
             --preview-window=right:60%:wrap \
-            --bind "enter:become(echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I {} git show --ext-diff {} -- $file)" \
+            --bind "ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up" \
+            --bind "enter:execute(echo {} | grep -o '^[a-f0-9]\+' | head -1 | xargs -I {} gh br $file --commit={})" \
             --header="$range in $file | Enter: full commit"
 }
 
