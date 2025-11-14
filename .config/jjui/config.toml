@@ -8,7 +8,7 @@ mouse_events = true
 
 [revisions]
 template = 'builtin_log_compact' # overrides jj's templates.log
-revset = "trunk():: & mine()"    # overrides jj's revsets.log
+# revset = "trunk():: & mine()"    # overrides jj's revsets.log
 
 [preview]
 revision_command = [

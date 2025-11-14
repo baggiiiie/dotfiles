@@ -48,8 +48,11 @@ elif [[ "$PLATFORM" == "Linux" ]]; then
 fi
 
 
+# Cache brew prefix for performance (saves multiple subprocess calls)
+BREW_PREFIX="${BREW_PREFIX:-$(brew --prefix)}"
+
 # Theme configuration
-source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+source $BREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # History configuration
@@ -70,7 +73,7 @@ setopt hist_find_no_dups
 ZVM_INIT_MODE=sourcing
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source $BREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
 ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
 ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
@@ -133,11 +136,18 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=1 --color=always $realpath'
 # zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --level=1 --color=always $realpath'
 
-autoload -U compinit; compinit
+# Optimize compinit with cache (only check once per day)
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 # Plugins (load after vi-mode and key bindings)
 source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab/fzf-tab.plugin.zsh
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# Load syntax highlighting last for better performance
+source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Tool initializations
 # eval "$(zoxide init zsh)"
@@ -147,7 +157,7 @@ eval "$(zoxide init --cmd cd zsh)"
 alias ls="eza --icons=always"
 alias la="ls -alh"
 alias tree="eza --tree --icons=always"
-alias c="clear"
+alias c="pbcopy"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
 alias sshrc="nvim ~/.ssh/config"
@@ -163,10 +173,41 @@ alias e="eosctl"
 alias tx="tmux"
 alias devsync="bash $HOME/Desktop/repos/devsync/dev-sync.sh"
 
+ZSHRC_DIR="${${(%):-%x}:A:h}"
 
+# Lazy load NVM - only load when needed (saves ~800ms startup time)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Add node to PATH without loading full nvm
+export PATH="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default 2>/dev/null || echo 'v18.0.0')/bin:$PATH"
+
+# Lazy load nvm on first use
+nvm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
+
+node() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  node "$@"
+}
+
+npm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  npm "$@"
+}
+
+npx() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  npx "$@"
+}
 
 
 export EDITOR=nvim
@@ -191,3 +232,64 @@ PATH="$PATH:$HOME/.cargo/bin"
 
 . "$HOME/.local/bin/env"
 eval "$(atuin init zsh --disable-up-arrow)"
+export PATH="$HOME/bin:/Applications/gg.app/Contents/MacOS:$PATH"
+
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+export JIRA_AUTH_TYPE=bearer
+# JIRA_API_TOKEN in .env-jira
+source $ZSHRC_DIR/.env-jira
+
+function jira() {
+  if [[ $# -eq 0 ]]; then
+    command jira issue list -q "(assignee = ydai OR reporter = ydai) AND status not in ('Done', 'FIXED')" --order-by priority --updated -30d
+  else
+    command jira "$@"
+  fi
+}
+
+function gh() {
+  if [[ $# -eq 0 ]]; then
+    echo "gh: create pr?"
+    echo "usage: gh prr [pr-file]"
+  elif [[ $1 == "prr" ]]; then
+      branch=$(git branch --column=never --no-color | fzf | xargs)
+      if gh pr view "$branch" -w ; then
+        return
+      fi
+      if [[ $2 != "" ]]; then
+        gh pr create -b main -H "$branch" -w -F "$2"
+      else
+        gh pr create -b main -H "$branch" -w
+      fi
+  else
+    command gh "$@"
+  fi
+}
+
+# echo $ZSHRC_DIR
+function chpwd() {
+  case $(pwd) in
+    */work*)
+        export GH_HOST=git.illumina.com
+        source "$ZSHRC_DIR/.env-work"
+      ;;
+    */personal*)
+        export GH_HOST=github.com
+      ;;
+  esac
+}
+
+chpwd
+
+source "$ZSHRC_DIR/.jj-completion.sh"
+
+# bun completions
+[ -s "/Users/ydai/.bun/_bun" ] && source "/Users/ydai/.bun/_bun"
+
+# for remote tmux during ssh with ghostty
+export TERM=xterm-256color
+eval "$(ruby ~/.local/try.rb init ~/src/tries)"
