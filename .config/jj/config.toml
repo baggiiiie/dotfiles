@@ -24,7 +24,7 @@ key = "~/.ssh/baggiiiie-github.pub"
 
 # [Settings - Jujutsu docs](https://jj-vcs.github.io/jj/latest/config/#config-files-and-toml)
 [ui]
-default-command = "log"
+default-command = ["log", "-r", "trunk():: & mine()"]
 # diff-formatter = ":git"
 # https://github.com/idursun/jjui/issues/314#issuecomment-3367379291
 diff-formatter = [
@@ -34,7 +34,6 @@ diff-formatter = [
 ]
 # diff-formatter = ["difft", "--color=always", "$left", "$right"]
 
-graph.style = "square"
 pager = "delta"
 
 editor = "nvim"
@@ -66,9 +65,8 @@ abandon-unreachable-commits = true
 auto-update-stale = true
 
 [revset-aliases]
-# set all remote bookmarks (commits pushed to remote branches) to be immutable
-'immutable_heads()' = "builtin_immutable_heads() | remote_bookmarks()"
-# 'immutable_heads()' = "builtin_immutable_heads()"
+# https://jj-vcs.github.io/jj/latest/config/#set-of-immutable-commits
+"immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine())"
 # NOTE: go down 5 commits from current commit (down the stack)
 'stack()' = 'ancestors(reachable(@, mutable()), 5)'
 'stack(n)' = 'ancestors(reachable(@, mutable()), n)'
@@ -118,3 +116,11 @@ sq = ["squash"]
 sqi = ["squash", "--interactive"]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@"]
 spr = ["util", "exec", "--", "jj-spr"]
+new-main = [
+    "rebase",
+    "-r",
+    "main@origin+::~main",
+    "-d",
+    "main",
+    "--ignore-immutable",
+]

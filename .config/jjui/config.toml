@@ -6,6 +6,10 @@ mouse_events = true
 [ui.colors]
 "selected" = { bold = true, bg = "#575048" }
 
+[revisions]
+template = 'builtin_log_compact' # overrides jj's templates.log
+revset = "trunk():: & mine()"    # overrides jj's revsets.log
+
 [preview]
 revision_command = [
     "show",
@@ -51,7 +55,10 @@ width_percentage = 60.0
     "bash",
     "-c",
     """
-  gh pr create -H $(jj log --no-graph --color=never -r $change_id -T 'bookmarks') -w
+bm=$(jj log --no-graph --color=never -r $change_id -T 'bookmarks')
+if ! gh pr view "$bm" -w; then
+    gh pr create -H "$bm" -w
+fi
 """,
 ] }
 
