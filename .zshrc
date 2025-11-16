@@ -266,15 +266,8 @@ function gh() {
     echo "gh: create pr?"
     echo "usage: gh prr [pr-file]"
   elif [[ $1 == "prr" ]]; then
-      branch=$(git branch --column=never --no-color | fzf | xargs)
-      if gh pr view "$branch" -w ; then
-        return
-      fi
-      if [[ $2 != "" ]]; then
-        gh pr create -b main -H "$branch" -w -F "$2"
-      else
-        gh pr create -b main -H "$branch" -w
-      fi
+      shift
+      bash ~/Desktop/repos/personal/dotfiles/others/git-create-pr.sh "$@"
   else
     command gh "$@"
   fi
