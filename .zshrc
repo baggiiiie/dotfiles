@@ -40,7 +40,6 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   # ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
   # export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
 
-  # alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 elif [[ "$PLATFORM" == "Linux" ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -155,7 +154,7 @@ eval "$(zoxide init --cmd cd zsh)"
 
 # Aliases
 alias ls="eza --icons=always"
-alias la="ls -alh"
+alias la="ls -alh -s name"
 alias tree="eza --tree --icons=always"
 alias c="pbcopy"
 alias lg="lazygit"
@@ -164,14 +163,25 @@ alias sshrc="nvim ~/.ssh/config"
 alias vimrc="nvim ~/.vimrc"
 alias wezrc="nvim ~/.wezterm.lua"
 alias tl="tldr"
-alias diff="delta"
+# alias diff="delta"
 alias nv="nvim"
 alias cat="bat"
 alias venv="source .venv/bin/activate"
 alias k="kubectl"
 alias e="eosctl"
 alias tx="tmux"
-alias devsync="bash $HOME/Desktop/repos/devsync/dev-sync.sh"
+alias devsync="bash $HOME/Desktop/repos/work/devsync/dev-sync.sh"
+alias ts="tailscale"
+alias ta="tmux a"
+alias ll="lazysql"
+alias j="jj"
+alias jjui="/Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good"
+alias eos="sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
+alias hi="terminal-notifier -message '$(basename $(pwd))' -title 'im done' -sound ping"
+alias ghist="bash /Users/ydai/Desktop/repos/personal/dotfiles/others/git-file-history.sh"
+alias curl="curlie"
+alias dig="doggo"
+alias claude="claude --dangerously-skip-permissions"
 
 ZSHRC_DIR="${${(%):-%x}:A:h}"
 
