@@ -3,6 +3,7 @@
 # Parse command line arguments
 branch=""
 pr_body=""
+me="baggiiiie"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -24,7 +25,7 @@ done
 
 # If branch not provided, use fzf to select
 if [[ -z $branch ]]; then
-    branch=$(git branch --column=never --no-color | fzf | xargs)
+    branch=$(git branch --column=never --no-color | fzf --prompt="Select branch to open PR with: " | xargs)
 fi
 
 # Read remotes into array (faster than multiple pipes)
@@ -32,7 +33,7 @@ mapfile -t remotes_array < <(git remote)
 
 # Select remote if multiple exist
 if [[ ${#remotes_array[@]} -gt 1 ]]; then
-    selected_remote=$(printf '%s\n' "${remotes_array[@]}" | fzf --prompt="Select remote: ")
+    selected_remote=$(printf '%s\n' "${remotes_array[@]}" | fzf --prompt="Select remote to open PR in: ")
 else
     selected_remote="${remotes_array[0]}"
 fi
@@ -48,6 +49,10 @@ else
     exit 1
 fi
 
+if [[ $(pwd) =~ "jjui" ]] && [[ "$user" != "$me" ]]; then
+    branch="$me:$branch"
+fi
+
 # Try to view existing PR first (faster than ls-remote)
 if gh pr view "$branch" -w "${dash_r_option[@]}" 2>/dev/null; then
     exit 0
@@ -55,7 +60,7 @@ fi
 
 # Push branch if needed
 if [[ -d .jj ]]; then
-    if ! jj git push -b "$branch" 2>/dev/null; then
+    if ! jj git push -b "${branch#"$me":}" 2>/dev/null; then
         echo "probably a private commit, push failed"
         exit 1
     fi
