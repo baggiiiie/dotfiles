@@ -1,6 +1,28 @@
 #!/bin/bash
 
-branch="$1"
+# Parse command line arguments
+branch=""
+pr_body=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+    --branch)
+        branch="$2"
+        shift 2
+        ;;
+    --pr-body)
+        pr_body="$2"
+        shift 2
+        ;;
+    *)
+        echo "Unknown option: $1"
+        echo "Usage: $0 [--branch BRANCH] [--pr-body FILE]"
+        exit 1
+        ;;
+    esac
+done
+
+# If branch not provided, use fzf to select
 if [[ -z $branch ]]; then
     branch=$(git branch --column=never --no-color | fzf | xargs)
 fi
@@ -33,14 +55,17 @@ fi
 
 # Push branch if needed
 if [[ -d .jj ]]; then
-    jj git push -b "$branch" 2>/dev/null || true
+    if ! jj git push -b "$branch" 2>/dev/null; then
+        echo "probably a private commit, push failed"
+        exit 1
+    fi
 else
     git push -u "$selected_remote" "$branch" 2>/dev/null || true
 fi
 
 # Create PR
-if [[ $2 != "" ]]; then
-    gh pr create -B main -H "$branch" -w -F "$2" "${dash_r_option[@]}"
+if [[ -n $pr_body ]]; then
+    gh pr create -B main -H "$branch" -w -F "$pr_body" "${dash_r_option[@]}"
 else
     gh pr create -B main -H "$branch" -w "${dash_r_option[@]}"
 fi
