@@ -12,11 +12,19 @@ local act = wezterm.action
 config.default_prog = { "zsh" }
 
 config.front_end = "WebGpu"
--- config.freetype_load_target = "Light"
--- config.freetype_render_target = "Normal"
--- config.font = wezterm.font("Berkeley Mono", { weight = "Regular" })
-config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
+config.freetype_load_target = "Light"
+config.freetype_render_target = "Normal"
+-- config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
 -- config.font = wezterm.font("Monaspace Argon", { weight = "Medium" })
+config.font = wezterm.font_with_fallback({
+	{
+		family = "JetBrains Mono",
+		weight = "Light",
+		harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
+	},
+	{ family = "Terminus", weight = "Bold" },
+	"Noto Color Emoji",
+})
 -- config.harfbuzz_features = { "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig" }
 -- For example, changing the color scheme:
 
@@ -32,22 +40,22 @@ config.use_fancy_tab_bar = false
 -- For example, changing the color scheme:
 -- config.color_scheme = "Catppuccin Macchiato"
 config.color_scheme = "GruvboxDark"
-config.window_background_opacity = 0.85
-config.text_background_opacity = 0.75
+config.window_background_opacity = 1
+config.text_background_opacity = 1
 config.macos_window_background_blur = 15
-config.font_size = 19
-config.line_height = 1.2
+config.font_size = 18
+config.line_height = 1.1
 config.tab_max_width = 30
 config.tab_bar_at_bottom = true
-config.colors = {
-	tab_bar = {
-		active_tab = {
-			bg_color = "#2b2042",
-			fg_color = "#F8C8EB",
-			italic = true,
-		},
-	},
-}
+-- config.colors = {
+-- 	tab_bar = {
+-- 		active_tab = {
+-- 			bg_color = "#2b2042",
+-- 			fg_color = "#F8C8EB",
+-- 			italic = true,
+-- 		},
+-- 	},
+-- }
 
 config.inactive_pane_hsb = {
 	-- hue = 0.9,
@@ -56,10 +64,10 @@ config.inactive_pane_hsb = {
 }
 
 config.window_padding = {
-	left = 20,
-	right = 20,
-	top = 20,
-	bottom = 5,
+	left = 10,
+	right = 10,
+	top = 10,
+	bottom = 0,
 }
 
 config.keys = {
