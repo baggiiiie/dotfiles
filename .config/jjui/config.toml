@@ -56,7 +56,7 @@ width_percentage = 60.0
     "-c",
     """
 bm=$(jj log --no-graph --color=never -r $change_id -T 'bookmarks')
-bash /Users/ydai/Desktop/repos/personal/dotfiles/others/git-create-pr.sh "$bm"
+bash /Users/ydai/Desktop/repos/personal/dotfiles/others/git-create-pr.sh --branch "$bm"
 """,
 ] }
 
