@@ -7,10 +7,13 @@ tmux rename-window -t 1 editor
 tmux new-window -n agent
 
 # Create third window named "term"
-tmux new-window -n term
+tmux new-window -n terminal
+
+# Create third window named "jjui"
+tmux new-window -n jjui
 
 # Create fourth window named "server"
 tmux new-window -n server
 
 # Switch back to the first window (editor)
-tmux select-window -t 0
+tmux select-window -t 1
