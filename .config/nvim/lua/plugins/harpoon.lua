@@ -1,14 +1,19 @@
 return {
-  "baggiiiie/harpoon",
-  name = "my-harpoon",
-  branch = "my-harpoon",
+  -- "baggiiiie/harpoon",
+  name = "no-neck-harpoon",
+  -- branch = "no-neck-harpoon",
   dependencies = { "nvim-lua/plenary.nvim" },
-  -- dir = "/Users/ydai/Desktop/repos/personal/harpoon/",
+  dir = "/Users/ydai/Desktop/repos/personal/harpoon/",
 
   lazy = false,
   config = function()
     local harpoon = require("harpoon")
-    harpoon:setup({})
+    harpoon:setup({
+      settings = {
+        ui_style = "auto",
+        ui_auto_threshold = 140,
+      },
+    })
     vim.keymap.set("n", "<leader>H", function()
       harpoon.ui:toggle_quick_menu(harpoon:list())
     end, { desc = "Open harpoon menu" })

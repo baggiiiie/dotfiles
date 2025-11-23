@@ -4,15 +4,15 @@ return {
   -- `opts` will be passed to the setup function automatically
   -- https://github.com/ReKylee/jjui.nvim/blob/main/lua/jjui/config.lua
   opts = {
-    executable = "jjui",
+    executable = "/Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good",
     keymaps = {
       toggle = "<leader>j",
     },
     terminal_opts = {
       win = {
         border = "rounded",
-        width = 1,
-        height = 1,
+        width = 0,
+        height = 0,
       },
     },
   },

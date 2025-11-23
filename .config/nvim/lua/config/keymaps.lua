@@ -69,13 +69,7 @@ vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
 
 vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
 
-vim.keymap.set(
-  "n",
-  "<leader>/",
-  require("config.multigrep"),
-  -- "<cmd>lua require('telescope.builtin').live_grep({ additional_args = { '--hidden', '--glob=!.git' }})<cr>",
-  { desc = "Find in files (including hidden)" }
-)
+vim.keymap.set("n", "<leader>/", require("config.multigrep"), { desc = "Find in files (including hidden)" })
 
 vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", {
   desc = "Toggle current line blame",
@@ -83,7 +77,8 @@ vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>",
 
 vim.keymap.set("n", "<leader>cx", function()
   vim.cmd("Copilot disable")
-  vim.notify("Copilot disabled for this session", vim.log.levels.INFO, { title = "Copilot" })
+  vim.cmd("SupermavenStop")
+  vim.notify("Copilot/Supermaven disabled for this session", vim.log.levels.INFO, { title = "Copilot" })
 end, { desc = "Disable Copilot" })
 
 -- map({ "n", "t" }, "<leader>tt", "<Cmd>Floaterminal<cr>", { desc = "floating terminal" })
@@ -94,3 +89,10 @@ end, { desc = "floating terminal" })
 map("n", "<leader>rr", function()
   vim.cmd("luafile %")
 end, { desc = "run current file with lua" })
+
+map("n", "<leader>gB", function()
+  local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+  local line = vim.fn.line(".")
+  filepath = filepath .. ":" .. line
+  vim.fn.system("gh browse " .. filepath)
+end, { desc = "open current file in github" })
