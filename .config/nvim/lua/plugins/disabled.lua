@@ -6,7 +6,7 @@ return {
   -- { "folke/todo-comments.nvim", enabled = false },
   { "akinsho/bufferline.nvim", enabled = false },
   { "linux-cultist/venv-selector.nvim", enabled = false },
-  { "nvim-mini/mini.icons", enabled = false },
+  -- { "nvim-mini/mini.icons", enabled = false },
   { "nvim-mini/mini.surround", enabled = false },
   -- { "MunifTanjim/nui.nvim", enabled = false },
   { "iamcco/markdown-preview.nvim", enabled = false },
