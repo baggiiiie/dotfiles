@@ -71,7 +71,9 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer, { desc = "Delete buffer and file" })
 
 -- Additional keymaps
-vim.keymap.set("n", "<leader>/", require("config.multigrep"), { desc = "Multi grep in files" })
+vim.keymap.set("n", "<leader>/", function()
+  require("config.multigrep")()
+end, { desc = "Multi grep in files" })
 vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)", { desc = "Surround visual selection" })
 vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "Toggle git blame" })
 

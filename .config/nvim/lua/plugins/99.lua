@@ -42,7 +42,7 @@ return {
 
         --- What autocomplete do you use.  We currently only
         --- support cmp right now
-        source = "cmp",
+        -- source = "cmp", -- disabled: nvim-cmp not installed
       },
 
       --- WARNING: if you change cwd then this is likely broken
