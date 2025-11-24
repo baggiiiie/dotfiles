@@ -19,7 +19,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
     local lines = vim.fn.getline(1, 30)
     if type(lines) == "string" then
-      lines = table(lines)
+      lines = {lines}
     end
     for _, line in ipairs(lines) do
       if

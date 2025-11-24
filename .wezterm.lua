@@ -26,9 +26,8 @@ config.font = wezterm.font_with_fallback({
 	"Noto Color Emoji",
 })
 -- config.harfbuzz_features = { "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig" }
--- For example, changing the color scheme:
 
---debug, run `WEZTERM_LOG=info wezterm` to see all key events
+-- Debug, run `WEZTERM_LOG=info wezterm` to see all key events
 config.debug_key_events = true
 
 config.initial_rows = 53

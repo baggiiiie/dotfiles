@@ -47,7 +47,7 @@ return {
           prompt_position = "top",
         },
         vertical = {
-          preview_height = 0.5, -- Increase preview width (0.5 = 50% of window width)
+          preview_height = 0.5, -- Increase preview height (0.5 = 50% of window height)
           width = 0.95, -- Make the whole Telescope window larger
           height = 0.85, -- Increase the height of the Telescope popup
           prompt_position = "top",
