@@ -28,6 +28,11 @@ if [[ -z $branch ]]; then
     branch=$(git branch --column=never --no-color | fzf --prompt="Select branch to open PR with: " | xargs)
 fi
 
+if [[ "$branch" =~ "no branch" ]]; then
+    branch=$(jj git push -c @ -N 2>&1 | grep -oE 'yc/test-\w' | head -n 1)
+    echo "pushed bookmark is: $branch"
+fi
+
 # Read remotes into array (faster than multiple pipes)
 mapfile -t remotes_array < <(git remote)
 
@@ -60,7 +65,7 @@ fi
 
 # Push branch if needed
 if [[ -d .jj ]]; then
-    if ! jj git push -b "${branch#"$me":}" 2>/dev/null; then
+    if ! jj git push -b "${branch#"$me":}"; then
         echo "probably a private commit, push failed"
         exit 1
     fi
