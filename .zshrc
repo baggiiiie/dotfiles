@@ -251,7 +251,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 export JIRA_AUTH_TYPE=bearer
 # JIRA_API_TOKEN in .env-jira
+set -a
 source $ZSHRC_DIR/.env-jira
+set +a
 
 function jira() {
   if [[ $# -eq 0 ]]; then
@@ -275,6 +277,7 @@ function gh() {
 
 # echo $ZSHRC_DIR
 function chpwd() {
+  source "$ZSHRC_DIR/.env"
   case $(pwd) in
     */work*)
         export GH_HOST=git.illumina.com
