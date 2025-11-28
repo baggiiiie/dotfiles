@@ -32,6 +32,10 @@ file_command = [
 ]
 width_percentage = 60.0
 
+[suggest]
+[suggest.exec]
+mode = "fuzzy"
+
 [custom_commands]
 "difft" = { key = ["ctrl+s"], args = [
     "diff",
@@ -45,6 +49,7 @@ width_percentage = 60.0
 ], show = "diff" }
 
 "tug" = { key = ["alt+t"], args = ["tug"] }
+"force-split" = { key = ["alt+s"], args = ["sp", "--ignore-immutable"] }
 
 "open PR in github" = { key = [
     "G",
@@ -59,15 +64,3 @@ bm=$(jj log --no-graph --color=never -r $change_id -T 'bookmarks')
 bash /Users/ydai/Desktop/repos/personal/dotfiles/others/git-create-pr.sh --branch "$bm"
 """,
 ] }
-
-[leader.n]
-context = ["$change_id"]
-help = "New change"
-
-[leader.na]
-help = "After"
-send = [":", "new -A \"$change_id\"", "enter"]
-
-[leader.nb]
-help = "Before"
-send = [":", "new -B \"$change_id\"", "enter"]

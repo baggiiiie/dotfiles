@@ -128,10 +128,12 @@ sqi = ["squash", "--interactive"]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@"]
 spr = ["util", "exec", "--", "jj-spr"]
 new-main = [
-    "rebase",
-    "-r",
-    "main@origin+::~main & mine()",
-    "-d",
-    "main",
-    "--ignore-immutable",
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    'jj rebase -r children\($1\)::~::main -d main --ignore-immutable',
+    "$@",
 ]
+ws = ["workspace"]
