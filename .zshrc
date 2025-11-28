@@ -18,6 +18,12 @@ fi
 # vscode stuff
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
+export EDITOR=nvim
+export VISUAL=nvim
+
+export MANPAGER='nvim +Man!'
+
+
 # Conditional PATH modifications
 if [[ "$PLATFORM" == "macOS" ]]; then
   PATH="/opt/homebrew/bin:$PATH"
@@ -219,11 +225,6 @@ npx() {
   npx "$@"
 }
 
-
-export EDITOR=nvim
-export VISUAL=nvim
-
-export MANPAGER='nvim +Man!'
 
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
