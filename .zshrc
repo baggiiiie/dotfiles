@@ -162,7 +162,7 @@ eval "$(zoxide init --cmd cd zsh)"
 alias ls="eza --icons=always"
 alias la="ls -alh -s name"
 alias tree="eza --tree --icons=always"
-alias c="pbcopy"
+alias c="xargs echo -n | pbcopy"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
 alias sshrc="nvim ~/.ssh/config"
@@ -256,9 +256,10 @@ set -a
 source $ZSHRC_DIR/.env-jira
 set +a
 
+jira_me=$(jira me)
 function jira() {
   if [[ $# -eq 0 ]]; then
-    command jira issue list -q "(assignee = ydai OR reporter = ydai) AND status not in ('Done', 'FIXED')" --order-by priority --updated -30d
+    command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me) AND status not in ('Done', 'FIXED')" --order-by priority --updated -30d
   else
     command jira "$@"
   fi
@@ -299,4 +300,6 @@ source "$ZSHRC_DIR/.jj-completion.sh"
 
 # for remote tmux during ssh with ghostty
 export TERM=xterm-256color
-eval "$(ruby ~/.local/try.rb init ~/src/tries)"
+
+export TRY_PATH="$HOME/Desktop/repos/personal/tries"
+eval "$(ruby ~/.local/try.rb init $TRY_PATH)"
