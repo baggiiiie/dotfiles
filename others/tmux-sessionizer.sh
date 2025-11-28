@@ -1,19 +1,19 @@
 #!/bin/bash
 
-REPO_DIR="$HOME/Desktop/repos"
+REPO_DIR=("$HOME/Desktop/repos/work/" "$HOME/Desktop/repos/personal/" "$HOME/Desktop/repos/personal/tries/")
 sesh_to_init=("eosctl" "coffeeee" "jjui")
 
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
-    session_name=$(fd . "$REPO_DIR" -d 2 -t d -x sh -c 'echo "$(basename $(dirname {}))/$(basename {})"' | sk --layout=reverse)
+    session_name=$(fd . "${REPO_DIR[@]}" -d 1 -t d -x sh -c 'echo "$(basename $(dirname {}))/$(basename {})"' | sk --layout=reverse)
 fi
 
 if [[ -z $session_name ]]; then
     exit 0
 fi
 
-session_path="$REPO_DIR/$session_name"
+session_path=$(fd . "${REPO_DIR[@]}" -d 1 -t d -x sh -c 'echo "$(dirname {})/$(basename {})"' | grep "/$session_name$")
 if ! pgrep tmux >/dev/null; then
     echo "no tmux running"
     exit 1
