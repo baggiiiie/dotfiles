@@ -9,10 +9,10 @@ tmux new-window -n agent
 # Create third window named "term"
 tmux new-window -n terminal
 
-# Create third window named "jjui"
+# Create fourth window named "jjui"
 tmux new-window -n jjui
 
-# Create fourth window named "server"
+# Create fifth window named "server"
 tmux new-window -n server
 
 # Switch back to the first window (editor)

@@ -38,7 +38,6 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   # eval "$(ssh-agent -s)" > /dev/null 2>&1
   # ssh-add ~/.ssh/ydai_ssh
   # ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
-  # export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
 
 
 elif [[ "$PLATFORM" == "Linux" ]]; then
@@ -75,7 +74,7 @@ ZVM_INIT_MODE=sourcing
 source $BREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
 ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
-ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
+ZVM_APPEND_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
 
 # Key bindings
 bindkey '^[[A' history-search-backward

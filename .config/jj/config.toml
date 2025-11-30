@@ -4,17 +4,17 @@
 name = "baggiiiie"
 email = "yc@yingchaoooo.com"
 
-[[--scope]]
---when.repositories = ["~/Desktop/repos/work/"]
+# [[scope]]
+# when.repositories = ["~/Desktop/repos/work/"]
 
-[--scope.user]
-name = "ydai"
-email = "yingchao.dai@illumina.com"
+# [scope.user]
+# name = "ydai"
+# email = "yingchao.dai@illumina.com"
 
-[--scope.signing]
-behavior = "own"
-backend = "ssh"
-key = "~/.ssh/ydai_ssh.pub"
+# [scope.signing]
+# behavior = "own"
+# backend = "ssh"
+# key = "~/.ssh/ydai_ssh.pub"
 
 [signing]
 behavior = "own"

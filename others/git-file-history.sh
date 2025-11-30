@@ -78,7 +78,7 @@ show_file_commits_fzf() {
 show_line_commits_fzf() {
     local file="$1"
     local range="$2"
-    # TODO: mabey add a start line to `gh br $file:start_line` ?
+    # TODO: maybe add a start line to `gh br $file:start_line` ?
     # if ! grep -q ',' <<<"$range"; then
     #     start_line=$(echo "$range" | cut -d',' -f1)
     # fi
