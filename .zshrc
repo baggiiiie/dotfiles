@@ -127,7 +127,7 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    cd|z)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
     export|unset) fzf --preview "eval 'echo \${}'"         "$@" ;;
     ssh)          fzf --preview 'dig {}'                   "$@" ;;
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
@@ -139,6 +139,7 @@ zstyle ':completion:*' menu no
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=1 --color=always $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza --tree --level=1 --color=always $realpath'
 # zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --level=1 --color=always $realpath'
 
 # Optimize compinit with cache (only check once per day)
@@ -155,8 +156,8 @@ source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Tool initializations
-# eval "$(zoxide init zsh)"
-eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init zsh)"
+# eval "$(zoxide init --cmd cd zsh)"
 
 # Aliases
 alias ls="eza --icons=always"
@@ -279,11 +280,11 @@ function gh() {
 
 # echo $ZSHRC_DIR
 function chpwd() {
-  source "$ZSHRC_DIR/.env"
+  export $(grep -v '^#' "$ZSHRC_DIR/.env" | xargs)
   case $(pwd) in
     */work*)
         export GH_HOST=git.illumina.com
-        source "$ZSHRC_DIR/.env-work"
+        export $(grep -v '^#' "$ZSHRC_DIR/.env-work" | xargs)
       ;;
     */personal*)
         export GH_HOST=github.com
