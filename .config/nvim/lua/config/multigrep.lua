@@ -39,6 +39,7 @@ local live_multigrep = function(opts)
             "--smart-case",
             "--hidden",
             "--g=!.git",
+            "--g=!.jj",
           },
         })
         :flatten()

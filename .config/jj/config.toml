@@ -133,7 +133,7 @@ new-main = [
     "--",
     "bash",
     "-c",
-    'jj rebase -r children\($1\)::~::main -d main --ignore-immutable',
+    'jj rebase -r children\($1\)::~::trunk\(\) -d trunk\(\) --ignore-immutable',
     "$@",
 ]
 ws = ["workspace"]
