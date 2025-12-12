@@ -114,6 +114,16 @@ d = [
     "--",
     "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh",
 ]
+diff-y = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "jj diff --config 'ui.diff-formatter=[ \"bash\", \"-c\", \"delta --width $width --features=non-split-view $left $right || true\" ]' \"$@\"",
+    "--",
+] # diff with split-view# diff with non-split-view (default behavior from ui.diff-formatter)
+
 dup = ["duplicate"]
 e = ["edit"]
 g = ["git"]
