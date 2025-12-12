@@ -9,8 +9,10 @@ me="baggiiiie"
 # me=$(gh auth status --jq '.hosts["github.com"][0].login' --json hosts)
 
 # Check once if we're in SSH session
-is_ssh=false
-[[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && is_ssh=true
+check_ssh() {
+    [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ] && return 0 || return 1
+}
+check_ssh && is_ssh=true || is_ssh=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in

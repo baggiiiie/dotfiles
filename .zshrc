@@ -304,3 +304,6 @@ export TERM=xterm-256color
 
 export TRY_PATH="$HOME/Desktop/repos/personal/tries"
 eval "$(ruby ~/.local/try.rb init $TRY_PATH)"
+
+# to allow scripts in ~/bin to be found
+export PATH="$HOME/bin:$PATH"
