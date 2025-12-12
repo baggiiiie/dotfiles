@@ -4,10 +4,13 @@
 branch=""
 pr_body=""
 me="baggiiiie"
+# GH_HOST is from env variables if set
+# host=${GH_HOST:-"github.com"}
+# me=$(gh auth status --jq '.hosts["github.com"][0].login' --json hosts)
 
-function check_ssh() {
-    [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$(pgrep -a sshd | grep $(ps -o ppid= -p $(ps -o ppid= -p $$)))" ] && echo "SSH" || echo "Local"
-}
+# Check once if we're in SSH session
+is_ssh=false
+[[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && is_ssh=true
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -30,11 +33,11 @@ done
 # If branch not provided, use fzf to select
 if [[ -z $branch ]]; then
     branch=$(git branch --column=never --no-color | fzf --prompt="Select branch to open PR with: " | xargs)
-fi
 
-if [[ "$branch" =~ "no branch" ]]; then
-    branch=$(jj git push -c @ -N 2>&1 | grep -oE 'yc/test-\w' | head -n 1)
-    echo "pushed bookmark is: $branch"
+    if [[ "$branch" =~ "no branch" ]]; then
+        branch=$(jj git push -c @ -N 2>&1 | grep -oE 'yc/test-\w' | head -n 1)
+        echo "pushed bookmark is: $branch"
+    fi
 fi
 
 # Read remotes into array (faster than multiple pipes)
@@ -58,12 +61,12 @@ else
     exit 1
 fi
 
-if [[ $(pwd) =~ "jjui" ]] && [[ "$user" != "$me" ]]; then
+if [[ $PWD == *"jjui"* && "$user" != "$me" ]]; then
     branch="$me:$branch"
 fi
 
 # Try to view existing PR first (faster than ls-remote)
-if [[ $(check_ssh) == "SSH" ]]; then
+if $is_ssh; then
     gh pr view "$branch" "${dash_r_option[@]}" 2>/dev/null && exit 0
 else
     gh pr view "$branch" -w "${dash_r_option[@]}" 2>/dev/null && exit 0
@@ -80,25 +83,16 @@ else
 fi
 
 # Create PR
-template=$(rg --files | rg -i "pull_request_template.md" | head -n 1)
-if [[ -n $template ]]; then
-    template_option=("--template" "$template")
-else
-    template_option=()
-fi
+template=$(rg --files -i -g "*pull_request_template.md" | head -n 1)
+template_option=()
+[[ -n $template ]] && template_option=("--template" "$template")
 
-if [[ $(check_ssh) == "SSH" ]]; then
-    # In SSH, print URL instead of opening browser
-    if [[ -n $pr_body ]]; then
-        gh pr create -B main -H "$branch" -F "$pr_body" "${dash_r_option[@]}"
-    else
-        gh pr create -B main -H "$branch" "${dash_r_option[@]}" --fill "${template_option[@]}"
-    fi
+# Build gh pr create command
+gh_args=(-B main -H "$branch" "${dash_r_option[@]}")
+$is_ssh || gh_args+=(-w)
+
+if [[ -n $pr_body ]]; then
+    gh pr create "${gh_args[@]}" -F "$pr_body"
 else
-    # Local, open in browser
-    if [[ -n $pr_body ]]; then
-        gh pr create -B main -H "$branch" -w -F "$pr_body" "${dash_r_option[@]}"
-    else
-        gh pr create -B main -H "$branch" -w "${dash_r_option[@]}" "${template_option[@]}"
-    fi
+    gh pr create "${gh_args[@]}" --fill "${template_option[@]}"
 fi
