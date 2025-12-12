@@ -5,6 +5,10 @@ branch=""
 pr_body=""
 me="baggiiiie"
 
+function check_ssh() {
+    [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$(pgrep -a sshd | grep $(ps -o ppid= -p $(ps -o ppid= -p $$)))" ] && echo "SSH" || echo "Local"
+}
+
 while [[ $# -gt 0 ]]; do
     case $1 in
     --branch)
@@ -59,8 +63,10 @@ if [[ $(pwd) =~ "jjui" ]] && [[ "$user" != "$me" ]]; then
 fi
 
 # Try to view existing PR first (faster than ls-remote)
-if gh pr view "$branch" -w "${dash_r_option[@]}" 2>/dev/null; then
-    exit 0
+if [[ $(check_ssh) == "SSH" ]]; then
+    gh pr view "$branch" "${dash_r_option[@]}" 2>/dev/null && exit 0
+else
+    gh pr view "$branch" -w "${dash_r_option[@]}" 2>/dev/null && exit 0
 fi
 
 # Push branch if needed
@@ -74,8 +80,25 @@ else
 fi
 
 # Create PR
-if [[ -n $pr_body ]]; then
-    gh pr create -B main -H "$branch" -w -F "$pr_body" "${dash_r_option[@]}"
+template=$(rg --files | rg -i "pull_request_template.md" | head -n 1)
+if [[ -n $template ]]; then
+    template_option=("--template" "$template")
 else
-    gh pr create -B main -H "$branch" -w "${dash_r_option[@]}"
+    template_option=()
+fi
+
+if [[ $(check_ssh) == "SSH" ]]; then
+    # In SSH, print URL instead of opening browser
+    if [[ -n $pr_body ]]; then
+        gh pr create -B main -H "$branch" -F "$pr_body" "${dash_r_option[@]}"
+    else
+        gh pr create -B main -H "$branch" "${dash_r_option[@]}" --fill "${template_option[@]}"
+    fi
+else
+    # Local, open in browser
+    if [[ -n $pr_body ]]; then
+        gh pr create -B main -H "$branch" -w -F "$pr_body" "${dash_r_option[@]}"
+    else
+        gh pr create -B main -H "$branch" -w "${dash_r_option[@]}" "${template_option[@]}"
+    fi
 fi
