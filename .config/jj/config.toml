@@ -137,6 +137,15 @@ sq = ["squash"]
 sqi = ["squash", "--interactive"]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@"]
 spr = ["util", "exec", "--", "jj-spr"]
+pr = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh",
+    "$@",
+]
 new-main = [
     "util",
     "exec",
@@ -150,3 +159,5 @@ ws = ["workspace"]
 
 [remotes.origin]
 auto-track-bookmarks = "glob:*"
+[remotes.upstream]
+auto-track-bookmarks = "main"

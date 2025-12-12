@@ -40,14 +40,10 @@ mode = "fuzzy"
 [custom_commands.copy_to_clipboard]
 key = ["Y"]
 lua = '''
-  local selections = revisions.checked()
-  if #selections == 0 then
-    flash("none selected")
-    return
-  end
-  local content = table.concat(selections, ",")
-  copy_to_clipboard(content)
-  flash(content.." selected")
+  local rev = revisions.current()
+  copy_to_clipboard(rev)
+  local msg = string.format("ChangeID `%s` is copied to clipboard", rev)
+  flash(msg)
   '''
 
 [custom_commands.new_then_describe]
