@@ -37,30 +37,32 @@ width_percentage = 60.0
 mode = "fuzzy"
 
 [custom_commands]
-"difft" = { key = ["ctrl+s"], args = [
-    "diff",
-    "-r",
-    "$change_id",
-    "--tool",
-    "difft",
-    "--color",
-    "always",
-    # "-s",
-], show = "diff" }
+[custom_commands.copy_to_clipboard]
+key = ["Y"]
+lua = '''
+  local selections = revisions.checked()
+  if #selections == 0 then
+    flash("none selected")
+    return
+  end
+  local content = table.concat(selections, ",")
+  copy_to_clipboard(content)
+  flash(content.." selected")
+  '''
 
-"tug" = { key = ["alt+t"], args = ["tug"] }
-"force-split" = { key = ["alt+s"], args = ["sp", "--ignore-immutable"] }
+[custom_commands.new_then_describe]
+key = ["N"]
+lua = '''
+  jj("new", "-A", revisions.current())
+  revisions.refresh()
 
-"open PR in github" = { key = [
-    "G",
-], args = [
-    "util",
-    "exec",
-    "--",
-    "bash",
-    "-c",
-    """
-bm=$(jj log --no-graph --color=never -r $change_id -T 'bookmarks')
-bash /Users/ydai/Desktop/repos/personal/dotfiles/others/git-create-pr.sh --branch "$bm"
-""",
-] }
+  local new_change_id = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
+  revisions.navigate{to=new_change_id}
+  '''
+
+[custom_commands.bookmark_list]
+key_sequence = ["w", "b", "l"]
+desc = "bookmarks list"
+lua = '''
+  revset.set("bookmarks() | remote_bookmarks()")
+  '''
