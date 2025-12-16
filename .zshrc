@@ -144,7 +144,9 @@ zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza --tree --level=1 --color=always 
 
 # Optimize compinit with cache (only check once per day)
 autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+# Use HOME instead of ZDOTDIR if ZDOTDIR is not set
+local zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ -n $zcompdump(#qN.mh+24) ]]; then
   compinit
 else
   compinit -C
@@ -257,39 +259,52 @@ set -a
 source $ZSHRC_DIR/.env-jira
 set +a
 
-jira_me=$(jira me)
+# Lazy load jira_me to avoid API call on every shell startup
 function jira() {
+  # Only fetch jira_me if not already set
+  if [[ -z "$jira_me" ]]; then
+    jira_me=$(command jira me)
+  fi
+
   if [[ $# -eq 0 ]]; then
     command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me) AND status not in ('Done', 'FIXED')" --order-by priority --updated -30d
+  elif [[ $1 == "all" ]]; then
+    command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me)" --order-by priority --updated -30d
   else
     command jira "$@"
   fi
 }
 
-function gh() {
-  if [[ $# -eq 0 ]]; then
-    echo "gh: create pr?"
-    echo "usage: gh prr [pr-file]"
-  elif [[ $1 == "prr" ]]; then
-      shift
-      bash ~/Desktop/repos/personal/dotfiles/others/git-create-pr.sh "$@"
-  else
-    command gh "$@"
-  fi
-}
-
 # echo $ZSHRC_DIR
+# Cache to avoid re-sourcing env files unnecessarily
+_last_env_dir=""
+
 function chpwd() {
-  export $(grep -v '^#' "$ZSHRC_DIR/.env" | xargs)
-  case $(pwd) in
-    */work*)
-        export GH_HOST=git.illumina.com
-        export $(grep -v '^#' "$ZSHRC_DIR/.env-work" | xargs)
-      ;;
-    */personal*)
-        export GH_HOST=github.com
-      ;;
-  esac
+  local current_dir=$(pwd)
+
+  # Only reload env if we're in a different context
+  if [[ "$current_dir" != "$_last_env_dir"* ]]; then
+    # Use -r to read raw and avoid subshell with xargs
+    while IFS= read -r line; do
+      [[ $line =~ ^[[:space:]]*# ]] || [[ -z $line ]] && continue
+      export "$line"
+    done < "$ZSHRC_DIR/.env"
+
+    case $current_dir in
+      */work*)
+          export GH_HOST=git.illumina.com
+          while IFS= read -r line; do
+            [[ $line =~ ^[[:space:]]*# ]] || [[ -z $line ]] && continue
+            export "$line"
+          done < "$ZSHRC_DIR/.env-work"
+        ;;
+      */personal*)
+          export GH_HOST=github.com
+        ;;
+    esac
+
+    _last_env_dir="$current_dir"
+  fi
 }
 
 chpwd
@@ -303,7 +318,12 @@ source "$ZSHRC_DIR/.jj-completion.sh"
 export TERM=xterm-256color
 
 export TRY_PATH="$HOME/Desktop/repos/personal/tries"
-eval "$(ruby ~/.local/try.rb init $TRY_PATH)"
+# Lazy load try - only initialize when 'try' command is used
+try() {
+  unset -f try
+  eval "$(ruby ~/.local/try.rb init $TRY_PATH)"
+  try "$@"
+}
 
 # to allow scripts in ~/bin to be found
 export PATH="$HOME/bin:$PATH"
