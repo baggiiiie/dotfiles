@@ -4,95 +4,76 @@
 
 local map = LazyVim.safe_keymap_set
 
--- clipboard is removed in options.lua
--- only allow 'y' to yank to clipboard
+-- Clipboard: only allow 'y' to yank to clipboard (clipboard removed in options.lua)
 map({ "n", "x" }, "y", '"+y')
 map("n", "p", '""p')
 
--- Map ' to automatically center after jumping to mark
--- vim.keymap.set("n", "`", function()
---   local mark = vim.fn.nr2char(vim.fn.getchar())
---   vim.cmd("normal! `" .. mark .. "zz")
--- end, { noremap = true, silent = true })
--- vim.keymap.set("n", "G", function()
---   vim.cmd("normal! G")
---   vim.cmd("normal! zz")
--- end, { noremap = true })
-
--- easier editing
--- vim.keymap.set({ "c", "n", "x", "v" }, "<C-a>", "^", { desc = "Move to beginning of line" })
+-- Easier editing in insert mode
 vim.keymap.set("i", "<C-a>", "<esc>I", { desc = "Move to beginning of line" })
--- vim.keymap.set({ "c", "n", "x", "v" }, "<C-e>", "$", { desc = "Move to end of line" })
 vim.keymap.set("i", "<C-e>", "<esc>A", { desc = "Move to end of line" })
-vim.keymap.set("n", "<cr>", "o<esc>k", { desc = "Create new line in normal mode" })
-vim.keymap.set("n", "<S-cr>", "O<esc>j", { desc = "Create new line in normal mode" })
--- vim.keymap.set("n", "<leader>e", ":Ex<CR>", { desc = "Explorer" })
 
--- horizontal scrolling
-vim.keymap.set("n", "zl", function()
-  local scroll_amount = math.floor(vim.api.nvim_win_get_width(0) / 3)
-  return scroll_amount .. "zl"
-end, { noremap = true, expr = true, silent = true, desc = "Scroll left by half screen" })
-vim.keymap.set("n", "zh", function()
-  local scroll_amount = math.floor(vim.api.nvim_win_get_width(0) / 3)
-  return scroll_amount .. "zh"
-end, { noremap = true, expr = true, silent = true, desc = "Scroll right by half screen" })
+-- Create new lines in normal mode
+vim.keymap.set("n", "<cr>", "o<esc>k", { desc = "Create new line below" })
+vim.keymap.set("n", "<S-cr>", "O<esc>j", { desc = "Create new line above" })
+-- Horizontal scrolling (1/3 of window width)
+local function scroll_right()
+  return math.floor(vim.api.nvim_win_get_width(0) / 3) .. "zl"
+end
 
--- Copy full path
-function CopyFullPath()
+local function scroll_left()
+  return math.floor(vim.api.nvim_win_get_width(0) / 3) .. "zh"
+end
+
+vim.keymap.set("n", "zl", scroll_right, { noremap = true, expr = true, silent = true, desc = "Scroll right by 1/3 screen" })
+vim.keymap.set("n", "zh", scroll_left, { noremap = true, expr = true, silent = true, desc = "Scroll left by 1/3 screen" })
+
+-- File path utilities
+local function copy_full_path()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":p")
-  vim.fn.setreg("+", filepath) -- write to clipboard
+  vim.fn.setreg("+", filepath)
 end
-vim.keymap.set("n", "<leader>yf", CopyFullPath, { noremap = true, silent = true, desc = "Copy full path to clipboard" })
 
--- Copy relative path
-function CopyRelativePath()
+local function copy_relative_path()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-  vim.fn.setreg("+", filepath) -- write to clipboard
+  vim.fn.setreg("+", filepath)
 end
-vim.keymap.set(
-  "n",
-  "<leader>yr",
-  CopyRelativePath,
-  { noremap = true, silent = true, desc = "Copy relative path to clipboard" }
-)
 
 local function confirm_and_delete_buffer()
   local confirm = vim.fn.confirm("Delete buffer and file?", "&Yes\n&No", 2)
-
   if confirm == 1 then
     os.remove(vim.fn.expand("%"))
     vim.api.nvim_buf_delete(0, { force = true })
   end
 end
-vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer)
 
-vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)")
+vim.keymap.set("n", "<leader>yf", copy_full_path, { noremap = true, silent = true, desc = "Copy full path to clipboard" })
+vim.keymap.set("n", "<leader>yr", copy_relative_path, { noremap = true, silent = true, desc = "Copy relative path to clipboard" })
+vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer, { desc = "Delete buffer and file" })
 
-vim.keymap.set("n", "<leader>/", require("config.multigrep"), { desc = "Find in files (including hidden)" })
+-- Additional keymaps
+vim.keymap.set("n", "<leader>/", require("config.multigrep"), { desc = "Multi grep in files" })
+vim.keymap.set("x", "S", "<Plug>(nvim-surround-visual)", { desc = "Surround visual selection" })
+vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "Toggle git blame" })
 
-vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>", {
-  desc = "Toggle current line blame",
-})
-
+-- Disable AI assistants
 vim.keymap.set("n", "<leader>cx", function()
   vim.cmd("Copilot disable")
   vim.cmd("SupermavenToggle")
-  vim.notify("Copilot/Supermaven disabled for this session", vim.log.levels.INFO, { title = "Copilot" })
-end, { desc = "Disable Copilot" })
+  vim.notify("Copilot/Supermaven disabled for this session", vim.log.levels.INFO, { title = "AI Assistants" })
+end, { desc = "Disable AI assistants" })
 
--- map({ "n", "t" }, "<leader>tt", "<Cmd>Floaterminal<cr>", { desc = "floating terminal" })
+-- Terminal
 map({ "n", "t" }, "<leader>tt", function()
   Snacks.terminal("zsh", { cwd = LazyVim.root() })
-end, { desc = "floating terminal" })
+end, { desc = "Floating terminal" })
 
+-- Development utilities
 map("n", "<leader>rr", function()
   vim.cmd("luafile %")
-end, { desc = "run current file with lua" })
+end, { desc = "Run current Lua file" })
 
 map("n", "<leader>gB", function()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
   local line = vim.fn.line(".")
-  filepath = filepath .. ":" .. line
-  vim.fn.system("gh browse " .. filepath)
-end, { desc = "open current file in github" })
+  vim.fn.system("gh browse " .. filepath .. ":" .. line)
+end, { desc = "Open file in GitHub" })

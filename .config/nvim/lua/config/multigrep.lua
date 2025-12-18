@@ -1,11 +1,26 @@
+-- Multi-grep picker for Telescope with file glob support
+-- Usage: Type "search_term  file_pattern" (two spaces as separator)
+-- Example: "function  *.lua" searches for "function" in all Lua files
+
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local make_entry = require("telescope.make_entry")
 local conf = require("telescope.config").values
 
-local M = {}
+-- Default ripgrep arguments for consistent search behavior
+local RG_BASE_ARGS = {
+  "--color=never",
+  "--no-heading",
+  "--with-filename",
+  "--line-number",
+  "--column",
+  "--smart-case",
+  "--hidden",
+  "--glob=!.git",
+  "--glob=!.jj",
+}
 
-local live_multigrep = function(opts)
+local function live_multigrep(opts)
   opts = opts or {}
   opts.cwd = opts.cwd or vim.uv.cwd()
 
@@ -15,35 +30,24 @@ local live_multigrep = function(opts)
         return nil
       end
 
+      -- Split prompt by double space: "pattern  glob"
       local pieces = vim.split(prompt, "  ")
       local args = { "rg" }
-      if pieces[1] then
+
+      -- Add search pattern
+      if pieces[1] and pieces[1] ~= "" then
         table.insert(args, "-e")
         table.insert(args, pieces[1])
       end
 
-      if pieces[2] then
+      -- Add file glob filter
+      if pieces[2] and pieces[2] ~= "" then
         table.insert(args, "-g")
         table.insert(args, pieces[2])
       end
 
-      return vim
-        .iter({
-          args,
-          {
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",
-            "--g=!.git",
-            "--g=!.jj",
-          },
-        })
-        :flatten()
-        :totable()
+      -- Combine command args with base args
+      return vim.iter({ args, RG_BASE_ARGS }):flatten():totable()
     end,
     entry_maker = make_entry.gen_from_vimgrep(opts),
     cwd = opts.cwd,
@@ -59,9 +63,5 @@ local live_multigrep = function(opts)
     })
     :find()
 end
-
--- M.setup = function()
---   vim.keymap.set("n", "<leader>f/", live_multigrep, { desc = "Live Multi Grep" })
--- end
 
 return live_multigrep

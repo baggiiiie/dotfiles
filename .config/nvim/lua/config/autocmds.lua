@@ -7,31 +7,41 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+-- Auto-detect shell scripts without extension by analyzing content
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  -- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "BufWritePost" }, {
-  pattern = { "*" },
+  pattern = "*",
   callback = function()
     local filename = vim.fn.expand("%:t")
+
     -- Only apply to files without extension
-    if string.match(filename, "%.") then
+    if filename:match("%.") then
       return
     end
 
+    -- Check first 30 lines for shell script indicators
     local lines = vim.fn.getline(1, 30)
+
+    -- Ensure lines is a table
     if type(lines) == "string" then
-      lines = table(lines)
+      lines = { lines }
     end
+
+    -- Shell script patterns to match
+    local shell_patterns = {
+      "^#!.*sh$", -- Shebang line
+      "^%s*if%s+%[", -- if statements with [
+      "^%s*for%s+", -- for loops
+      "^%s*while%s+", -- while loops
+      "^%s*function%s+", -- function declarations
+      "^%s*case%s+", -- case statements
+    }
+
     for _, line in ipairs(lines) do
-      if
-        string.match(line, "^#!.*sh$")
-        or string.match(line, "^%s*if%s")
-        or string.match(line, "^%s*for%s")
-        or string.match(line, "^%s*while%s")
-        or string.match(line, "^%s*function%s")
-      then
-        print("matching this file to sh")
-        vim.bo.filetype = "sh"
-        break
+      for _, pattern in ipairs(shell_patterns) do
+        if line:match(pattern) then
+          vim.bo.filetype = "sh"
+          return
+        end
       end
     end
   end,
