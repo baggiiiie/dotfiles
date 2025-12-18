@@ -27,7 +27,8 @@ file_command = [
     "-r",
     "$change_id",
     "--config",
-    "ui.diff-formatter=delta-non-split-view",
+    # "ui.diff-formatter=delta-non-split-view",
+    "ui.diff-formatter=difft-inline",
     "$file",
 ]
 width_percentage = 60.0
