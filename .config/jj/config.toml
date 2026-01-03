@@ -154,16 +154,16 @@ pr = [
     "--",
     "bash",
     "-c",
-    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh",
+    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh \"$@\"",
     "$@",
 ]
-new-main = [
+pull = [
     "util",
     "exec",
     "--",
     "bash",
     "-c",
-    'jj rebase -r children\($1\)::~::trunk\(\) -d trunk\(\) --ignore-immutable',
+    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-pull-rebase.sh \"$@\"",
     "$@",
 ]
 ws = ["workspace"]
