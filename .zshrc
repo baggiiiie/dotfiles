@@ -158,8 +158,8 @@ source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Tool initializations
-eval "$(zoxide init zsh)"
-# eval "$(zoxide init --cmd cd zsh)"
+# eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
 # Aliases
 alias ls="eza --icons=always"
@@ -168,21 +168,14 @@ alias tree="eza --tree --icons=always"
 alias c="xargs echo -n | pbcopy"
 alias lg="lazygit"
 alias zshrc="nvim ~/.zshrc"
-alias sshrc="nvim ~/.ssh/config"
-alias vimrc="nvim ~/.vimrc"
-alias wezrc="nvim ~/.wezterm.lua"
 alias tl="tldr"
 # alias diff="delta"
 alias nv="nvim"
 alias cat="bat"
 alias venv="source .venv/bin/activate"
-alias k="kubectl"
-alias e="eosctl"
 alias devsync="bash $HOME/Desktop/repos/work/devsync/dev-sync.sh"
 alias ts="tailscale"
 alias ta="tmux a"
-alias tinit="bash /Users/ydai/Desktop/repos/personal/dotfiles/others/tmux-init-sesh.sh"
-alias ll="lazysql"
 alias j="jj"
 alias jjui="/Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good"
 alias eos="sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
@@ -309,3 +302,5 @@ try() {
 
 # to allow scripts in ~/bin to be found
 export PATH="$HOME/bin:$PATH"
+export LESS='-RFX'
+export LESSCHARSET=utf-8
