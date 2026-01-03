@@ -3,9 +3,6 @@
 	name = baggiiiie
 	email = yc@yingchaoooo.com
 
-[credential]
-	helper = /usr/local/share/gcm-core/git-credential-manager
-
 [credential "https://git.illumina.com"]
 	provider = github
 
