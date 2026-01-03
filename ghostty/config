@@ -23,13 +23,13 @@
 # theme = 3024 Day
 theme = Gruvbox Dark
 
-font-family = JetBrains Mono
+font-family = MesloLGL Nerd Font Mono
 window-decoration = server
-font-size = 18
+font-size = 19
 
 mouse-hide-while-typing = true
 macos-non-native-fullscreen = true
-macos-titlebar-style = hidden
+# macos-titlebar-style = hidden
 
 shell-integration-features = no-cursor
 
