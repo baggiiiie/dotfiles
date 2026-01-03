@@ -14,8 +14,8 @@ while [[ $# -gt 0 ]]; do
         shift 2
         ;;
     *)
-        echo "Unknown option: $1"
-        exit 1
+        file="$1"
+        shift
         ;;
     esac
 done
@@ -30,6 +30,8 @@ if [[ -n $revision_f ]]; then
     f_option=(--from "$revision_f")
 fi
 
-set -x
-jj diff "${r_option[@]}" "${f_option[@]}" "${t_option[@]}" --color=always --summary --git | /Users/ydai/Desktop/repos/work/diffnav/diffnav
-set +x
+if [[ -n $file ]]; then
+    jj diff "${r_option[@]}" "${f_option[@]}" "${t_option[@]}" --color=always "$file"
+else
+    jj diff "${r_option[@]}" "${f_option[@]}" "${t_option[@]}" --color=always --summary --git | /Users/ydai/Desktop/repos/work/diffnav/diffnav
+fi

@@ -57,9 +57,16 @@ lua = '''
   revisions.navigate{to=new_change_id}
   '''
 
-[custom_commands.bookmark_list]
-key_sequence = ["w", "b", "l"]
-desc = "bookmarks list"
-lua = '''
-  revset.set("bookmarks() | remote_bookmarks()")
-  '''
+[custom_commands.deltadiff]
+key = ["d"]
+args = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r $change_id",
+    # "-c",
+    # "jj diff --git --color always -r $change_id $file | delta --pager 'less -R +g'",
+]
+show = "interactive"

@@ -302,5 +302,5 @@ try() {
 
 # to allow scripts in ~/bin to be found
 export PATH="$HOME/bin:$PATH"
-export LESS='-RFX'
+export LESS='-RX'
 export LESSCHARSET=utf-8
