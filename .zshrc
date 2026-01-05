@@ -276,35 +276,17 @@ function jira() {
 }
 
 # echo $ZSHRC_DIR
-# Cache to avoid re-sourcing env files unnecessarily
-_last_env_dir=""
-
 function chpwd() {
-  local current_dir=$(pwd)
-
-  # Only reload env if we're in a different context
-  if [[ "$current_dir" != "$_last_env_dir"* ]]; then
-    # Use -r to read raw and avoid subshell with xargs
-    while IFS= read -r line; do
-      [[ $line =~ ^[[:space:]]*# ]] || [[ -z $line ]] && continue
-      export "$line"
-    done < "$ZSHRC_DIR/.env"
-
-    case $current_dir in
-      */work*)
-          export GH_HOST=git.illumina.com
-          while IFS= read -r line; do
-            [[ $line =~ ^[[:space:]]*# ]] || [[ -z $line ]] && continue
-            export "$line"
-          done < "$ZSHRC_DIR/.env-work"
-        ;;
-      */personal*)
-          export GH_HOST=github.com
-        ;;
-    esac
-
-    _last_env_dir="$current_dir"
-  fi
+  export $(grep -v '^#' "$ZSHRC_DIR/.env" | xargs)
+  case $(pwd) in
+    */work*)
+        export GH_HOST=git.illumina.com
+        export $(grep -v '^#' "$ZSHRC_DIR/.env-work" | xargs)
+      ;;
+    */personal*)
+        export GH_HOST=github.com
+      ;;
+  esac
 }
 
 chpwd
