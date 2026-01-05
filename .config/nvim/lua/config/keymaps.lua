@@ -24,8 +24,18 @@ local function scroll_left()
   return math.floor(vim.api.nvim_win_get_width(0) / 3) .. "zh"
 end
 
-vim.keymap.set("n", "zl", scroll_right, { noremap = true, expr = true, silent = true, desc = "Scroll right by 1/3 screen" })
-vim.keymap.set("n", "zh", scroll_left, { noremap = true, expr = true, silent = true, desc = "Scroll left by 1/3 screen" })
+vim.keymap.set(
+  "n",
+  "zl",
+  scroll_right,
+  { noremap = true, expr = true, silent = true, desc = "Scroll right by 1/3 screen" }
+)
+vim.keymap.set(
+  "n",
+  "zh",
+  scroll_left,
+  { noremap = true, expr = true, silent = true, desc = "Scroll left by 1/3 screen" }
+)
 
 -- File path utilities
 local function copy_full_path()
@@ -46,8 +56,18 @@ local function confirm_and_delete_buffer()
   end
 end
 
-vim.keymap.set("n", "<leader>yf", copy_full_path, { noremap = true, silent = true, desc = "Copy full path to clipboard" })
-vim.keymap.set("n", "<leader>yr", copy_relative_path, { noremap = true, silent = true, desc = "Copy relative path to clipboard" })
+vim.keymap.set(
+  "n",
+  "<leader>yf",
+  copy_full_path,
+  { noremap = true, silent = true, desc = "Copy full path to clipboard" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>yr",
+  copy_relative_path,
+  { noremap = true, silent = true, desc = "Copy relative path to clipboard" }
+)
 vim.keymap.set("n", "<leader>fd", confirm_and_delete_buffer, { desc = "Delete buffer and file" })
 
 -- Additional keymaps
@@ -72,8 +92,19 @@ map("n", "<leader>rr", function()
   vim.cmd("luafile %")
 end, { desc = "Run current Lua file" })
 
-map("n", "<leader>gB", function()
+map({ "n", "x" }, "<leader>gB", function()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-  local line = vim.fn.line(".")
-  vim.fn.system("gh browse " .. filepath .. ":" .. line)
+  local mode = vim.fn.mode()
+
+  if mode == "v" or mode == "V" or mode == "\22" then
+    -- Visual mode: include line numbers
+    local start_line = vim.fn.line("v")
+    local end_line = vim.fn.line(".")
+    local line_range = start_line .. "-" .. end_line
+    vim.notify(line_range)
+    vim.fn.system("gh browse " .. filepath .. ":" .. line_range)
+  else
+    -- Normal mode: just open the file
+    vim.fn.system("gh browse " .. filepath)
+  end
 end, { desc = "Open file in GitHub" })
