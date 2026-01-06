@@ -38,19 +38,65 @@ width_percentage = 60.0
 mode = "fuzzy"
 
 [custom_commands]
+[custom_commands.open_file]
+key = ["O"]
+lua = '''
+local file = context.file()
+if not file then
+    flash("No file selected")
+    return
+end
+exec_shell("nvim " .. file)
+'''
+
+[custom_commands.quick_revset]
+key = ["ctrl+r"]
+lua = '''
+local selected = choose({
+    options = {
+        "mine()",
+        "all()",
+        "trunk()..@",
+        revset.default()
+    },
+    title = "Quick Revset"
+})
+
+if selected then
+    revset.set(selected)
+    flash("Revset: " .. selected)
+end
+'''
+
 [custom_commands.copy_to_clipboard]
 key = ["Y"]
 lua = '''
-  local rev = revisions.current()
-  copy_to_clipboard(rev)
-  local msg = string.format("ChangeID `%s` is copied to clipboard", rev)
-  flash(msg)
-  '''
+local checked_files = context.checked_files()
+if checked_files and next(checked_files) ~= nil then
+    local file_names = table.concat(checked_files, " ")
+    copy_to_clipboard(file_names)
+    flash("Copied checked files: " .. file_names)
+    return
+end
+local selected_file = context.file()
+if selected_file then
+    copy_to_clipboard(selected_file)
+    flash("Copied file: " .. selected_file)
+    return
+end
+local change_id = context.change_id()
+if change_id then
+    copy_to_clipboard(change_id)
+    flash("Copied change ID: " .. change_id)
+    return
+end
+flash("No item selected to copy")
+'''
 
-[custom_commands.new_then_describe]
+[custom_commands.new_insert_after]
 key = ["N"]
 lua = '''
-  jj("new", "-A", revisions.current())
+  jj("new", "-A", context.change_id())
   revisions.refresh()
 
   local new_change_id = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
