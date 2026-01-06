@@ -41,10 +41,15 @@ mode = "fuzzy"
 [custom_commands.copy_to_clipboard]
 key = ["Y"]
 lua = '''
-  local rev = revisions.current()
-  copy_to_clipboard(rev)
-  local msg = string.format("ChangeID `%s` is copied to clipboard", rev)
-  flash(msg)
+  if details.is_open() then
+    local file = details.current_file()
+    copy_to_clipboard(file)
+    flash("Copied to clipboard: " .. file)
+  else
+    local rev = revisions.current()
+    copy_to_clipboard(rev)
+    flash("Copied to clipboard: " .. (rev or "none"))
+  end
   '''
 
 [custom_commands.new_then_describe]
