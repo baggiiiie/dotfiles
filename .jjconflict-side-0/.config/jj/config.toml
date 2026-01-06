@@ -1,0 +1,174 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "baggiiiie"
+email = "yc@yingchaoooo.com"
+
+[[--scope]]
+--when.repositories = ["~/Desktop/repos/work/"]
+
+[--scope.user]
+name = "ydai"
+email = "yingchao.dai@illumina.com"
+
+[--scope.signing]
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/ydai_ssh.pub"
+
+[signing]
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/baggiiiie-github.pub"
+
+
+# [Settings - Jujutsu docs](https://jj-vcs.github.io/jj/latest/config/#config-files-and-toml)
+[ui]
+default-command = ["log"]
+# diff-formatter = ":git"
+# https://github.com/idursun/jjui/issues/314#issuecomment-3367379291
+diff-formatter = [
+    "bash",
+    "-c",
+    "delta --width $width $left $right --features=split-view || true",
+]
+# diff-formatter = ["difft", "--color=always", "$left", "$right"]
+
+pager = "delta"
+# pager = "diffnav"
+
+editor = "nvim"
+# diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+# diff-editor = "meld"
+# diff-editor = "diffedit3"
+# Use merge-tools.meld.merge-args
+# merge-editor = "meld" # Or "vscode" or "vscodium" or "kdiff3" or "vimdiff"
+
+[merge-tools.delta-non-split-view]
+program = "delta"
+diff-args = [
+    "--width",
+    "$width",
+    "--features",
+    "non-split-view",
+    "$left",
+    "$right",
+]
+
+[merge-tools.difft-inline]
+program = "difft"
+diff-args = [
+    "--width=40",
+    # "$width",
+    "--display=inline",
+    "--color=always",
+    "$left",
+    "$right",
+]
+
+[git]
+# Prevent pushing work in progress or anything explicitly labeled "private"
+private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'todo:*')"
+# recommended by https://zerowidth.com/2025/jj-tips-and-tricks
+# push-new-bookmarks = true
+abandon-unreachable-commits = true
+
+[snapshot]
+auto-update-stale = true
+
+[revset-aliases]
+# https://jj-vcs.github.io/jj/latest/config/#set-of-immutable-commits
+"immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine())"
+# NOTE: go down 5 commits from current commit (down the stack)
+'stack(id, n)' = 'ancestors(reachable(id, mutable()), n)'
+'stack(id)' = 'stack(id, 5)'
+'stack()' = 'stack(@)'
+
+'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+
+"private()" = 'mutable() & description(regex:"(?i)^(private|wip)(\n*$|:)")'
+
+# [JJ Con • Stupid JJ tricks](https://www.youtube.com/watch?v=ZnTNFIMjDwg&list=PLOU2XLYxmsILM5cRwAK6yKdtKnCK6Y4Oh&index=5)
+'uninterested()' = '::remote_bookmarks() | tags()'
+'interested()' = 'mine() ~ uninterested()'
+
+[templates]
+git_push_bookmark = '"yc/test-" ++ change_id.shortest()'
+# log = "builtin_log_oneline"
+
+# NOTE: this is from: https://github.com/jj-vcs/jj/discussions/5812#discussioncomment-12320164
+# it shows revisions that will be pushed to remote
+log_node = '''
+if(self && !current_working_copy && !immutable && !conflict && in_branch(self) && !private_commits(self),
+  "↑",
+  builtin_log_node
+)
+'''
+
+[template-aliases]
+# Full timestamp in ISO 8601 format
+# 'format_timestamp(timestamp)' = 'timestamp'
+# Relative timestamp rendered as "x days/hours/seconds ago"
+'format_timestamp(timestamp)' = 'timestamp.ago()'
+# 'format_short_id(id)' = 'id.shortest()'
+"in_branch(commit)" = 'commit.contained_in("immutable_heads()..bookmarks()")'
+"private_commits(commit)" = 'commit.contained_in("private()")'
+
+[aliases]
+ab = ["abandon"]
+abs = ["absorb"]
+c = ["commit"]
+ci = ["commit", "--interactive"]
+d = [
+    "util",
+    "exec",
+    "--",
+    "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh",
+]
+diff-y = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "jj diff --config 'ui.diff-formatter=[ \"bash\", \"-c\", \"delta --width $width --features=non-split-view $left $right || true\" ]' \"$@\"",
+    "--",
+] # diff with split-view# diff with non-split-view (default behavior from ui.diff-formatter)
+
+dup = ["duplicate"]
+e = ["edit"]
+g = ["git"]
+n = ["new"]
+rb = ["rebase"]
+res = ["resolve"]
+res-auto = ["resolve", "--tool", "mergiraf"]
+sp = ["split"]
+spi = ["split", "--interactive"]
+sq = ["squash"]
+sqi = ["squash", "--interactive"]
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@"]
+spr = ["util", "exec", "--", "jj-spr"]
+pr = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh \"$@\"",
+    "$@",
+]
+pull = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-pull-rebase.sh \"$@\"",
+    "$@",
+]
+ws = ["workspace"]
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
+[remotes.upstream]
+auto-track-bookmarks = "main"

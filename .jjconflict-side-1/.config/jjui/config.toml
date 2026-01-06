@@ -1,0 +1,118 @@
+[ui]
+auto_refresh_interval = 30
+enable_mouse = true
+mouse_events = true
+
+[ui.colors]
+"selected" = { bold = true, bg = "#575048" }
+
+[revisions]
+template = 'builtin_log_compact' # overrides jj's templates.log
+# revset = "trunk():: & mine()"    # overrides jj's revsets.log
+
+[preview]
+revision_command = [
+    "show",
+    "--color",
+    "always",
+    "-r",
+    "$change_id",
+    "--config",
+    "ui.diff-formatter=delta-non-split-view",
+]
+file_command = [
+    "diff",
+    "--color",
+    "always",
+    "-r",
+    "$change_id",
+    "--config",
+    # "ui.diff-formatter=delta-non-split-view",
+    "ui.diff-formatter=difft-inline",
+    "$file",
+]
+width_percentage = 60.0
+
+[suggest]
+[suggest.exec]
+mode = "fuzzy"
+
+[custom_commands]
+[custom_commands.open_file]
+key = ["O"]
+lua = '''
+local file = context.file()
+if not file then
+    flash("No file selected")
+    return
+end
+exec_shell("nvim " .. file)
+'''
+
+[custom_commands.quick_revset]
+key = ["ctrl+r"]
+lua = '''
+local selected = choose({
+    options = {
+        "mine()",
+        "all()",
+        "trunk()..@",
+        revset.default()
+    },
+    title = "Quick Revset"
+})
+
+if selected then
+    revset.set(selected)
+    flash("Revset: " .. selected)
+end
+'''
+
+[custom_commands.copy_to_clipboard]
+key = ["Y"]
+lua = '''
+local checked_files = context.checked_files()
+if checked_files and next(checked_files) ~= nil then
+    local file_names = table.concat(checked_files, " ")
+    copy_to_clipboard(file_names)
+    flash("Copied checked files: " .. file_names)
+    return
+end
+local selected_file = context.file()
+if selected_file then
+    copy_to_clipboard(selected_file)
+    flash("Copied file: " .. selected_file)
+    return
+end
+local change_id = context.change_id()
+if change_id then
+    copy_to_clipboard(change_id)
+    flash("Copied change ID: " .. change_id)
+    return
+end
+flash("No item selected to copy")
+'''
+
+[custom_commands.new_insert_after]
+key = ["N"]
+lua = '''
+  jj("new", "-A", context.change_id())
+  revisions.refresh()
+
+  local new_change_id = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
+  revisions.navigate{to=new_change_id}
+  '''
+
+[custom_commands.deltadiff]
+key = ["d"]
+args = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r $change_id",
+    # "-c",
+    # "jj diff --git --color always -r $change_id $file | delta --pager 'less -R +g'",
+]
+show = "interactive"

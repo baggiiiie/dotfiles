@@ -1,0 +1,77 @@
+[ui]
+auto_refresh_interval = 30
+enable_mouse = true
+mouse_events = true
+
+[ui.colors]
+"selected" = { bold = true, bg = "#575048" }
+
+[revisions]
+template = 'builtin_log_compact' # overrides jj's templates.log
+# revset = "trunk():: & mine()"    # overrides jj's revsets.log
+
+[preview]
+revision_command = [
+    "show",
+    "--color",
+    "always",
+    "-r",
+    "$change_id",
+    "--config",
+    "ui.diff-formatter=delta-non-split-view",
+]
+file_command = [
+    "diff",
+    "--color",
+    "always",
+    "-r",
+    "$change_id",
+    "--config",
+    # "ui.diff-formatter=delta-non-split-view",
+    "ui.diff-formatter=difft-inline",
+    "$file",
+]
+width_percentage = 60.0
+
+[suggest]
+[suggest.exec]
+mode = "fuzzy"
+
+[custom_commands]
+[custom_commands.copy_to_clipboard]
+key = ["Y"]
+lua = '''
+  if details.is_open() then
+    local file = details.current_file()
+    copy_to_clipboard(file)
+    flash("Copied to clipboard: " .. file)
+  else
+    local rev = revisions.current()
+    copy_to_clipboard(rev)
+    flash("Copied to clipboard: " .. (rev or "none"))
+  end
+  '''
+
+[custom_commands.new_then_describe]
+key = ["N"]
+lua = '''
+  jj("new", "-A", revisions.current())
+  revisions.refresh()
+
+  local new_change_id = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
+  revisions.navigate{to=new_change_id}
+  '''
+
+[custom_commands.deltadiff]
+key = ["d"]
+args = [
+    "util",
+    "exec",
+    "--",
+    "bash",
+    "-c",
+    "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r $change_id",
+    # "-c",
+    # "jj diff --git --color always -r $change_id $file | delta --pager 'less -R +g'",
+]
+show = "interactive"

@@ -1,0 +1,15 @@
+[user]
+    user = baggiiiie
+	email = yc@yingchaoooo.com
+    signingkey = ~/.ssh/baggiiiie-github.pub
+
+[commit]
+	gpgsign = true
+
+[gpg]
+	format = ssh
+
+[gpg "ssh"]
+	allowedSignersFile = /Users/ydai/.ssh/allowed_signers
+[format]
+	signoff = true
