@@ -38,19 +38,60 @@ width_percentage = 60.0
 mode = "fuzzy"
 
 [custom_commands]
+[custom_commands.open_file]
+key = ["O"]
+lua = '''
+local file = context.file()
+if not file then
+    flash("No file selected")
+    return
+end
+exec_shell("nvim " .. file)
+'''
+
+[custom_commands.quick_revset]
+key = ["ctrl+r"]
+lua = '''
+local selected = choose({
+    options = {
+        "mine()",
+        "all()",
+        "trunk()..@",
+        revset.default()
+    },
+    title = "Quick Revset"
+})
+
+if selected then
+    revset.set(selected)
+    flash("Revset: " .. selected)
+end
+'''
+
 [custom_commands.copy_to_clipboard]
 key = ["Y"]
 lua = '''
-  if details.is_open() then
-    local file = details.current_file()
-    copy_to_clipboard(file)
-    flash("Copied to clipboard: " .. file)
-  else
-    local rev = revisions.current()
-    copy_to_clipboard(rev)
-    flash("Copied to clipboard: " .. (rev or "none"))
-  end
-  '''
+local checked_files = context.checked_files()
+if checked_files then
+    local file_names = table.concat(checked_files, " ")
+    copy_to_clipboard(file_names)
+    flash("Copied checked files: " .. file_names)
+    return
+end
+local selected_file = context.file()
+if selected_file then
+    copy_to_clipboard(selected_file)
+    flash("Copied file: " .. selected_file)
+    return
+end
+local change_id = context.change_id()
+if change_id then
+    copy_to_clipboard(change_id)
+    flash("Copied change ID: " .. change_id)
+    return
+end
+flash("No item selected to copy")
+'''
 
 [custom_commands.new_then_describe]
 key = ["N"]
