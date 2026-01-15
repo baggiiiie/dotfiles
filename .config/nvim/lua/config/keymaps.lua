@@ -102,9 +102,9 @@ map({ "n", "x" }, "<leader>gB", function()
     local end_line = vim.fn.line(".")
     local line_range = start_line .. "-" .. end_line
     vim.notify(line_range)
-    vim.fn.system("gh browse " .. filepath .. ":" .. line_range)
+    vim.fn.system("gh browse --commit=HEAD " .. filepath .. ":" .. line_range)
   else
     -- Normal mode: just open the file
-    vim.fn.system("gh browse " .. filepath)
+    vim.fn.system("gh browse --commit=HEAD " .. filepath)
   end
 end, { desc = "Open file in GitHub" })

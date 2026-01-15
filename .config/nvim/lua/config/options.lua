@@ -35,7 +35,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.confirm = false
 
--- vim.opt.colorcolumn = "100"
+vim.opt.colorcolumn = "80"
 
 vim.g.snacks_animate = false
 vim.g.trouble_lualine = true

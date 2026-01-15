@@ -3,6 +3,7 @@ set scrolloff=20
 set nocompatible
 set cursorline
 
+set clipboard=unnamed
 set shiftwidth=4
 set tabstop=4
 set expandtab
@@ -25,6 +26,8 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
+set colorcolumn=80
+set noswapfile
 
 nmap H g^
 nmap L g$
