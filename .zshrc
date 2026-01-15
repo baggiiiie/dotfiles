@@ -11,9 +11,9 @@ else
 fi
 
 # NOTE: some configs are from: https://github.com/josean-dev/dev-environment-files/blob/main/.zshrc
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # vscode stuff
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
@@ -44,7 +44,6 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   # eval "$(ssh-agent -s)" > /dev/null 2>&1
   # ssh-add ~/.ssh/ydai_ssh
   # ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
-  # export ARTIFACTORY_APIKEY=cmVmdGtuOjAxOjE3NzI3ODY4NTc6cGd5TURMQWdPaVNQV2RjVERXQkN4MUFpU3VG
 
 
 elif [[ "$PLATFORM" == "Linux" ]]; then
@@ -57,8 +56,8 @@ fi
 BREW_PREFIX="${BREW_PREFIX:-$(brew --prefix)}"
 
 # Theme configuration
-source $BREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# source $BREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # History configuration
 HISTFILE=$HOME/.zhistory
@@ -180,7 +179,7 @@ alias j="jj"
 alias jjui="/Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good"
 alias eos="sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
 alias hi="terminal-notifier -message '$(basename $(pwd))' -title 'im done' -sound ping"
-alias ghist="bash /Users/ydai/Desktop/repos/personal/dotfiles/others/git-file-history.sh"
+alias ghist="bash /Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
 alias curl="curlie"
 alias dig="doggo"
 alias claude="claude --dangerously-skip-permissions"
@@ -246,11 +245,6 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-export JIRA_AUTH_TYPE=bearer
-# JIRA_API_TOKEN in .env-jira
-set -a
-source $ZSHRC_DIR/.env-jira
-set +a
 
 # Lazy load jira_me to avoid API call on every shell startup
 function jira() {
@@ -304,3 +298,5 @@ try() {
 export PATH="$HOME/bin:$PATH"
 export LESS='-RX'
 export LESSCHARSET=utf-8
+
+eval "$(starship init zsh)"
