@@ -17,6 +17,7 @@ web:*.{html,css,js}*
 --glob=!*.svg
 --glob=!*.excalidraw.*
 --glob=!.obsidian/*
+--glob=!.venv
 
 --glob-case-insensitive
 

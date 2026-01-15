@@ -163,7 +163,7 @@ eval "$(zoxide init --cmd cd zsh)"
 
 # Aliases
 alias ls="eza --icons=always"
-alias la="ls -alh -s name"
+alias la="ls -alhO -s name"
 alias tree="eza --tree --icons=always"
 alias c="xargs echo -n | pbcopy"
 alias lg="lazygit"
