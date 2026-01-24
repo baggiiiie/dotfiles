@@ -1,3 +1,6 @@
+[keys]
+split = []
+
 [ui]
 auto_refresh_interval = 30
 enable_mouse = true
@@ -116,3 +119,16 @@ args = [
     # "jj diff --git --color always -r $change_id $file | delta --pager 'less -R +g'",
 ]
 show = "interactive"
+[custom_commands.split_test]
+key = ['s']
+lua = '''
+local checked_files = context.checked_files()
+if checked_files and next(checked_files) ~= nil then
+    jj_interactive("split", "-r", context.change_id(), "-m", "", unpack(checked_files))
+    flash('splited: ' .. table.concat(checked_files, ", "))
+    revisions.refresh({keep_selections = false})
+    return
+else
+    jj_interactive("split", "-r", context.change_id(), "-m", "")
+end
+'''
