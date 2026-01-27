@@ -182,7 +182,7 @@ alias hi="terminal-notifier -message '$(basename $(pwd))' -title 'im done' -soun
 alias ghist="bash /Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
 alias curl="curlie"
 alias dig="doggo"
-alias claude="claude --dangerously-skip-permissions"
+alias cc="claude --dangerously-skip-permissions"
 
 ZSHRC_DIR="${${(%):-%x}:A:h}"
 
@@ -294,8 +294,6 @@ try() {
   try "$@"
 }
 
-# to allow scripts in ~/bin to be found
-export PATH="$HOME/bin:$PATH"
 export LESS='-RX'
 export LESSCHARSET=utf-8
 
