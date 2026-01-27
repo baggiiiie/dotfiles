@@ -1,5 +1,6 @@
 [keys]
-split = []
+# split = []
+commit = []
 
 [ui]
 auto_refresh_interval = 30
@@ -14,6 +15,7 @@ template = 'builtin_log_compact' # overrides jj's templates.log
 # revset = "trunk():: & mine()"    # overrides jj's revsets.log
 
 [preview]
+position = "auto"
 revision_command = [
     "show",
     "--color",
@@ -119,16 +121,31 @@ args = [
     # "jj diff --git --color always -r $change_id $file | delta --pager 'less -R +g'",
 ]
 show = "interactive"
-[custom_commands.split_test]
-key = ['s']
+
+# [custom_commands.split_test]
+# key = ['s']
+# lua = '''
+# local checked_files = context.checked_files()
+# if checked_files and next(checked_files) ~= nil then
+#     jj_interactive("split", "-r", context.change_id(), "-m", "", unpack(checked_files))
+#     flash('splited: ' .. table.concat(checked_files, ", "))
+#     revisions.refresh({keep_selections = false})
+#     return
+# else
+#     jj_interactive("split", "-r", context.change_id(), "-m", "")
+# end
+# '''
+
+[custom_commands.commit]
+key = ['c']
 lua = '''
+local applied = revisions.start_inline_describe()
 local checked_files = context.checked_files()
-if checked_files and next(checked_files) ~= nil then
-    jj_interactive("split", "-r", context.change_id(), "-m", "", unpack(checked_files))
-    flash('splited: ' .. table.concat(checked_files, ", "))
-    revisions.refresh({keep_selections = false})
+if applied then
+    jj("new", "-A", context.change_id())
+    revisions.refresh()
+    local new_change_id = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
+    revisions.navigate{to=new_change_id}
     return
-else
-    jj_interactive("split", "-r", context.change_id(), "-m", "")
 end
 '''
