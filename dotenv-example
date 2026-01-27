@@ -6,3 +6,5 @@ JENKINS_TOKEN=token
 
 # .env-jira file (sourced at shell initialization)
 JIRA_API_TOKEN=your_jira_token_here
+JIRA_AUTH_TYPE=bearer
+
