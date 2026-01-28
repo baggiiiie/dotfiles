@@ -3032,6 +3032,36 @@
                                         "value": 1
                                     }
                                 ],
+                                "description": "Raise Teams Meeting Window",
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/osascript /Users/ydai/Desktop/repos/personal/dotfiles/others/raise-teams-meeting"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_x",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_x",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
                                 "description": "Toggle dark mode",
                                 "from": {
                                     "key_code": "a",
