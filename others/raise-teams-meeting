@@ -1,0 +1,15 @@
+tell application "System Events"
+    tell process "Microsoft Teams"
+        repeat with w in windows
+            if not (name of w contains "Chat") then
+                set frontmost to true
+                perform action "AXRaise" of w
+
+                -- get PID of the owning process
+                set thePID to unix id of it
+                return thePID
+            end if
+        end repeat
+    end tell
+end tell
+
