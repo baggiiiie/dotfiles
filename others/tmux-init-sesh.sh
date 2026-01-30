@@ -13,7 +13,7 @@ tmux new-window -t "$session_name" -n terminal -c "$session_path"
 tmux new-window -t "$session_name" -n jjui -c "$session_path"
 
 # Create fifth window named "server"
-tmux new-window -t "$session_name" -n server -c "$session_path"
+# tmux new-window -t "$session_name" -n server -c "$session_path"
 
 # Rename the first window to "editor"
 tmux rename-window -t "$session_name:1" editor
