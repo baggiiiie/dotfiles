@@ -308,3 +308,8 @@ export LESS='-RX'
 export LESSCHARSET=utf-8
 
 eval "$(starship init zsh)"
+
+esc() {
+  printf '%s\n' "$1" | sed 's/[.[\*^$()+?{|}\/\\]/\\&/g'
+}
+
