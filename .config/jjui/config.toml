@@ -158,19 +158,8 @@ lua = '''
 exec_shell("/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh")
 '''
 
-[custom_commands.rename_bookmark]
-desc = ""
-key_sequence = ["w", "b", "r"]
-lua = '''
-bookmarks = context.bookmarks()
-count = #bookmarks
-first = bookmarks[1]
-second = bookmarks[2]
-flash('first: ' .. tostring(first) .. ', second: ' .. tostring(second))
-'''
-
 [custom_commands.bookmarkabc]
-key = ["Z"]
+key_sequence = ["w", "b"]
 lua = '''
 -- Get the current revision's change_id
 template = 'if(self.present() && !remote, self.name() ++ "\n", "")'
@@ -193,16 +182,16 @@ local function bookmark_operations(bookmark)
     local op = choose({options={"rename " .. bookmark, "delete " .. bookmark, "forget " .. bookmark}, title = "Select operation: "})
     if not op then return end
 
-    if op == "rename bookmark" then
+    if string.find(op, "rename") then
         local new_name = input({title="New bookmark name", value=bookmark})
         if new_name and new_name ~= "" then
             jj("bookmark", "rename", bookmark, new_name)
             revisions.refresh()
         end
-    elseif op == "delete bookmark" then
+    elseif string.find(op, "delete") then
         jj("bookmark", "delete", bookmark)
         revisions.refresh()
-    elseif op == "forget bookmark" then
+    elseif string.find(op, "forget") then
         jj("bookmark", "forget", bookmark)
         revisions.refresh()
     end
