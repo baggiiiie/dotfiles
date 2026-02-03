@@ -23,15 +23,16 @@ export VISUAL=nvim
 
 export MANPAGER='nvim +Man!'
 
+# ---- PATH & ENVIRONMENT CONFIGURATION ----
+# Use Zsh's 'path' array tied to $PATH. 'typeset -U' keeps entries unique.
+typeset -U path PATH
 
-# Conditional PATH modifications
+# 1. Platform Specifics
 if [[ "$PLATFORM" == "macOS" ]]; then
-  PATH="/opt/homebrew/bin:$PATH"
-  PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
-  PATH="/Users/ydai/.rd/bin:$PATH"
-  GOPATH=$HOME/go
-  PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-  export PATH
+  path=("/Users/ydai/.rd/bin" $path)
+  export GOPATH="$HOME/go"
+  path=($path "/usr/local/go/bin" "$GOPATH/bin" "/opt/homebrew/opt/sqlite/bin")
+  path=("/opt/homebrew/opt/postgresql@15/bin" $path)
 
   # Java version management
   # export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
@@ -45,12 +46,33 @@ if [[ "$PLATFORM" == "macOS" ]]; then
   # ssh-add ~/.ssh/ydai_ssh
   # ssh-add ~/.ssh/edgeos_dragen_root.id_rsa
 
-
 elif [[ "$PLATFORM" == "Linux" ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+  [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  path=($path "/opt/nvim-linux-x86_64/bin")
 fi
 
+# 2. Languages & Tools
+# NVM (Lazy-load compatible PATH setup)
+export NVM_DIR="$HOME/.nvm"
+_NODE_BIN="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default 2>/dev/null || echo 'v18.0.0')/bin"
+path=($_NODE_BIN $path)
+
+# Cargo / Rust
+path=($path "$HOME/.cargo/bin")
+
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+path=("$BUN_INSTALL/bin" $path)
+
+# 3. User & App Binaries (Prepended for priority)
+path=(
+  "$HOME/bin"
+  "/Applications/gg.app/Contents/MacOS"
+  $path
+)
+
+export PATH
+# ------------------------------------------
 
 # Cache brew prefix for performance (saves multiple subprocess calls)
 BREW_PREFIX="${BREW_PREFIX:-$(brew --prefix)}"
@@ -186,11 +208,6 @@ alias cc="claude --dangerously-skip-permissions"
 
 ZSHRC_DIR="${${(%):-%x}:A:h}"
 
-# Lazy load NVM - only load when needed (saves ~800ms startup time)
-export NVM_DIR="$HOME/.nvm"
-# Add node to PATH without loading full nvm
-export PATH="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default 2>/dev/null || echo 'v18.0.0')/bin:$PATH"
-
 # Lazy load nvm on first use
 nvm() {
   unset -f nvm node npm npx
@@ -221,10 +238,6 @@ npx() {
 }
 
 
-export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-
-
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
@@ -234,16 +247,10 @@ function y() {
 }
 
 
-PATH="$PATH:$HOME/.cargo/bin"
-
 . "$HOME/.local/bin/env"
 eval "$(atuin init zsh --disable-up-arrow)"
-export PATH="$HOME/bin:/Applications/gg.app/Contents/MacOS:$PATH"
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
-
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 
 
 # Lazy load jira_me to avoid API call on every shell startup
