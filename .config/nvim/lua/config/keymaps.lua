@@ -95,16 +95,24 @@ end, { desc = "Run current Lua file" })
 map({ "n", "x" }, "<leader>gB", function()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
   local mode = vim.fn.mode()
+  local cmd
 
   if mode == "v" or mode == "V" or mode == "\22" then
     -- Visual mode: include line numbers
     local start_line = vim.fn.line("v")
     local end_line = vim.fn.line(".")
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
     local line_range = start_line .. "-" .. end_line
-    vim.notify(line_range)
-    vim.fn.system("gh browse --commit=HEAD " .. filepath .. ":" .. line_range)
+    cmd = "gh browse --commit=HEAD " .. filepath .. ":" .. line_range
   else
     -- Normal mode: just open the file
-    vim.fn.system("gh browse --commit=HEAD " .. filepath)
+    cmd = "gh browse --commit=HEAD " .. filepath
+  end
+
+  local output = vim.fn.system(cmd)
+  if vim.v.shell_error ~= 0 then
+    vim.notify(vim.trim(output), vim.log.levels.ERROR, { title = "GitHub Browse Error" })
   end
 end, { desc = "Open file in GitHub" })
