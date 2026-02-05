@@ -155,7 +155,30 @@ end
 [custom_commands.create_pr]
 key = ["ctrl+p"]
 lua = '''
-exec_shell("/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh")
+local change_id = context.change_id()
+if not change_id then
+    flash("No revision selected")
+    return
+end
+
+local template = 'if(self.present() && !remote, self.name() ++ "\n", "")'
+local output = jj("bookmark", "list", "-r", change_id, "-T", template)
+local bookmarks = {}
+for line in output:gmatch("[^\n]+") do
+    if line ~= "" then
+        table.insert(bookmarks, line)
+    end
+end
+
+local cmd = "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh"
+if #bookmarks > 0 then
+    if #bookmarks > 1 then
+        flash("Multiple bookmarks found, using: " .. bookmarks[1])
+    end
+    cmd = cmd .. " --branch " .. bookmarks[1]
+end
+
+exec_shell(cmd)
 '''
 
 [custom_commands.bookmarkabc]
