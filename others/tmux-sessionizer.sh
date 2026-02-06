@@ -6,7 +6,14 @@ sesh_to_init=("eosctl" "coffeeee" "jjui")
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
-    session_name=$(fd . "${REPO_DIR[@]}" -d 1 -t d -x sh -c 'echo "$(basename $(dirname {}))/$(basename {})"' | sk --layout=reverse)
+    all_repos=$(fd . "${REPO_DIR[@]}" -d 1 -t d)
+    zoxide_ranked=$(zoxide query -l | grep -xF "$all_repos" || true)
+    session_name=$(
+        { echo "$zoxide_ranked"; echo "$all_repos"; } \
+            | awk 'NF && !seen[$0]++' \
+            | while read -r p; do echo "$(basename "$(dirname "$p")")/$(basename "$p")"; done \
+            | sk --layout=reverse
+    )
 fi
 
 if [[ -z $session_name ]]; then

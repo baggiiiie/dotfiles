@@ -1,11 +1,17 @@
 ---
 name: committing-with-jj
-description: "Commits changes using Jujutsu (jj) VCS. Use when asked to commit, describe, snapshot, finalize changes, or push with jj. Triggers on: commit, describe, commit with jj, update commit."
+description: "Use when asked to commit, describe, or finalize changes. Triggers on any commit-related request. Detects whether the repo uses jj before proceeding."
 ---
 
 # Committing with Jujutsu (jj)
 
 Manages the commit workflow for repositories using the Jujutsu version control system.
+
+## Pre-check: Detect VCS
+
+Before doing anything, check if the repo uses jj by running `jj root` in the workspace root.
+- If it succeeds, proceed with this skill.
+- If it fails (not a jj repo), fall back to regular git commands instead and do NOT follow the rest of this skill.
 
 ## Key Concepts
 

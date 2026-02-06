@@ -33,5 +33,5 @@ fi
 if [[ -n $file ]]; then
     jj diff "${r_option[@]}" "${f_option[@]}" "${t_option[@]}" --color=always "$file"
 else
-    jj diff "${r_option[@]}" "${f_option[@]}" "${t_option[@]}" --color=always --summary --git | /Users/ydai/Desktop/repos/work/diffnav/diffnav
+    jj diff "${r_option[@]}" "${f_option[@]}" "${t_option[@]}" --color=always --summary --git | diffnav
 fi
