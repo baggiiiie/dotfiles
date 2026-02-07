@@ -198,6 +198,41 @@ alias devsync="bash $HOME/Desktop/repos/work/devsync/dev-sync.sh"
 alias ts="tailscale"
 alias ta="tmux a"
 alias j="jj"
+
+# Open a file with jj revision diffs in nvim splits
+# Usage: jjdiff <file> <rev1> [rev2 ...]
+function jjdiff() {
+  local file="$1"
+  shift
+  if [[ -z "$file" || $# -eq 0 ]]; then
+    echo "Usage: jjdiff <file> <rev1> [rev2 ...]"
+    return 1
+  fi
+  local revs=("$@")
+  local lua_cmd="local revs = {"
+  for r in "${revs[@]}"; do
+    lua_cmd+="'$r',"
+  done
+  lua_cmd+="} "
+  lua_cmd+="local ft = vim.bo.filetype "
+  lua_cmd+="local rel = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.') "
+  lua_cmd+="for _, rev in ipairs(revs) do "
+  lua_cmd+="  local out = vim.fn.systemlist({'jj','file','show','-r',rev,rel}) "
+  lua_cmd+="  if vim.v.shell_error == 0 then "
+  lua_cmd+="    vim.cmd('vsplit') "
+  lua_cmd+="    local buf = vim.api.nvim_create_buf(false, true) "
+  lua_cmd+="    vim.api.nvim_win_set_buf(0, buf) "
+  lua_cmd+="    vim.api.nvim_buf_set_lines(buf, 0, -1, false, out) "
+  lua_cmd+="    vim.bo[buf].buftype = 'nofile' "
+  lua_cmd+="    vim.bo[buf].modifiable = false "
+  lua_cmd+="    vim.bo[buf].filetype = ft "
+  lua_cmd+="    vim.api.nvim_buf_set_name(buf, rel..' @ '..rev) "
+  lua_cmd+="    vim.cmd('diffthis') "
+  lua_cmd+="  end "
+  lua_cmd+="end "
+  lua_cmd+="vim.cmd('wincmd t') vim.cmd('diffthis')"
+  nvim "$file" -c "lua $lua_cmd"
+}
 alias jjui="/Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good"
 alias eos="sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
 alias hi="terminal-notifier -message '$(basename $(pwd))' -title 'im done' -sound ping"

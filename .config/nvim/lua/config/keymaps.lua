@@ -87,6 +87,40 @@ map({ "n", "t" }, "<leader>tt", function()
   Snacks.terminal("zsh", { cwd = LazyVim.root() })
 end, { desc = "Floating terminal" })
 
+-- Show file at a specific jj revision in a split
+local function jj_file_show(opts)
+  local ft = vim.bo.filetype
+  vim.ui.input({ prompt = "jj revision (commit/change id): " }, function(rev)
+    if not rev or rev == "" then
+      return
+    end
+    local rel_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+    local output = vim.fn.systemlist({ "jj", "file", "show", "-r", rev, rel_path })
+    if vim.v.shell_error ~= 0 then
+      vim.notify(table.concat(output, "\n"), vim.log.levels.ERROR, { title = "jj file show" })
+      return
+    end
+    vim.cmd("only")
+    local orig_win = vim.api.nvim_get_current_win()
+    vim.cmd("vsplit")
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_win_set_buf(0, buf)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
+    vim.bo[buf].buftype = "nofile"
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].filetype = ft
+    vim.api.nvim_buf_set_name(buf, rel_path .. " @ " .. rev)
+    if opts.diff then
+      vim.cmd("diffthis")
+      vim.api.nvim_set_current_win(orig_win)
+      vim.cmd("diffthis")
+    end
+  end)
+end
+
+map("n", "<leader>gj", function() jj_file_show({ diff = true }) end, { desc = "Diff file against jj revision" })
+map("n", "<leader>gJ", function() jj_file_show({ diff = false }) end, { desc = "Show file at jj revision" })
+
 -- Development utilities
 map("n", "<leader>rr", function()
   vim.cmd("luafile %")
