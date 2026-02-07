@@ -6,12 +6,11 @@ sesh_to_init=("eosctl" "coffeeee" "jjui")
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
-    session_name=$(fd . "${REPO_DIR[@]}" -d 1 -t d --print0 \
-        | xargs -0 stat -f '%a %N' \
-        | sort -rn \
-        | cut -d' ' -f2- \
-        | while read -r p; do echo "$(basename "$(dirname "$p")")/$(basename "$p")"; done \
-        | sk --layout=reverse)
+    session_name=$(fd . "${REPO_DIR[@]}" -d 1 -t d --print0 |
+        xargs -0 stat -f '%m %N' |
+        sort -rn |
+        awk '{sub(/^[0-9]+ /,""); sub(/\/$/,""); n=split($0,a,"/"); print a[n-1]"/"a[n]}' |
+        sk --layout=reverse)
 fi
 
 if [[ -z $session_name ]]; then
