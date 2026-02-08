@@ -266,3 +266,21 @@ else
     end
 end
 '''
+
+[custom_commands.scroll_to_center]
+key = ["Z"]
+lua = '''
+-- Center the currently selected revision on screen.
+-- Adjust `half` to roughly half your terminal height.
+local half = 15
+
+local id = context.change_id()
+if not id then return end
+
+-- 1. Scroll viewport far down so cursor is above the visible area
+revisions.scroll(100)
+-- 2. Navigate back — ensureView snaps cursor to the top edge
+revisions.navigate({ to = id })
+-- 3. Scroll viewport up to push cursor from top toward center
+revisions.scroll(-half)
+'''
