@@ -89,7 +89,7 @@ function fzf_key_bindings
             case ssh scp
                 set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
           "--reverse --scheme=default" \
-          "--no-multi --print0 --preview 'doggo {}'")
+          "--no-multi --print0 --select-1 --preview 'doggo {}'")
                 set -lx FZF_DEFAULT_OPTS_FILE
                 set -l hosts_cmd "{ grep -oE '^[^ ,]+' ~/.ssh/known_hosts 2>/dev/null | sort -u; awk '/^Host / && !/\\*/ {print \$2}' ~/.ssh/config 2>/dev/null; } | sort -u"
                 set result (eval $hosts_cmd | eval (__fzfcmd) --query=$fzf_query | string split0)
@@ -97,7 +97,7 @@ function fzf_key_bindings
             case kill
                 set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
           "--reverse" \
-          "--no-multi --print0 --preview 'echo {}' --header 'Select process to kill'")
+          "--no-multi --print0 --select-1 --preview 'echo {}' --header 'Select process to kill'")
                 set -lx FZF_DEFAULT_OPTS_FILE
                 set result (ps -eo pid,user,%cpu,%mem,command | tail -n +2 | eval (__fzfcmd) --query=$fzf_query | string split0)
                 if test -n "$result"
@@ -107,21 +107,21 @@ function fzf_key_bindings
             case export unset echo set
                 set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
           "--reverse" \
-          "--no-multi --print0 --preview 'echo \${}'")
+          "--no-multi --print0 --select-1 --preview 'echo \${}'")
                 set -lx FZF_DEFAULT_OPTS_FILE
                 set result (env | string split0 | string replace -r '=.*' '' | sort -u | eval (__fzfcmd) --query=$fzf_query | string split0)
 
             case cd z
                 set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
           "--reverse --scheme=path" \
-          "--no-multi --print0 --preview 'eza --tree -L 2 --color=always {} | head -200'")
+          "--no-multi --print0 --select-1 --preview 'eza --tree -L 2 --color=always {} | head -200'")
                 set -lx FZF_DEFAULT_OPTS_FILE
                 set result (fd --type=d --hidden --no-ignore --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
 
             case '*'
               set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
                 "--reverse --scheme=path" \
-                "--no-multi --print0 --preview 'bash -c \"if [ -d {} ]; then eza --tree -L 2 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi\"'")
+                "--no-multi --print0 --select-1 --preview 'bash -c \"if [ -d {} ]; then eza --tree -L 2 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi\"'")
                 set -lx FZF_DEFAULT_OPTS_FILE
                 set result (fd --hidden --no-ignore --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
         end
