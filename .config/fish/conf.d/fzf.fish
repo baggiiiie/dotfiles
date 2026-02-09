@@ -116,14 +116,14 @@ function fzf_key_bindings
           "--reverse --scheme=path" \
           "--no-multi --print0 --preview 'eza --tree -L 2 --color=always {} | head -200'")
                 set -lx FZF_DEFAULT_OPTS_FILE
-                set result (fd --type=d --hidden --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
+                set result (fd --type=d --hidden --no-ignore --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
 
             case '*'
               set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
                 "--reverse --scheme=path" \
                 "--no-multi --print0 --preview 'bash -c \"if [ -d {} ]; then eza --tree -L 2 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi\"'")
                 set -lx FZF_DEFAULT_OPTS_FILE
-                set result (fd --hidden --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
+                set result (fd --hidden --no-ignore --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
         end
         and commandline -rt -- $result
 

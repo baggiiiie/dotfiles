@@ -1,34 +1,35 @@
-# ---- PLATFORM DETECTION ----
-switch (uname)
-    case Darwin
-        set -gx PLATFORM macOS
-    case Linux
-        set -gx PLATFORM Linux
-    case '*'
-        set -gx PLATFORM Unknown
-end
-
 # ---- EDITOR ----
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx MANPAGER 'nvim +Man!'
 
 # ---- PATH & ENVIRONMENT ----
-if test "$PLATFORM" = macOS
-    fish_add_path --prepend /Users/ydai/.rd/bin
-    set -gx GOPATH "$HOME/go"
-    fish_add_path /usr/local/go/bin $GOPATH/bin /opt/homebrew/opt/sqlite/bin
-    fish_add_path --prepend /opt/homebrew/opt/postgresql@15/bin
-else if test "$PLATFORM" = Linux
-    if test -f /home/linuxbrew/.linuxbrew/bin/brew
-        eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-    end
-    fish_add_path /opt/nvim-linux-x86_64/bin
+switch (uname -s)
+    case Darwin
+        fish_add_path --prepend /Users/ydai/.rd/bin
+        set -gx GOPATH "$HOME/go"
+        fish_add_path /usr/local/go/bin $GOPATH/bin /opt/homebrew/opt/sqlite/bin
+        fish_add_path --prepend /opt/homebrew/opt/postgresql@15/bin
+        fish_add_path --prepend /opt/homebrew/bin /opt/homebrew/sbin
+        set -gx BREW_PREFIX /opt/homebrew
+    case Linux
+        if test -f /home/linuxbrew/.linuxbrew/bin/brew
+            eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        end
+        fish_add_path /opt/nvim-linux-x86_64/bin
+        if not set -q BREW_PREFIX
+            set -gx BREW_PREFIX (brew --prefix)
+        end
 end
 
-# NVM
+# NVM - resolve default node version without subshell
 set -gx NVM_DIR "$HOME/.nvm"
-set -l _default_node (cat $NVM_DIR/alias/default 2>/dev/null; or echo 'v18.0.0')
+set -l _nvm_default_file "$NVM_DIR/alias/default"
+if test -f "$_nvm_default_file"
+    read -l _default_node <"$_nvm_default_file"
+else
+    set -l _default_node v18.0.0
+end
 fish_add_path --prepend "$NVM_DIR/versions/node/$_default_node/bin"
 
 # Cargo / Rust
@@ -40,20 +41,6 @@ fish_add_path --prepend "$BUN_INSTALL/bin"
 
 # User & App Binaries
 fish_add_path --prepend "$HOME/bin" /Applications/gg.app/Contents/MacOS
-
-# Ensure Homebrew is in PATH before using it
-if test "$PLATFORM" = macOS; and test -x /opt/homebrew/bin/brew
-    fish_add_path --prepend /opt/homebrew/bin /opt/homebrew/sbin
-end
-
-# Brew prefix (cached)
-if not set -q BREW_PREFIX
-    set -gx BREW_PREFIX (brew --prefix)
-end
-
-# ---- HISTORY ----
-# Fish handles history natively; these are rough equivalents
-set -g fish_history default
 
 # ---- FZF ----
 set -gx FZF_DEFAULT_COMMAND "fd --hidden --strip-cwd-prefix --exclude .git"
@@ -89,41 +76,6 @@ alias dig doggo
 alias cc "claude --dangerously-skip-permissions"
 
 # ---- FUNCTIONS ----
-
-# jjdiff - Open a file with jj revision diffs in nvim splits
-# Usage: jjdiff <file> <rev1> [rev2 ...]
-function jjdiff --description "Open a file with jj revision diffs in nvim splits"
-    set -l file $argv[1]
-    set -e argv[1]
-    if test -z "$file" -o (count $argv) -eq 0
-        echo "Usage: jjdiff <file> <rev1> [rev2 ...]"
-        return 1
-    end
-    set -l revs $argv
-    set -l lua_cmd "local revs = {"
-    for r in $revs
-        set lua_cmd "$lua_cmd'$r',"
-    end
-    set lua_cmd "$lua_cmd} "
-    set lua_cmd "$lua_cmd local ft = vim.bo.filetype "
-    set lua_cmd "$lua_cmd local rel = vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.') "
-    set lua_cmd "$lua_cmd for _, rev in ipairs(revs) do "
-    set lua_cmd "$lua_cmd   local out = vim.fn.systemlist({'jj','file','show','-r',rev,rel}) "
-    set lua_cmd "$lua_cmd   if vim.v.shell_error == 0 then "
-    set lua_cmd "$lua_cmd     vim.cmd('vsplit') "
-    set lua_cmd "$lua_cmd     local buf = vim.api.nvim_create_buf(false, true) "
-    set lua_cmd "$lua_cmd     vim.api.nvim_win_set_buf(0, buf) "
-    set lua_cmd "$lua_cmd     vim.api.nvim_buf_set_lines(buf, 0, -1, false, out) "
-    set lua_cmd "$lua_cmd     vim.bo[buf].buftype = 'nofile' "
-    set lua_cmd "$lua_cmd     vim.bo[buf].modifiable = false "
-    set lua_cmd "$lua_cmd     vim.bo[buf].filetype = ft "
-    set lua_cmd "$lua_cmd     vim.api.nvim_buf_set_name(buf, rel..' @ '..rev) "
-    set lua_cmd "$lua_cmd     vim.cmd('diffthis') "
-    set lua_cmd "$lua_cmd   end "
-    set lua_cmd "$lua_cmd end "
-    set lua_cmd "$lua_cmd vim.cmd('wincmd t') vim.cmd('diffthis')"
-    nvim "$file" -c "lua $lua_cmd"
-end
 
 # yazi wrapper - cd to last directory on exit
 function y --description "Yazi file manager with cwd tracking"
@@ -181,52 +133,71 @@ end
 
 # chpwd equivalent - auto-run on directory change
 function __fish_chpwd --on-variable PWD --description "Auto-load env on directory change"
-    set -l zshrc_dir (status dirname 2>/dev/null; or echo "$HOME")
     set -l dotfiles_dir "$HOME/Desktop/repos/personal/dotfiles"
 
     # Source global .env
     if test -f "$dotfiles_dir/.env"
-        for line in (grep -v '^#' "$dotfiles_dir/.env" | grep -v '^\s*$')
+        while read -l line
             set -l key (string split -m 1 '=' -- $line)[1]
             set -l val (string split -m 1 '=' -- $line)[2]
             if test -n "$key"
                 set -gx $key $val
             end
-        end
+        end <(string match -rv '^\s*#|^\s*$' < "$dotfiles_dir/.env" | psub)
     end
 
     # Source local .env if present
-    if test -f (pwd)/.env
-        for line in (grep -v '^#' (pwd)/.env | grep -v '^\s*$')
+    if test -f "$PWD/.env"
+        while read -l line
             set -l key (string split -m 1 '=' -- $line)[1]
             set -l val (string split -m 1 '=' -- $line)[2]
             if test -n "$key"
                 set -gx $key $val
             end
-        end
+        end <(string match -rv '^\s*#|^\s*$' < "$PWD/.env" | psub)
     end
 
     # Context-specific settings
-    switch (pwd)
+    switch "$PWD"
         case '*work*'
             set -gx GH_HOST git.illumina.com
             if test -f "$dotfiles_dir/.env-work"
-                for line in (grep -v '^#' "$dotfiles_dir/.env-work" | grep -v '^\s*$')
+                while read -l line
                     set -l key (string split -m 1 '=' -- $line)[1]
                     set -l val (string split -m 1 '=' -- $line)[2]
                     if test -n "$key"
                         set -gx $key $val
                     end
-                end
+                end <(string match -rv '^\s*#|^\s*$' < "$dotfiles_dir/.env-work" | psub)
             end
         case '*personal*'
             set -gx GH_HOST github.com
     end
 end
 
-# try - lazy loaded
+# try - inline the generated function instead of eval'ing Ruby at startup
 set -gx TRY_PATH "$HOME/Desktop/repos/personal/tries"
-eval (~/.local/try.rb init | string collect)
+function try
+    set -l script_path "$HOME/.local/try.rb"
+    set -l cmd
+    set -l rc
+    switch $argv[1]
+        case clone worktree init
+            set cmd (/usr/bin/env ruby "$script_path" --path "$TRY_PATH" $argv 2>/dev/tty | string collect)
+        case '*'
+            set cmd (/usr/bin/env ruby "$script_path" cd --path "$TRY_PATH" $argv 2>/dev/tty | string collect)
+    end
+    set rc $status
+    if test $rc -eq 0
+        if string match -r ' && ' -- $cmd
+            eval $cmd
+        else
+            printf %s $cmd
+        end
+    else
+        printf %s $cmd
+    end
+end
 
 # esc - escape regex special chars
 function esc --description "Escape regex special characters"
@@ -248,11 +219,6 @@ end
 if type -q atuin
     atuin init fish --disable-up-arrow | source
 end
-
-# Starship prompt
-# if type -q starship
-#     starship init fish | source
-# end
 
 # Run chpwd on startup
 __fish_chpwd
