@@ -260,7 +260,7 @@ elseif #bookmarks == 1 then
     bookmark_operations(bookmarks[1])
 else
     -- Multiple bookmarks: let user pick one first
-    local selected = choose(bookmarks, {title = "Select bookmark"})
+    local selected = choose({options=bookmarks, title = "Select bookmark"})
     if selected then
         bookmark_operations(selected)
     end
