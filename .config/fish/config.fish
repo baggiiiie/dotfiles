@@ -64,11 +64,6 @@ set -l show_file_or_dir_preview "if [ -d {} ]; then eza --tree --color=always {}
 set -gx FZF_CTRL_T_OPTS "--preview '$show_file_or_dir_preview'"
 set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --color=always {} | head -200'"
 
-# fzf key bindings (if fzf.fish plugin is installed, this is handled automatically)
-if type -q fzf_configure_bindings
-    fzf_configure_bindings --history=\cr
-end
-
 # ---- ALIASES ----
 alias ls "eza --icons=always"
 alias la "ls -alhO -s name"
@@ -308,3 +303,5 @@ end
 
 fish_vi_key_bindings
 bind vv edit_command_buffer
+bind \t fzf-tab-widget
+bind -M insert \t fzf-tab-widget
