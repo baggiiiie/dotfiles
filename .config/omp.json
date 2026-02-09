@@ -12,16 +12,11 @@
             "alignment": "left",
             "segments": [
                 {
-                    "foreground": "p:blue",
-                    "style": "plain",
-                    "template": "{{ .UserName }}@{{ .HostName }} ",
-                    "type": "session"
-                },
-                {
                     "foreground": "p:pink",
                     "options": {
                         "home_icon": "~",
-                        "style": "agnoster_short"
+                        "style": "agnoster_short",
+                        "max_depth": 2
                     },
                     "style": "plain",
                     "template": "{{ .Path }} ",

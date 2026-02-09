@@ -65,7 +65,7 @@ function fzf_key_bindings
         set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
           "--reverse --scheme=path" \
           "--multi --print0 --preview \"$show_file_or_dir_preview\"")
-        set -lx FZF_DEFAULT_COMMAND "fd --hidden --exclude .git --exclude .jj . '$dir'"
+        set -lx FZF_DEFAULT_COMMAND "fd --hidden --exclude .git --exclude .jj . '$dir' | sed 's|^\./||'"
         set -lx FZF_DEFAULT_OPTS_FILE
 
         set -l result
@@ -84,45 +84,33 @@ function fzf_key_bindings
 
         set -l current_cmd (commandline -po)[1] 2>/dev/null
 
+        set -l base_opts "--reverse --no-multi --print0 --select-1"
+        set -lx FZF_DEFAULT_OPTS_FILE
+
         set -l result
         switch "$current_cmd"
             case ssh scp
-                set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
-          "--reverse --scheme=default" \
-          "--no-multi --print0 --select-1 --preview 'doggo {}'")
-                set -lx FZF_DEFAULT_OPTS_FILE
+                set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts --scheme=default" "--preview 'doggo {}'")
                 set -l hosts_cmd "{ grep -oE '^[^ ,]+' ~/.ssh/known_hosts 2>/dev/null | sort -u; awk '/^Host / && !/\\*/ {print \$2}' ~/.ssh/config 2>/dev/null; } | sort -u"
                 set result (eval $hosts_cmd | eval (__fzfcmd) --query=$fzf_query | string split0)
 
             case kill
-                set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
-          "--reverse" \
-          "--no-multi --print0 --select-1 --preview 'echo {}' --header 'Select process to kill'")
-                set -lx FZF_DEFAULT_OPTS_FILE
+                set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts" "--preview 'echo {}' --header 'Select process to kill'")
                 set result (ps -eo pid,user,%cpu,%mem,command | tail -n +2 | eval (__fzfcmd) --query=$fzf_query | string split0)
                 if test -n "$result"
                     set result (string trim -- $result | string split ' ')[1]
                 end
 
             case export unset echo set
-                set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
-          "--reverse" \
-          "--no-multi --print0 --select-1 --preview 'echo \${}'")
-                set -lx FZF_DEFAULT_OPTS_FILE
+                set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts" "--preview 'echo \${}'")
                 set result (env | string split0 | string replace -r '=.*' '' | sort -u | eval (__fzfcmd) --query=$fzf_query | string split0)
 
             case cd z
-                set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
-          "--reverse --scheme=path" \
-          "--no-multi --print0 --select-1 --preview 'eza --tree -L 2 --color=always {} | head -200'")
-                set -lx FZF_DEFAULT_OPTS_FILE
+                set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts --scheme=path" "--preview 'eza --tree -L 2 --color=always {} | head -200'")
                 set result (fd --type=d --hidden --no-ignore --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
 
             case '*'
-              set -lx FZF_DEFAULT_OPTS (__fzf_defaults \
-                "--reverse --scheme=path" \
-                "--no-multi --print0 --select-1 --preview 'bash -c \"if [ -d {} ]; then eza --tree -L 2 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi\"'")
-                set -lx FZF_DEFAULT_OPTS_FILE
+                set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts --scheme=path" "--preview 'bash -c \"if [ -d {} ]; then eza --tree -L 2 --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi\"'")
                 set result (fd --hidden --no-ignore --max-depth 1 --exclude .git --exclude .jj . "$dir" | string replace -r '^\\./' '' | eval (__fzfcmd) --query=$fzf_query | string split0)
         end
         and commandline -rt -- $result
