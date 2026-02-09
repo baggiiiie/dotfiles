@@ -41,6 +41,11 @@ fish_add_path --prepend "$BUN_INSTALL/bin"
 # User & App Binaries
 fish_add_path --prepend "$HOME/bin" /Applications/gg.app/Contents/MacOS
 
+# Ensure Homebrew is in PATH before using it
+if test "$PLATFORM" = macOS; and test -x /opt/homebrew/bin/brew
+    fish_add_path --prepend /opt/homebrew/bin /opt/homebrew/sbin
+end
+
 # Brew prefix (cached)
 if not set -q BREW_PREFIX
     set -gx BREW_PREFIX (brew --prefix)
