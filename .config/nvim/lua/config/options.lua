@@ -53,4 +53,17 @@ if vim.env.SSH_TTY then
       ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
     },
   }
+elseif vim.fn.has("mac") == 1 then
+  vim.g.clipboard = {
+    name = "macOS-clipboard",
+    copy = {
+      ["+"] = { "/usr/bin/pbcopy" },
+      ["*"] = { "/usr/bin/pbcopy" },
+    },
+    paste = {
+      ["+"] = { "/usr/bin/pbpaste" },
+      ["*"] = { "/usr/bin/pbpaste" },
+    },
+    cache_enabled = 0,
+  }
 end
