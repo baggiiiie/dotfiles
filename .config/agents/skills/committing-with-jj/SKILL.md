@@ -1,15 +1,16 @@
 ---
-name: committing-with-jj
+name: commit
 description: "Use when asked to commit, describe, or finalize changes. Triggers on any commit-related request. Detects whether the repo uses jj before proceeding."
 ---
 
-# Committing with Jujutsu (jj)
+# Committing A Change
 
 Manages the commit workflow for repositories using the Jujutsu version control system.
 
 ## Pre-check: Detect VCS
 
 Before doing anything, check if the repo uses jj by running `jj root` in the workspace root.
+
 - If it succeeds, proceed with this skill.
 - If it fails (not a jj repo), fall back to regular git commands instead and do NOT follow the rest of this skill.
 
@@ -31,16 +32,16 @@ Before doing anything, check if the repo uses jj by running `jj root` in the wor
 
 4. **Determine the commit action** based on the user's request:
 
-   | User wants to... | Command |
-   |---|---|
-   | Finalize current change with a message and start a new one | `jj commit -m "message"` |
-   | Set/update description without starting a new change | `jj describe -m "message"` |
-   | Describe a specific revision | `jj describe -r <rev> -m "message"` |
-   | Split current change into multiple changes | `jj split` (interactive) or `jj split <files>` |
-   | Create a new empty change on top of current | `jj new` |
-   | Create a new change with a message | `jj new -m "message"` |
-   | Create a new change inserted after a specific revision | `jj new -A <rev>` |
-   | Create a new change inserted before a specific revision | `jj new -B <rev>` |
+   | User wants to...                                           | Command                                        |
+   | ---------------------------------------------------------- | ---------------------------------------------- |
+   | Finalize current change with a message and start a new one | `jj commit -m "message"`                       |
+   | Set/update description without starting a new change       | `jj describe -m "message"`                     |
+   | Describe a specific revision                               | `jj describe -r <rev> -m "message"`            |
+   | Split current change into multiple changes                 | `jj split` (interactive) or `jj split <files>` |
+   | Create a new empty change on top of current                | `jj new`                                       |
+   | Create a new change with a message                         | `jj new -m "message"`                          |
+   | Create a new change inserted after a specific revision     | `jj new -A <rev>`                              |
+   | Create a new change inserted before a specific revision    | `jj new -B <rev>`                              |
 
 5. **Do not push any changes to remote**
 
@@ -49,6 +50,7 @@ Before doing anything, check if the repo uses jj by running `jj root` in the wor
 ## Commit Message Guidelines
 
 When generating commit messages:
+
 - Use conventional commit format if the project uses it (check existing log with `jj log --limit 20`).
 - First line: imperative mood, max 72 characters.
 - If the diff is large, include a blank line then a body explaining the "why".
@@ -58,6 +60,7 @@ When generating commit messages:
 ## Common Patterns
 
 ### Amend a previous change
+
 ```
 jj describe -r <rev> -m "updated message"
 ```
