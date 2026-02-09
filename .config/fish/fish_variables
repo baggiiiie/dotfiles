@@ -1,0 +1,4 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR __fish_initialized:4300
+SETUVAR fish_user_paths:/opt/zerobrew/prefix/bin\x1e/Users/ydai/bin\x1e/Applications/gg\x2eapp/Contents/MacOS\x1e/Users/ydai/\x2ebun/bin\x1e/Users/ydai/\x2ecargo/bin\x1e/opt/homebrew/opt/postgresql\x4015/bin\x1e/Users/ydai/go/bin\x1e/opt/homebrew/opt/sqlite/bin\x1e/Users/ydai/\x2erd/bin
