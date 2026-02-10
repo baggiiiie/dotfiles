@@ -4,43 +4,39 @@ set -gx VISUAL nvim
 set -gx MANPAGER 'nvim +Man!'
 
 # ---- PATH & ENVIRONMENT ----
-switch (uname -s)
-    case Darwin
-        fish_add_path --prepend /Users/ydai/.rd/bin
-        set -gx GOPATH "$HOME/go"
-        fish_add_path /usr/local/go/bin $GOPATH/bin /opt/homebrew/opt/sqlite/bin
-        fish_add_path --prepend /opt/homebrew/opt/postgresql@15/bin
-        fish_add_path --prepend /opt/homebrew/bin /opt/homebrew/sbin
-        set -gx BREW_PREFIX /opt/homebrew
-    case Linux
+# Cache uname result or infer from directory
+set -l platform
+if test -d /opt/homebrew
+    set platform Darwin
+    set -gx BREW_PREFIX /opt/homebrew
+    set -gx GOPATH "$HOME/go"
+    fish_add_path --prepend /Users/ydai/.rd/bin /opt/homebrew/opt/postgresql@15/bin /opt/homebrew/bin /opt/homebrew/sbin
+    fish_add_path /usr/local/go/bin $GOPATH/bin /opt/homebrew/opt/sqlite/bin
+else
+    set platform (uname -s)
+    if test "$platform" = Linux
         if test -f /home/linuxbrew/.linuxbrew/bin/brew
             eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
         end
         fish_add_path /opt/nvim-linux-x86_64/bin
-        if not set -q BREW_PREFIX
+        if not set -q BREW_PREFIX; and type -q brew
             set -gx BREW_PREFIX (brew --prefix)
         end
+    end
 end
 
 # NVM - resolve default node version without subshell
 set -gx NVM_DIR "$HOME/.nvm"
-set -l _nvm_default_file "$NVM_DIR/alias/default"
-if test -f "$_nvm_default_file"
-    read -l _default_node <"$_nvm_default_file"
+if test -f "$NVM_DIR/alias/default"
+    read -l _default_node <"$NVM_DIR/alias/default"
+    fish_add_path --prepend "$NVM_DIR/versions/node/$_default_node/bin"
 else
-    set -l _default_node v18.0.0
+    fish_add_path --prepend "$NVM_DIR/versions/node/v18.0.0/bin"
 end
-fish_add_path --prepend "$NVM_DIR/versions/node/$_default_node/bin"
 
-# Cargo / Rust
-fish_add_path "$HOME/.cargo/bin"
-
-# Bun
+# Cargo / Rust / Bun / User Binaries
+fish_add_path "$HOME/.cargo/bin" "$HOME/.bun/bin" "$HOME/bin" /Applications/gg.app/Contents/MacOS
 set -gx BUN_INSTALL "$HOME/.bun"
-fish_add_path --prepend "$BUN_INSTALL/bin"
-
-# User & App Binaries
-fish_add_path --prepend "$HOME/bin" /Applications/gg.app/Contents/MacOS
 
 # ---- FZF ----
 set -gx FZF_DEFAULT_COMMAND "fd --hidden --strip-cwd-prefix --exclude .git"
@@ -88,16 +84,6 @@ function y --description "Yazi file manager with cwd tracking"
     rm -f -- "$tmp"
 end
 
-# Lazy-load nvm
-function nvm --description "Lazy-load nvm"
-    functions --erase nvm node npm npx
-    bass source "$NVM_DIR/nvm.sh"
-    if test -f "$NVM_DIR/bash_completion"
-        bass source "$NVM_DIR/bash_completion"
-    end
-    nvm $argv
-end
-
 function node --description "Lazy-load node via nvm"
     functions --erase nvm node npm npx
     bass source "$NVM_DIR/nvm.sh"
@@ -131,45 +117,29 @@ function jira --description "Jira CLI wrapper with smart defaults"
     end
 end
 
+# Optimized env loader
+function __load_env_file -d "Load .env file efficiently"
+    test -f "$argv[1]"; or return
+    for line in (string match -rv '^\s*#|^\s*$' < "$argv[1]")
+        set -l kv (string split -m 1 '=' -- $line)
+        if set -q kv[2]
+            set -gx $kv[1] $kv[2]
+        end
+    end
+end
+
 # chpwd equivalent - auto-run on directory change
 function __fish_chpwd --on-variable PWD --description "Auto-load env on directory change"
     set -l dotfiles_dir "$HOME/Desktop/repos/personal/dotfiles"
 
-    # Source global .env
-    if test -f "$dotfiles_dir/.env"
-        while read -l line
-            set -l key (string split -m 1 '=' -- $line)[1]
-            set -l val (string split -m 1 '=' -- $line)[2]
-            if test -n "$key"
-                set -gx $key $val
-            end
-        end <(string match -rv '^\s*#|^\s*$' < "$dotfiles_dir/.env" | psub)
-    end
-
-    # Source local .env if present
-    if test -f "$PWD/.env"
-        while read -l line
-            set -l key (string split -m 1 '=' -- $line)[1]
-            set -l val (string split -m 1 '=' -- $line)[2]
-            if test -n "$key"
-                set -gx $key $val
-            end
-        end <(string match -rv '^\s*#|^\s*$' < "$PWD/.env" | psub)
-    end
+    __load_env_file "$dotfiles_dir/.env"
+    __load_env_file "$PWD/.env"
 
     # Context-specific settings
     switch "$PWD"
         case '*work*'
             set -gx GH_HOST git.illumina.com
-            if test -f "$dotfiles_dir/.env-work"
-                while read -l line
-                    set -l key (string split -m 1 '=' -- $line)[1]
-                    set -l val (string split -m 1 '=' -- $line)[2]
-                    if test -n "$key"
-                        set -gx $key $val
-                    end
-                end <(string match -rv '^\s*#|^\s*$' < "$dotfiles_dir/.env-work" | psub)
-            end
+            __load_env_file "$dotfiles_dir/.env-work"
         case '*personal*'
             set -gx GH_HOST github.com
     end
@@ -210,14 +180,26 @@ set -gx LESS -RX
 set -gx LESSCHARSET utf-8
 set -gx TERM xterm-256color
 
-# Zoxide (replaces cd)
+# Cache directory setup
+set -l cache_dir "$HOME/.cache/fish"
+test -d "$cache_dir"; or mkdir -p "$cache_dir"
+
+# Zoxide
 if type -q zoxide
-    zoxide init --cmd cd fish | source
+    set -l zoxide_cache "$cache_dir/zoxide_init.fish"
+    if not test -f "$zoxide_cache"
+        zoxide init --cmd cd fish > "$zoxide_cache"
+    end
+    source "$zoxide_cache"
 end
 
 # Atuin
 if type -q atuin
-    atuin init fish --disable-up-arrow | source
+    set -l atuin_cache "$cache_dir/atuin_init.fish"
+    if not test -f "$atuin_cache"
+        atuin init fish --disable-up-arrow > "$atuin_cache"
+    end
+    source "$atuin_cache"
 end
 
 # Run chpwd on startup
@@ -235,16 +217,13 @@ set -gx ZEROBREW_ROOT /opt/zerobrew
 set -gx ZEROBREW_PREFIX /opt/zerobrew/prefix
 set -gx PKG_CONFIG_PATH "$ZEROBREW_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-# SSL/TLS certificates
+# SSL/TLS certificates - check existence efficiently
 if test -f "$ZEROBREW_PREFIX/opt/ca-certificates/share/ca-certificates/cacert.pem"
     set -gx CURL_CA_BUNDLE "$ZEROBREW_PREFIX/opt/ca-certificates/share/ca-certificates/cacert.pem"
     set -gx SSL_CERT_FILE "$ZEROBREW_PREFIX/opt/ca-certificates/share/ca-certificates/cacert.pem"
 else if test -f "$ZEROBREW_PREFIX/etc/ca-certificates/cacert.pem"
     set -gx CURL_CA_BUNDLE "$ZEROBREW_PREFIX/etc/ca-certificates/cacert.pem"
     set -gx SSL_CERT_FILE "$ZEROBREW_PREFIX/etc/ca-certificates/cacert.pem"
-else if test -f "$ZEROBREW_PREFIX/share/ca-certificates/cacert.pem"
-    set -gx CURL_CA_BUNDLE "$ZEROBREW_PREFIX/share/ca-certificates/cacert.pem"
-    set -gx SSL_CERT_FILE "$ZEROBREW_PREFIX/share/ca-certificates/cacert.pem"
 end
 
 if test -d "$ZEROBREW_PREFIX/etc/ca-certificates"
@@ -272,7 +251,15 @@ bind vv edit_command_buffer
 bind \t fzf-tab-widget
 bind -M insert \t fzf-tab-widget
 
-oh-my-posh init fish -c ~/.config/omp.json | source
+# Oh My Posh
+if type -q oh-my-posh
+    set -l omp_cache "$cache_dir/omp_init.fish"
+    set -l omp_config "$HOME/.config/omp.json"
+    if not test -f "$omp_cache"; or test "$omp_config" -nt "$omp_cache"
+        oh-my-posh init fish -c "$omp_config" > "$omp_cache"
+    end
+    source "$omp_cache"
+end
 
 # Restore Ctrl-C behavior to clear the line instead of creating a new prompt
 bind \cC clear-commandline
