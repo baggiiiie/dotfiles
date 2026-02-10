@@ -253,12 +253,7 @@ bind -M insert \t fzf-tab-widget
 
 # Oh My Posh
 if type -q oh-my-posh
-    set -l omp_cache "$cache_dir/omp_init.fish"
-    set -l omp_config "$HOME/.config/omp.json"
-    if not test -f "$omp_cache"; or test "$omp_config" -nt "$omp_cache"
-        oh-my-posh init fish -c "$omp_config" > "$omp_cache"
-    end
-    source "$omp_cache"
+    oh-my-posh init fish -c "$HOME/.config/omp.json" | source
 end
 
 # Restore Ctrl-C behavior to clear the line instead of creating a new prompt
