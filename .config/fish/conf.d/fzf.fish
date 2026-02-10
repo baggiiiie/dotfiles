@@ -90,9 +90,19 @@ function fzf_key_bindings
         set -l result
         switch "$current_cmd"
             case ssh scp
+                set -l user_prefix ""
+                set -l real_query "$fzf_query"
+                if string match -q "*@*" -- "$fzf_query"
+                    set user_prefix (string replace -r '@.*' '@' -- "$fzf_query")
+                    set real_query (string replace -r '.*@' '' -- "$fzf_query")
+                end
+
                 set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts --scheme=default" "--preview 'doggo {}'")
                 set -l hosts_cmd "{ grep -oE '^[^ ,]+' ~/.ssh/known_hosts 2>/dev/null | sort -u; awk '/^Host / && !/\\*/ {print \$2}' ~/.ssh/config 2>/dev/null; } | sort -u"
-                set result (eval $hosts_cmd | eval (__fzfcmd) --query=$fzf_query | string split0)
+                set result (eval $hosts_cmd | eval (__fzfcmd) --query="$real_query" | string split0)
+                if test $status -eq 0; and test -n "$result"
+                    set result "$user_prefix$result"
+                end
 
             case kill
                 set -lx FZF_DEFAULT_OPTS (__fzf_defaults "$base_opts" "--preview 'echo {}' --header 'Select process to kill'")
