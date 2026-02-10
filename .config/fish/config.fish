@@ -273,3 +273,8 @@ bind \t fzf-tab-widget
 bind -M insert \t fzf-tab-widget
 
 oh-my-posh init fish -c ~/.config/omp.json | source
+
+# Restore Ctrl-C behavior to clear the line instead of creating a new prompt
+bind \cC clear-commandline
+bind -M insert \cC clear-commandline
+bind -M visual \cC clear-commandline
