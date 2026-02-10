@@ -247,7 +247,8 @@ if test -f "$HOME/.local/bin/env.fish"
 end
 
 fish_vi_key_bindings
-bind vv edit_command_buffer
+bind \cg edit_command_buffer
+bind -M insert \cg edit_command_buffer
 bind \t fzf-tab-widget
 bind -M insert \t fzf-tab-widget
 
