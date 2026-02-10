@@ -9,7 +9,7 @@ function fzf_key_bindings
     function __fzf_defaults
         test -n "$FZF_TMUX_HEIGHT"; or set -l FZF_TMUX_HEIGHT 40%
         string join ' ' -- \
-            "--height $FZF_TMUX_HEIGHT --min-height=20+ --bind=ctrl-z:ignore" $argv[1] \
+            "--height $FZF_TMUX_HEIGHT --min-height=20+ --ignore-case --bind=ctrl-z:ignore" $argv[1] \
             (test -r "$FZF_DEFAULT_OPTS_FILE"; and string join -- ' ' <$FZF_DEFAULT_OPTS_FILE) \
             $FZF_DEFAULT_OPTS $argv[2..-1]
     end
