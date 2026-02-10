@@ -14,8 +14,7 @@
                 {
                     "foreground": "p:pink",
                     "options": {
-                        "home_icon": "~",
-                        "style": "agnoster_short",
+                        "style": "folder",
                         "max_depth": 2
                     },
                     "style": "plain",
@@ -39,6 +38,17 @@
                     "template": "{{ .HEAD }} ",
                     "style": "plain",
                     "type": "git"
+                },
+                {
+                    "foreground": "p:lavender",
+                    "style": "plain",
+                    "template": "{{ .ChangeID }}{{ if .ClosestBookmarks }} {{ .ClosestBookmarks }}{{ end }} ",
+                    "type": "jujutsu",
+                    "options": {
+                        "fetch_status": true,
+                        "fetch_ahead_counter": true,
+                        "change_id_min_len": 7
+                    }
                 }
             ],
             "type": "prompt"
