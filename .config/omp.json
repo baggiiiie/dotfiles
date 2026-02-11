@@ -54,6 +54,12 @@
                         "change_id_min_len": 7,
                         "ignore_working_copy": true
                     }
+                },
+                {
+                    "foreground": "p:lavender",
+                    "style": "plain",
+                    "template": "{{ if .Env.POSH_JJ_DESC }}({{ .Env.POSH_JJ_DESC }}) {{ end }}",
+                    "type": "text"
                 }
             ],
             "type": "prompt"

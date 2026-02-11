@@ -257,6 +257,15 @@ if type -q oh-my-posh
     oh-my-posh init fish -c "$HOME/.config/omp.json" | source
 end
 
+function set_poshcontext
+    if jj root --quiet >/dev/null 2>&1
+        set -gx POSH_JJ_DESC (jj log -r @ -n 1 --no-graph --template 'description.first_line()' --ignore-working-copy 2>/dev/null)
+        test -z "$POSH_JJ_DESC"; and set -gx POSH_JJ_DESC "empty"
+    else
+        set -e POSH_JJ_DESC
+    end
+end
+
 # Restore Ctrl-C behavior to clear the line instead of creating a new prompt
 bind \cC clear-commandline
 bind -M insert \cC clear-commandline
