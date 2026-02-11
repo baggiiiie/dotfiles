@@ -162,6 +162,7 @@ if type -q zoxide
     set -l zoxide_cache "$cache_dir/zoxide_init.fish"
     if not test -f "$zoxide_cache"
         zoxide init --cmd cd fish >"$zoxide_cache"
+        zoxide init fish | source
     end
     source "$zoxide_cache"
 end
@@ -224,20 +225,6 @@ bind \cg edit_command_buffer
 bind -M insert \cg edit_command_buffer
 bind \t fzf-tab-widget
 bind -M insert \t fzf-tab-widget
-
-# Oh My Posh
-if type -q oh-my-posh
-    oh-my-posh init fish -c "$HOME/.config/omp.json" | source
-end
-
-function set_poshcontext
-    if jj root --quiet >/dev/null 2>&1
-        set -gx POSH_JJ_DESC (jj log -r @ -n 1 --no-graph --template 'description.first_line()' --ignore-working-copy 2>/dev/null)
-        test -z "$POSH_JJ_DESC"; and set -gx POSH_JJ_DESC empty
-    else
-        set -e POSH_JJ_DESC
-    end
-end
 
 # Restore Ctrl-C behavior to clear the line instead of creating a new prompt
 bind \cC clear-commandline
