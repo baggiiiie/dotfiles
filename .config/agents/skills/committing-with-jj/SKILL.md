@@ -37,7 +37,7 @@ Before doing anything, check if the repo uses jj by running `jj root` in the wor
    | Finalize current change with a message and start a new one | `jj commit -m "message"`                       |
    | Set/update description without starting a new change       | `jj describe -m "message"`                     |
    | Describe a specific revision                               | `jj describe -r <rev> -m "message"`            |
-   | Split current change into multiple changes                 | `jj split` (interactive) or `jj split <files>` |
+   | Split current change into multiple changes                 | `jj split <files> -m "message"` |
    | Create a new empty change on top of current                | `jj new`                                       |
    | Create a new change with a message                         | `jj new -m "message"`                          |
    | Create a new change inserted after a specific revision     | `jj new -A <rev>`                              |
