@@ -25,15 +25,6 @@ else
     end
 end
 
-# NVM - resolve default node version without subshell
-set -gx NVM_DIR "$HOME/.nvm"
-if test -f "$NVM_DIR/alias/default"
-    read -l _default_node <"$NVM_DIR/alias/default"
-    fish_add_path --prepend "$NVM_DIR/versions/node/$_default_node/bin"
-else
-    fish_add_path --prepend "$NVM_DIR/versions/node/v18.0.0/bin"
-end
-
 # Cargo / Rust / Bun / User Binaries
 fish_add_path "$HOME/.cargo/bin" "$HOME/.bun/bin" "$HOME/bin" /Applications/gg.app/Contents/MacOS
 set -gx BUN_INSTALL "$HOME/.bun"
@@ -82,24 +73,6 @@ function y --description "Yazi file manager with cwd tracking"
         builtin cd -- "$cwd"
     end
     rm -f -- "$tmp"
-end
-
-function node --description "Lazy-load node via nvm"
-    functions --erase nvm node npm npx
-    bass source "$NVM_DIR/nvm.sh"
-    node $argv
-end
-
-function npm --description "Lazy-load npm via nvm"
-    functions --erase nvm node npm npx
-    bass source "$NVM_DIR/nvm.sh"
-    npm $argv
-end
-
-function npx --description "Lazy-load npx via nvm"
-    functions --erase nvm node npm npx
-    bass source "$NVM_DIR/nvm.sh"
-    npx $argv
 end
 
 # Jira wrapper with lazy-loaded identity
@@ -188,7 +161,7 @@ test -d "$cache_dir"; or mkdir -p "$cache_dir"
 if type -q zoxide
     set -l zoxide_cache "$cache_dir/zoxide_init.fish"
     if not test -f "$zoxide_cache"
-        zoxide init --cmd cd fish > "$zoxide_cache"
+        zoxide init --cmd cd fish >"$zoxide_cache"
     end
     source "$zoxide_cache"
 end
@@ -197,7 +170,7 @@ end
 if type -q atuin
     set -l atuin_cache "$cache_dir/atuin_init.fish"
     if not test -f "$atuin_cache"
-        atuin init fish --disable-up-arrow > "$atuin_cache"
+        atuin init fish --disable-up-arrow >"$atuin_cache"
     end
     source "$atuin_cache"
 end
@@ -260,7 +233,7 @@ end
 function set_poshcontext
     if jj root --quiet >/dev/null 2>&1
         set -gx POSH_JJ_DESC (jj log -r @ -n 1 --no-graph --template 'description.first_line()' --ignore-working-copy 2>/dev/null)
-        test -z "$POSH_JJ_DESC"; and set -gx POSH_JJ_DESC "empty"
+        test -z "$POSH_JJ_DESC"; and set -gx POSH_JJ_DESC empty
     else
         set -e POSH_JJ_DESC
     end
