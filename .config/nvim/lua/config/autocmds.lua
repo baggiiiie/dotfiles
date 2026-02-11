@@ -51,3 +51,13 @@ vim.api.nvim_create_user_command("Ft", function(opts)
   vim.bo.filetype = opts.args
 end, { nargs = 1 })
 
+-- Disable diagnostics and formatting for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("markdown_disable_features", { clear = true }),
+  pattern = { "markdown" },
+  callback = function()
+    vim.b.autoformat = false
+    vim.diagnostic.enable(false, { bufnr = 0 })
+  end,
+})
+
