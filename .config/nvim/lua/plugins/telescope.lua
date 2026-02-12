@@ -9,6 +9,31 @@ return {
       end,
       desc = "Resume last telescope search",
     },
+    -- Workaround: Telescope uses feedkeys("A") to enter insert mode, but for
+    -- async pickers (LSP) the prompt buffer's auto-insert wins the race, so "A"
+    -- is typed literally. Block it via InsertCharPre with a timing guard.
+    {
+      "<leader>ss",
+      function()
+        require("telescope.builtin").lsp_document_symbols({
+          symbols = LazyVim.config.get_kind_filter(),
+          attach_mappings = function(prompt_bufnr)
+            local open_time = vim.uv.now()
+            vim.api.nvim_create_autocmd("InsertCharPre", {
+              buffer = prompt_bufnr,
+              once = true,
+              callback = function()
+                if vim.v.char == "A" and (vim.uv.now() - open_time) < 200 then
+                  vim.v.char = ""
+                end
+              end,
+            })
+            return true
+          end,
+        })
+      end,
+      desc = "Goto Symbol",
+    },
   },
   opts = function()
     local actions = require("telescope.actions")
