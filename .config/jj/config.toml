@@ -109,7 +109,6 @@ if(self && !current_working_copy && !immutable && !conflict && in_branch(self) &
 # 'format_timestamp(timestamp)' = 'timestamp'
 # Relative timestamp rendered as "x days/hours/seconds ago"
 'format_timestamp(timestamp)' = 'timestamp.ago()'
-# 'format_short_id(id)' = 'id.shortest()'
 "in_branch(commit)" = 'commit.contained_in("immutable_heads()..bookmarks()")'
 "private_commits(commit)" = 'commit.contained_in("private()")'
 
