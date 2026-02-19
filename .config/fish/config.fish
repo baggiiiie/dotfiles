@@ -53,8 +53,6 @@ alias venv "source .venv/bin/activate.fish"
 alias devsync "bash $HOME/Desktop/repos/work/devsync/dev-sync.sh"
 alias ts tailscale
 alias ta "tmux a"
-alias j jj
-alias jjui /Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good
 alias eos "sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
 alias hi "terminal-notifier -message (basename (pwd)) -title 'im done' -sound ping"
 alias ghist "bash /Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
@@ -73,6 +71,14 @@ function y --description "Yazi file manager with cwd tracking"
         builtin cd -- "$cwd"
     end
     rm -f -- "$tmp"
+end
+
+function j --description "jjui or jj?"
+    if test (count $argv) -eq 0
+        /Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good
+    else
+        command jj $argv
+    end
 end
 
 # Jira wrapper with lazy-loaded identity

@@ -38,14 +38,22 @@ vim.keymap.set(
 )
 
 -- File path utilities
+local function copy_to_clipboard(text)
+  vim.fn.setreg("+", text)
+  -- Also write via OSC 52 for remote sessions
+  pcall(function()
+    require("vim.ui.clipboard.osc52").copy("+")(text)
+  end)
+end
+
 local function copy_full_path()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":p")
-  vim.fn.setreg("+", filepath)
+  copy_to_clipboard(filepath)
 end
 
 local function copy_relative_path()
   local filepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-  vim.fn.setreg("+", filepath)
+  copy_to_clipboard(filepath)
 end
 
 local function confirm_and_delete_buffer()
@@ -108,6 +116,7 @@ map({ "n", "x" }, "<leader>gB", function()
 
   if mode == "v" or mode == "V" or mode == "\22" then
     -- Visual mode: include line numbers
+    vim.notify("visual mode")
     local start_line = vim.fn.line("v")
     local end_line = vim.fn.line(".")
     if start_line > end_line then

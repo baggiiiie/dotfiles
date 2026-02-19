@@ -3,6 +3,7 @@
 import { chromium } from "playwright";
 import { join } from "path";
 import { homedir } from "os";
+import { execSync } from "child_process";
 
 const TIMESHEET_URL =
     "https://sapfioriprd.illumina.com/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html?sap-client=100&sap-language=EN#ZSTIME_PLW-Create";
@@ -58,36 +59,71 @@ async function handleSSO(page) {
         }
 
         console.log("SSO credentials submitted, waiting for redirect...");
-        await page.waitForTimeout(5000);
+        try {
+            execSync(
+                "terminal-notifier -message 'login!' -title fill-timesheet -sound ping"
+            );
+        } catch (e) {
+            console.warn("Failed to send terminal notification:", e.message);
+        }
+        await page.waitForTimeout(50000);
     }
 }
 
 async function fillTimesheet() {
     const headless = process.env.HEADLESS === "true" || process.env.HEADLESS === "1";
-    const context = await chromium.launchPersistentContext(USER_DATA_DIR, {
-        headless,
-        channel: "chrome",
-        args: ["--disable-blink-features=AutomationControlled"],
-    });
+    let context;
+    try {
+        context = await chromium.launchPersistentContext(USER_DATA_DIR, {
+            headless,
+            channel: "chrome",
+            args: ["--disable-blink-features=AutomationControlled"],
+        });
+    } catch (err) {
+        throw new Error(
+            `Failed to launch Chrome (headless=${headless}, userDataDir=${USER_DATA_DIR}): ${err.message}`
+        );
+    }
 
     const page = context.pages()[0] || (await context.newPage());
 
     console.log("Navigating to timesheet...");
-    await page.goto(TIMESHEET_URL, { waitUntil: "domcontentloaded" });
+    try {
+        await page.goto(TIMESHEET_URL, { waitUntil: "domcontentloaded" });
+    } catch (err) {
+        throw new Error(`Failed to navigate to ${TIMESHEET_URL}: ${err.message}`);
+    }
     await page.waitForTimeout(3000);
 
     // Handle SSO if redirected to login page
-    if (!page.url().includes("sapfioriprd.illumina.com")) {
+    const currentUrl = page.url();
+    if (!currentUrl.includes("sapfioriprd.illumina.com")) {
+        console.log(`Redirected to SSO (url=${currentUrl})`);
         await handleSSO(page);
-        await page.waitForURL("**/sapfioriprd.illumina.com/**", {
-            timeout: 60_000,
-        });
+        try {
+            await page.waitForURL("**/sapfioriprd.illumina.com/**", {
+                timeout: 60_000,
+            });
+        } catch (err) {
+            throw new Error(
+                `Timed out waiting for redirect back to SAP after SSO (stuck on ${page.url()}): ${err.message}`
+            );
+        }
     }
 
     console.log("Waiting for timesheet to load...");
-    await page.waitForSelector('text="Illumina Run Manager (EdgeOS)"', {
-        timeout: 60_000,
-    });
+    try {
+        await page.waitForSelector('text="Illumina Run Manager (EdgeOS)"', {
+            timeout: 60_000,
+        });
+    } catch (err) {
+        const bodyText = await page.textContent("body").catch(() => "<unreadable>");
+        throw new Error(
+            `Timed out waiting for "Illumina Run Manager (EdgeOS)" row to appear (url=${page.url()}).\n` +
+            `  Page text preview: ${bodyText.slice(0, 500)}\n` +
+            `  Original error: ${err.message}`
+        );
+    }
     await page.waitForTimeout(2000);
 
     // Find the EdgeOS row and fill Mon-Fri (first 5 input fields in that row)
@@ -96,7 +132,9 @@ async function fillTimesheet() {
     const count = await inputs.count();
 
     if (count < 7) {
+        const rowHtml = await row.innerHTML().catch(() => "<unreadable>");
         console.error(`Expected at least 7 day fields, found ${count}. Aborting.`);
+        console.error(`Row HTML: ${rowHtml.slice(0, 1000)}`);
         await context.close();
         process.exit(1);
     }
@@ -117,21 +155,66 @@ async function fillTimesheet() {
         await input.click();
         await input.fill(HOURS);
     }
-    // Click away to trigger update
-    await row.locator("td").first().click();
+    // Click away to trigger update (first td is a hidden SAP decoration cell, skip it)
+    await row.locator("td:visible").first().click();
     await page.waitForTimeout(1000);
 
     console.log("Saving timesheet...");
-    await page.getByRole("button", { name: "Save" }).click();
+    const saveButton = page.getByRole("button", { name: "Save" });
+    if (!(await saveButton.isVisible())) {
+        throw new Error("Save button not found or not visible on the page");
+    }
+    await saveButton.click();
+    await page.waitForTimeout(1000);
+
+    // SAP UI5 sometimes needs a more forceful click — retry with dispatchEvent if
+    // the confirmation dialog doesn't show up quickly.
+    const confirmDialog = page.locator('text=/are you sure/i');
+    if (!(await confirmDialog.isVisible({ timeout: 3000 }).catch(() => false))) {
+        console.log("Confirmation dialog not visible yet, retrying Save click...");
+        await saveButton.dispatchEvent("click");
+        await page.waitForTimeout(1000);
+    }
 
     // Handle confirmation dialog
-    await page.waitForSelector('text="Are you sure"', { timeout: 10_000 });
-    await page.getByRole("button", { name: "Submit" }).click();
+    try {
+        await confirmDialog.waitFor({ state: "visible", timeout: 10_000 });
+    } catch (err) {
+        const screenshotPath = join(homedir(), "timesheet-debug.png");
+        await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => {});
+        const bodyText = await page.textContent("body").catch(() => "<unreadable>");
+        throw new Error(
+            `Confirmation dialog ("Are you sure") did not appear after clicking Save (url=${page.url()}).\n` +
+            `  Screenshot saved to: ${screenshotPath}\n` +
+            `  Page text preview: ${bodyText.slice(0, 500)}\n` +
+            `  Original error: ${err.message}`
+        );
+    }
+    const submitButton = page.getByRole("button", { name: /submit/i });
+    // Fall back to "OK" / "Yes" buttons common in SAP confirmation dialogs
+    const okButton = page.getByRole("button", { name: /^(ok|yes)$/i });
+    if (await submitButton.isVisible().catch(() => false)) {
+        await submitButton.click();
+    } else if (await okButton.first().isVisible().catch(() => false)) {
+        console.log('No "Submit" button found, clicking OK/Yes instead.');
+        await okButton.first().click();
+    } else {
+        throw new Error("Confirmation dialog appeared but no Submit/OK/Yes button found");
+    }
 
     // Wait for success
-    await page.waitForSelector('text="succcessfully submitted"', {
-        timeout: 30_000,
-    });
+    try {
+        await page.waitForSelector('text=/successfully submitted/i', {
+            timeout: 30_000,
+        });
+    } catch (err) {
+        const bodyText = await page.textContent("body").catch(() => "<unreadable>");
+        throw new Error(
+            `Did not see success message after submitting (url=${page.url()}).\n` +
+            `  Page text preview: ${bodyText.slice(0, 500)}\n` +
+            `  Original error: ${err.message}`
+        );
+    }
     console.log("Timesheet submitted successfully (40 hours).");
 
     await page.waitForTimeout(2000);
@@ -140,5 +223,8 @@ async function fillTimesheet() {
 
 fillTimesheet().catch((err) => {
     console.error("Failed:", err.message);
+    if (err.message !== err.stack) {
+        console.error("Stack trace:", err.stack);
+    }
     process.exit(1);
 });
