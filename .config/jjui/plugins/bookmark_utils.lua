@@ -21,7 +21,10 @@ function M.get_bookmarks(rev)
 end
 
 function M.perform_op(op, bookmark, current_change_id)
-	if string.find(op, "rename") then
+	if string.find(op, "copy") then
+		copy_to_clipboard(bookmark)
+		flash("Copied bookmark: " .. bookmark)
+	elseif string.find(op, "rename") then
 		local new_name = input({ title = "New bookmark name", value = bookmark })
 		if new_name and new_name ~= "" then
 			jj("bookmark", "rename", bookmark, new_name)
@@ -48,7 +51,8 @@ function M.perform_op(op, bookmark, current_change_id)
 				revisions.refresh()
 			end
 		end
-	elseif string.find(op, "show revision") then
+	elseif string.find(op, "show") then
+		flash("Showing revision: " .. bookmark)
 		revset.set("trunk()::" .. bookmark)
 	end
 end

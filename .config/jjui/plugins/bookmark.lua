@@ -13,7 +13,7 @@ end
 
 function bookmark()
 	local change_id = context.change_id()
-	if not change_id then
+	if change_id == nil then
 		flash("No revision selected")
 		return
 	end
@@ -22,8 +22,9 @@ function bookmark()
 
 	local function show_ops(b)
 		local op = choose({
-			options = { "rename " .. b, "delete " .. b, "forget " .. b },
+			options = { "rename " .. b, "delete " .. b, "forget " .. b, "copy " .. b, "show " .. b },
 			title = "Select operation for " .. b .. ": ",
+			ordered = true,
 		})
 		if op then
 			utils.perform_op(op, b, change_id)
@@ -31,7 +32,11 @@ function bookmark()
 	end
 
 	if #bookmarks == 0 then
-		local action = choose({ options = { "create bookmark", "move bookmark" }, title = "No bookmarks on revision" })
+		local action = choose({
+			options = { "create bookmark", "move bookmark" },
+			title = "No bookmarks on revision",
+			ordered = true,
+		})
 		if not action then
 			return
 		end
@@ -48,7 +53,12 @@ function bookmark()
 				flash("No bookmarks to move")
 				return
 			end
-			local to_move = choose({ options = all_bookmarks, title = "Select bookmark to move", filter = true })
+			local to_move = choose({
+				options = all_bookmarks,
+				title = "Select bookmark to move",
+				filter = true,
+				ordered = true,
+			})
 			if to_move then
 				utils.perform_op("move", to_move, change_id)
 			end
@@ -56,7 +66,7 @@ function bookmark()
 	elseif #bookmarks == 1 then
 		show_ops(bookmarks[1])
 	else
-		local selected = choose({ options = bookmarks, title = "Select bookmark" })
+		local selected = choose({ options = bookmarks, title = "Select bookmark", ordered = true })
 		if selected then
 			show_ops(selected)
 		end

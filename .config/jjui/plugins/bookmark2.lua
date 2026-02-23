@@ -3,7 +3,7 @@ local M = {}
 
 function M.setup(config)
 	config.action("bookmark2", function()
-		bookmark()
+		bookmark2()
 	end, {
 		desc = "bookmark2",
 		seq = { "w", "B" },
@@ -11,7 +11,7 @@ function M.setup(config)
 	})
 end
 
-function bookmark()
+function bookmark2()
 	local change_id = context.change_id()
 	if not change_id then
 		flash("No revision selected")
