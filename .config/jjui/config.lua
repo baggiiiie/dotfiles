@@ -3,6 +3,7 @@ local bookmark2 = require("plugins.bookmark2")
 local commit = require("plugins.commit")
 local copy = require("plugins.copy")
 local vim = require("plugins.open_in_details")
+local create_pr = require("plugins.create_pr")
 
 function setup(config)
 	config.action("say hello to me", function()
@@ -17,4 +18,5 @@ function setup(config)
 	commit.setup(config)
 	copy.setup(config)
 	vim.setup(config)
+	create_pr.setup(config)
 end

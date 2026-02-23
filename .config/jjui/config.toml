@@ -37,68 +37,6 @@ bg = "#575048"
 bold = true
 
 [[actions]]
-name = "create_pr"
-lua = '''
-local change_id = context.change_id()
-if not change_id then
-    flash("No revision selected")
-    return
-end
-
-local template = 'if(self.present() && !remote, self.name() ++ "\n", "")'
-local output = jj("bookmark", "list", "-r", change_id, "-T", template)
-local bookmarks = {}
-for line in output:gmatch("[^\n]+") do
-    if line ~= "" then
-        table.insert(bookmarks, line)
-    end
-end
-
-local cmd = "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh"
-if #bookmarks > 0 then
-    if #bookmarks > 1 then
-        flash("Multiple bookmarks found, using: " .. bookmarks[1])
-    end
-    cmd = cmd .. " --branch " .. bookmarks[1]
-end
-
-exec_shell(cmd)
-
-'''
-
-[[bindings]]
-action = "create_pr"
-key = "ctrl+p"
-scope = "revisions"
-desc = "create_pr"
-lua = '''
-local change_id = context.change_id()
-if not change_id then
-    flash("No revision selected")
-    return
-end
-
-local template = 'if(self.present() && !remote, self.name() ++ "\n", "")'
-local output = jj("bookmark", "list", "-r", change_id, "-T", template)
-local bookmarks = {}
-for line in output:gmatch("[^\n]+") do
-    if line ~= "" then
-        table.insert(bookmarks, line)
-    end
-end
-
-local cmd = "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh"
-if #bookmarks > 0 then
-    if #bookmarks > 1 then
-        flash("Multiple bookmarks found, using: " .. bookmarks[1])
-    end
-    cmd = cmd .. " --branch " .. bookmarks[1]
-end
-
-exec_shell(cmd)
-'''
-
-[[actions]]
 name = "deltadiff"
 lua = '''
 jj_interactive("util", "exec", "--", "bash", "-c", "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r " .. context.change_id())
@@ -127,53 +65,8 @@ key = "N"
 scope = "revisions"
 desc = "new_insert_after"
 
-[[actions]]
-name = "quick_revset"
-lua = '''
-local selected = choose({
-    options = {
-        "mine()",
-        "all()",
-        "trunk()..@",
-        revset.default()
-    },
-    title = "Quick Revset"
-})
-
-if selected then
-    revset.set(selected)
-    flash("Revset: " .. selected)
-end
-
-'''
-
 [[bindings]]
-action = "quick_revset"
-key = "ctrl+r"
-scope = "revisions"
-desc = "quick_revset"
-
-[[actions]]
-name = "scroll_to_center"
-lua = '''
--- Center the currently selected revision on screen.
--- Adjust `half` to roughly half your terminal height.
-local half = 15
-
-local id = context.change_id()
-if not id then return end
-
--- 1. Scroll viewport far down so cursor is above the visible area
-revisions.scroll(100)
--- 2. Navigate back — ensureView snaps cursor to the top edge
-revisions.navigate({ to = id })
--- 3. Scroll viewport up to push cursor from top toward center
-revisions.scroll(-half)
-
-'''
-
-[[bindings]]
-action = "scroll_to_center"
-key = "Z"
-scope = "revisions"
-desc = "scroll_to_center"
+action = "revisions.inline_describe"
+desc = "inline describe"
+key = ["enter"]
+scope = "revisions.details"
