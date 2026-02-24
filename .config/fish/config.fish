@@ -82,7 +82,7 @@ function j --description "jjui or jj?"
 end
 
 # Jira wrapper with lazy-loaded identity
-function jira --description "Jira CLI wrapper with smart defaults"
+function jira --description "Jira CLI wrapper with defaults"
     if not set -q jira_me
         set -g jira_me (command jira me)
     end
@@ -91,6 +91,16 @@ function jira --description "Jira CLI wrapper with smart defaults"
         command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me) AND status not in ('Done', 'FIXED')" --order-by priority --updated -30d
     else if test "$argv[1]" = all
         command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me)" --order-by priority --updated -30d
+    else if test "$argv[1]" = search
+        if test (count $argv) -lt 2
+            echo "Usage: jira search <text>"
+            return 1
+        end
+
+        set -l search_text (string join " " -- $argv[2..-1])
+        set -l escaped_search_text (string replace -a '"' '\"' -- "$search_text")
+        set -l jql "project = edgeos AND updated >= -45d AND (summary ~ \"$escaped_search_text\" OR description ~ \"$escaped_search_text\")"
+        command jira issue list -q "$jql" --order-by lastViewed
     else
         command jira $argv
     end
