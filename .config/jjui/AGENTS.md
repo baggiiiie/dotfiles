@@ -1,6 +1,6 @@
 # jjui config
 
-This is a directory for jjui config files.
+This is a directory for jjui config files, below is the documentation for the jjui Lua API. Plugins in `plugins/` should be registered in `config.lua`.
 
 ## API Reference
 

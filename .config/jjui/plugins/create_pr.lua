@@ -170,9 +170,9 @@ function create_pr()
 		"-c",
 		"gh pr view "
 			.. sq(gh_branch)
-			.. " "
+			.. " -w "
 			.. r_flag
-			.. " --json url -q .url 2>/dev/null || gh pr create -B main -H "
+			.. " 2>/dev/null || gh pr create -w -B main -H "
 			.. sq(gh_branch)
 			.. " "
 			.. r_flag
@@ -186,10 +186,7 @@ function create_pr()
 	if pr_err then
 		flash("PR failed: " .. pr_err)
 	else
-		pr_url = pr_url:match("^%s*(.-)%s*$") or ""
-		flash("Copied to clipboard PR URL: " .. pr_url)
-		copy_to_clipboard(pr_url)
-		jj("util", "exec", "--", "open", pr_url)
+		flash("Opened PR in browser")
 	end
 end
 

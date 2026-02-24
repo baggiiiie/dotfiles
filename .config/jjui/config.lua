@@ -4,6 +4,7 @@ local commit = require("plugins.commit")
 local copy = require("plugins.copy")
 local vim = require("plugins.open_in_details")
 local create_pr = require("plugins.create_pr")
+local pull_rebase = require("plugins.pull_rebase")
 
 function setup(config)
 	config.action("say hello to me", function()
@@ -19,4 +20,5 @@ function setup(config)
 	copy.setup(config)
 	vim.setup(config)
 	create_pr.setup(config)
+	pull_rebase.setup(config)
 end
