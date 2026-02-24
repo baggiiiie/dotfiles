@@ -306,14 +306,17 @@ function jira() {
 
 # echo $ZSHRC_DIR
 function chpwd() {
-  export $(grep -v '^#' "$ZSHRC_DIR/.env" | xargs)
+  local _env_vars
+  _env_vars=$(grep -v '^#' "$ZSHRC_DIR/.env" 2>/dev/null | grep -v '^\s*$')
+  [[ -n "$_env_vars" ]] && export ${(f)_env_vars}
   if [[ -f "$(pwd)/.env" ]]; then
       source "$(pwd)/.env"
   fi
   case $(pwd) in
     */work*)
         export GH_HOST=git.illumina.com
-        export $(grep -v '^#' "$ZSHRC_DIR/.env-work" | xargs)
+        _env_vars=$(grep -v '^#' "$ZSHRC_DIR/.env-work" 2>/dev/null | grep -v '^\s*$')
+        [[ -n "$_env_vars" ]] && export ${(f)_env_vars}
       ;;
     */personal*)
         export GH_HOST=github.com
