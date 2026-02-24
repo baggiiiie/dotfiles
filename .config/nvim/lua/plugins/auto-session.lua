@@ -29,7 +29,7 @@ return {
     suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
     auto_restore_last_session = false,
     use_git_branch = true,
-    show_auto_restore_notif = true,
+    show_auto_restore_notif = false,
     session_lens = {
       load_on_setup = true,
       previewer = false,
