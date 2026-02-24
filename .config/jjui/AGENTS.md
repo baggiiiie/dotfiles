@@ -1,6 +1,6 @@
 # jjui config
 
-This is a directory for jjui config files, below is the documentation for the jjui Lua API. Plugins in `plugins/` should be registered in `config.lua`.
+`jjui` is a Go TUI program for jj-vcs. This is a directory for jjui config files, below is the documentation for the jjui Lua API. Plugins in `plugins/` should be registered in `config.lua`.
 
 ## API Reference
 
@@ -67,7 +67,7 @@ Execute Jujutsu commands in different modes.
 | Function                                                    | Description                                                                                                                      | Returns           | Example                                                                                  |
 | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------- |
 | `flash(message)`                                            | Display a temporary message to the user                                                                                          |                   | `flash("Done!")`                                                                         |
-| `choose(options)` or `choose({options = ..., title = ...})` | Show selection menu, wait for user choice. Accepts varargs, table, or options object with `options` (table) and `title` (string) | `string` or `nil` | `local choice = choose("Yes", "No")` or `choose({options = {"a", "b"}, title = "Pick"})` |
+| `choose(options)` or `choose({options = ..., title = ..., ordered = ..., filter = ...})` | Show selection menu, wait for user choice. Accepts varargs, table, or options object with `options` (table) and `title` (string) | `string` or `nil` | `local choice = choose("Yes", "No")` or `choose({options = {"a", "b"}, title = "Pick", ordered = true, filter = true})` |
 | `input(options)`                                            | Show input prompt. Options: `title` (string), `prompt` (string)                                                                  | `string` or `nil` | `local text = input({title = "Name", prompt = "Enter: "})`                               |
 
 ### Utilities
