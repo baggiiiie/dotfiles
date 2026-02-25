@@ -14,14 +14,14 @@ end
 function bookmark2()
 	local change_id = context.change_id()
 	if not change_id then
-		flash("No revision selected")
+		flash({ text = "No revision selected", error = true })
 		return
 	end
 
 	local bookmarks = utils.get_bookmarks()
 
 	if #bookmarks == 0 then
-		flash("No bookmarks found")
+		flash({ text = "No bookmarks found", error = true })
 		return
 	end
 

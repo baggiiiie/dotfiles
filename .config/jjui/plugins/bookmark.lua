@@ -14,7 +14,7 @@ end
 function bookmark()
 	local change_id = context.change_id()
 	if change_id == nil then
-		flash("No revision selected")
+		flash({ text = "No revision selected", error = true })
 		return
 	end
 
@@ -22,7 +22,14 @@ function bookmark()
 
 	local function show_ops(b)
 		local op = choose({
-			options = { "rename " .. b, "delete " .. b, "forget " .. b, "copy " .. b, "show " .. b },
+			options = {
+				"rename " .. b,
+				"delete " .. b,
+				"forget " .. b,
+				"copy " .. b,
+				"show " .. b,
+				"go to branch on github",
+			},
 			title = "Select operation for " .. b .. ": ",
 			ordered = true,
 		})
@@ -50,7 +57,7 @@ function bookmark()
 		elseif action == "move bookmark" then
 			local all_bookmarks = utils.get_bookmarks()
 			if #all_bookmarks == 0 then
-				flash("No bookmarks to move")
+				flash({ text = "No bookmarks to move", error = true })
 				return
 			end
 			local to_move = choose({

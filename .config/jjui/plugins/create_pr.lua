@@ -6,7 +6,7 @@ function M.setup(config)
 		create_pr()
 	end, {
 		desc = "create_pr",
-		key = { "ctrl+p" },
+		seq = { "w", "p" },
 		scope = "revisions",
 	})
 end
@@ -34,7 +34,7 @@ end
 function create_pr()
 	local change_id = context.change_id()
 	if not change_id then
-		flash("No revision selected")
+		flash({ text = "No revision selected", error = true })
 		return
 	end
 
@@ -56,13 +56,13 @@ function create_pr()
 		if action:find("push and create") then
 			local output, err = jj("git", "push", "-c", change_id)
 			if err then
-				flash("Push failed: " .. err)
+				flash({ text = "Push failed: " .. err, error = true })
 				return
 			end
 			-- Re-fetch bookmarks after push created one
 			bookmarks = utils.get_bookmarks(change_id)
 			if #bookmarks == 0 then
-				flash("Push succeeded but no bookmark found")
+				flash({ text = "Push succeeded but no bookmark found", error = true })
 				return
 			end
 			branch = bookmarks[1]
@@ -92,7 +92,7 @@ function create_pr()
 	local remotes = get_remotes()
 	local selected_remote
 	if #remotes == 0 then
-		flash("No git remotes found")
+		flash({ text = "No git remotes found", error = true })
 		return
 	elseif #remotes == 1 then
 		selected_remote = remotes[1]
@@ -120,7 +120,7 @@ function create_pr()
 	-- Parse user/repo from remote URL for -R flag
 	local gh_repo, target_owner = parse_repo_from_url(selected_remote.url)
 	if not gh_repo then
-		flash("Could not parse user/repo from remote URL: " .. selected_remote.url)
+		flash({ text = "Could not parse user/repo from remote URL: " .. selected_remote.url, error = true })
 		return
 	end
 
@@ -134,11 +134,15 @@ function create_pr()
 	end
 	origin = origin or selected_remote
 
-	-- Push branch to origin
-	jj("bookmark", "track", branch .. "@" .. origin.name)
-	local _, push_err = jj("git", "push", "-b", branch)
+	-- Push branch to origin (network calls via background runner to keep UI responsive)
+	local _, track_err = jj_background("bookmark", "track", branch .. "@" .. origin.name)
+	if track_err then
+		flash({ text = "Track failed: " .. track_err, error = true })
+		return
+	end
+	local _, push_err = jj_background("git", "push", "-b", branch)
 	if push_err then
-		flash("Push failed: " .. push_err)
+		flash({ text = "Push failed: " .. push_err, error = true })
 		return
 	end
 
@@ -150,7 +154,7 @@ function create_pr()
 	end
 
 	-- Get title/body from jj (--fill won't work because gh can't run git log in jj repos)
-	local desc = jj("log", "-r", change_id, "-T", "description", "--no-graph")
+	local desc = jj_background("log", "-r", change_id, "-T", "description", "--no-graph")
 	desc = desc:match("^%s*(.-)%s*$") or ""
 	local title = desc:match("^([^\n]+)") or branch
 	local body = desc:match("\n(.+)$") or ""
@@ -162,7 +166,7 @@ function create_pr()
 
 	-- Use jj util exec so gh can access the underlying git repo
 	local r_flag = "-R " .. sq(gh_repo)
-	local pr_url, pr_err = jj(
+	local _, pr_err = jj_background(
 		"util",
 		"exec",
 		"--",
@@ -184,7 +188,7 @@ function create_pr()
 
 	revisions.refresh()
 	if pr_err then
-		flash("PR failed: " .. pr_err)
+		flash({ text = "PR failed: " .. pr_err, error = true })
 	else
 		flash("Opened PR in browser")
 	end

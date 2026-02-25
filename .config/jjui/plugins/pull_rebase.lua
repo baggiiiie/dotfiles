@@ -5,7 +5,7 @@ function M.setup(config)
 		pull_rebase()
 	end, {
 		desc = "fetch remote and rebase local changes",
-		key = { "ctrl+u" },
+		seq = { "w", "r" },
 		scope = "revisions",
 	})
 end
@@ -44,7 +44,7 @@ function pull_rebase()
 		return
 	end
 	if #remotes == 0 then
-		flash("No git remotes found")
+		flash({ text = "No git remotes found", error = true })
 		return
 	elseif #remotes == 1 then
 		remote = remotes[1]
@@ -64,14 +64,14 @@ function pull_rebase()
 	jj_async("bookmark", "track", bookmark_name, "--remote=" .. remote)
 	local _, fetch_err = jj_background("git", "fetch", "--branch", bookmark_name, "--remote", remote)
 	if fetch_err then
-		flash("Fetch failed: " .. fetch_err)
+		flash({ text = "Fetch failed: " .. fetch_err, error = true })
 		return
 	end
 
 	-- Get bookmark commit after fetch
 	local commit_id = get_local_bookmark_commit(bookmark_name)
 	if not commit_id then
-		flash("No local bookmark '" .. bookmark_name .. "' found")
+		flash({ text = "No local bookmark '" .. bookmark_name .. "' found", error = true })
 		return
 	end
 
@@ -98,9 +98,18 @@ function pull_rebase()
 
 	flash("Collecting revisions to rebase...")
 	-- Get change IDs before rebase to check for newly empty commits
-	local change_ids_output = jj_background("log", "-r", rebase_revset, "-T", 'change_id++"\\n"', "--no-graph", "--color", "never")
-	local empty_before_output =
-		jj_background("log", "-r", rebase_revset, "-T", 'if(empty, change_id++"\\n", "")', "--no-graph", "--color", "never")
+	local change_ids_output =
+		jj_background("log", "-r", rebase_revset, "-T", 'change_id++"\\n"', "--no-graph", "--color", "never")
+	local empty_before_output = jj_background(
+		"log",
+		"-r",
+		rebase_revset,
+		"-T",
+		'if(empty, change_id++"\\n", "")',
+		"--no-graph",
+		"--color",
+		"never"
+	)
 
 	local change_ids = {}
 	for line in change_ids_output:gmatch("[^\n]+") do
@@ -117,15 +126,15 @@ function pull_rebase()
 	end
 
 	if #change_ids == 0 then
-		flash("Fetched " .. bookmark_name .. " (nothing to rebase)")
 		revisions.refresh()
 		return
 	end
 
-	flash("Rebasing " .. #change_ids .. " revision(s) onto " .. bookmark_name .. "...")
-	local _, rebase_err = jj_background("rebase", "-r", rebase_revset, "--onto", "'" .. commit_id .. "'", "--ignore-immutable")
+	flash("Rebasing " .. #change_ids .. " commits...")
+	local _, rebase_err =
+		jj_background("rebase", "-r", rebase_revset, "--onto", "'" .. commit_id .. "'", "--ignore-immutable")
 	if rebase_err then
-		flash("Rebase failed: " .. rebase_err)
+		flash({ text = "Rebase failed: " .. rebase_err, error = true })
 		revisions.refresh()
 		return
 	end
@@ -135,7 +144,8 @@ function pull_rebase()
 	local abandoned = 0
 	for _, cid in ipairs(change_ids) do
 		if not empty_before[cid] then
-			local empty_check = jj_background("log", "-r", cid, "-T", 'if(empty, "empty", "")', "--no-graph", "--color", "never")
+			local empty_check =
+				jj_background("log", "-r", cid, "-T", 'if(empty, "empty", "")', "--no-graph", "--color", "never")
 			if empty_check:find("empty") then
 				jj_background("abandon", cid)
 				abandoned = abandoned + 1
@@ -144,12 +154,6 @@ function pull_rebase()
 	end
 
 	revisions.refresh()
-
-	local msg = "Rebased " .. #change_ids .. " revision(s) onto " .. bookmark_name
-	if abandoned > 0 then
-		msg = msg .. ", abandoned " .. abandoned .. " empty"
-	end
-	flash(msg)
 end
 
 return M

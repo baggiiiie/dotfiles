@@ -48,11 +48,12 @@ Manage the current revset filter.
 
 Execute Jujutsu commands in different modes.
 
-| Function                  | Mode         | Returns                                  | Use For                                                           | Example                                                       |
-| ------------------------- | ------------ | ---------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------- |
-| `jj(...args)`             | Synchronous  | `output (string), error (string or nil)` | Quick queries that don't require UI interaction                   | `local output, err = jj("log", "-r", "@", "-T", "change_id")` |
-| `jj_async(...args)`       | Asynchronous | Nothing (fire-and-forget)                | Commands that modify state but don't need output                  | `jj_async("bookmark", "create", "feature")`                   |
-| `jj_interactive(...args)` | Interactive  | Nothing                                  | Commands requiring user input or editor (e.g., `split`, `absorb`) | `jj_interactive("split")`                                     |
+| Function                  | Mode         | Returns                                  | Use For                                                           | Example                                                          |
+| ------------------------- | ------------ | ---------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `jj(...args)`             | Synchronous  | `output (string), error (string or nil)` | Quick queries that don't require UI interaction                   | `local output, err = jj("log", "-r", "@", "-T", "change_id")`    |
+| `jj_async(...args)`       | Asynchronous | Nothing (fire-and-forget)                | Commands that modify state but don't need output                  | `jj_async("bookmark", "create", "feature")`                      |
+| `jj_interactive(...args)` | Interactive  | Nothing                                  | Commands requiring user input or editor (e.g., `split`, `absorb`) | `jj_interactive("split")`                                        |
+| `jj_background(...args)`  | Asynchronous | `output (string), error (string or nil)` |                                                                   | `local output, error = jj_background("rebase", "-r", change_id)` |
 
 **Arguments**: All functions accept varargs or a table of strings: `jj("log", "-r", "@")` or `jj({"log", "-r", "@"})`
 
@@ -64,11 +65,11 @@ Execute Jujutsu commands in different modes.
 
 ### User Interface
 
-| Function                                                    | Description                                                                                                                      | Returns           | Example                                                                                  |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------- |
-| `flash(message)`                                            | Display a temporary message to the user                                                                                          |                   | `flash("Done!")`                                                                         |
+| Function                                                                                 | Description                                                                                                                      | Returns           | Example                                                                                                                 |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `flash(message)` or `flash({text = ..., error = ...})`                                   | Display a temporary message. Pass a table with `error = true` to show as error                                                   |                   | `flash("Done!")` or `flash({ text = "error", error = true })`                                                                                                        |
 | `choose(options)` or `choose({options = ..., title = ..., ordered = ..., filter = ...})` | Show selection menu, wait for user choice. Accepts varargs, table, or options object with `options` (table) and `title` (string) | `string` or `nil` | `local choice = choose("Yes", "No")` or `choose({options = {"a", "b"}, title = "Pick", ordered = true, filter = true})` |
-| `input(options)`                                            | Show input prompt. Options: `title` (string), `prompt` (string)                                                                  | `string` or `nil` | `local text = input({title = "Name", prompt = "Enter: "})`                               |
+| `input(options)`                                                                         | Show input prompt. Options: `title` (string), `prompt` (string)                                                                  | `string` or `nil` | `local text = input({title = "Name", prompt = "Enter: "})`                                                              |
 
 ### Utilities
 
@@ -77,4 +78,3 @@ Execute Jujutsu commands in different modes.
 | `copy_to_clipboard(text)`       | Copy text to system clipboard                                                                                          | `bool, error (string or nil)` | `local ok, err = copy_to_clipboard("text")`                        |
 | `split_lines(text, keep_empty)` | Split text into lines. By default, empty lines are removed. Args: `text` (string), `keep_empty` (bool, default: false) | `table` (array of strings)    | `local lines = split_lines(output)` or `split_lines(output, true)` |
 | `exec_shell(command)`           | Execute a shell command interactively. Unlike `os.execute`, this properly returns to jjui after the command exits.     | `bool`                        | `exec_shell("vim " .. file)`                                       |
-

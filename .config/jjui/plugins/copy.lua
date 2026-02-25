@@ -28,7 +28,7 @@ function M.setup(config)
 			flash("Copied file: " .. selected_file)
 			return
 		end
-		flash("No item selected to copy")
+		flash({ text = "No item selected to copy", error = true })
 	end, {
 		desc = "copy to clipboard",
 		key = { "Y" },

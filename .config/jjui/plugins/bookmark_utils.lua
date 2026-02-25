@@ -45,7 +45,7 @@ function M.perform_op(op, bookmark, current_change_id)
 		if target and target ~= "" then
 			local _, err = jj("bookmark", "move", bookmark, "--to", target, "--allow-backwards")
 			if err ~= nil then
-				flash("Error moving bookmark: " .. err)
+				flash({ text = "Error moving bookmark: " .. err, error = true })
 			else
 				flash("Moved bookmark " .. bookmark .. " to " .. target)
 				revisions.refresh()
@@ -54,6 +54,8 @@ function M.perform_op(op, bookmark, current_change_id)
 	elseif string.find(op, "show") then
 		flash("Showing revision: " .. bookmark)
 		revset.set("trunk()::" .. bookmark)
+	elseif string.find(op, "go to") then
+		exec_shell("gh repo view -w --branch " .. bookmark)
 	end
 end
 
