@@ -18,6 +18,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
       return
     end
 
+    -- Skip .env files
+    if filename == ".env" or filename:match("^%.env%.") then
+      return
+    end
+
     -- Check first 30 lines for shell script indicators
     local lines = vim.fn.getline(1, 30)
 
@@ -60,4 +65,3 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.diagnostic.enable(false, { bufnr = 0 })
   end,
 })
-

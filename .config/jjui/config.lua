@@ -7,13 +7,6 @@ local create_pr = require("plugins.create_pr")
 local pull_rebase = require("plugins.pull_rebase")
 
 function setup(config)
-	config.action("say hello to me", function()
-		flash("hello from config.lua")
-	end, {
-		desc = "hello to me",
-		seq = { "w", "p" },
-		scope = "revisions",
-	})
 	bookmark.setup(config)
 	bookmark2.setup(config)
 	commit.setup(config)

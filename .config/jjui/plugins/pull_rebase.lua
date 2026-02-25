@@ -4,7 +4,7 @@ function M.setup(config)
 	config.action("pull_rebase", function()
 		pull_rebase()
 	end, {
-		desc = "fetch remote and rebase local changes",
+		desc = "pull and rebase",
 		seq = { "w", "r" },
 		scope = "revisions",
 	})

@@ -87,9 +87,10 @@
     side-by-side = false
 
 [delta]
-    features = split-view
+    features = non-split-view
     navigate = true
     line-numbers = true
+    wrap-max-lines = unlimited
 ; [delta]
 ;     side-by-side = true
 ;     navigate = true

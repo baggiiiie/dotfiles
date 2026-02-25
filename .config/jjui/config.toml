@@ -19,7 +19,7 @@ revision_command = [
     "--config",
     "ui.diff-formatter=delta-non-split-view",
 ]
-width_percentage = 60.0
+width_percentage = 65.0
 
 
 [suggest]

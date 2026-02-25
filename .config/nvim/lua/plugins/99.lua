@@ -14,7 +14,7 @@ return {
     local cwd = vim.uv.cwd()
     local basename = vim.fs.basename(cwd)
     _99.setup({
-      model = "github-copilot/claude-sonnet-4.5",
+      model = "openai/gpt-5.3-codex",
       -- provider = _99.ClaudeCodeProvider,  -- default: OpenCodeProvider
       logger = {
         level = _99.DEBUG,

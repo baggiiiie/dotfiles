@@ -32,6 +32,7 @@ local function parse_repo_from_url(url)
 end
 
 function create_pr()
+	flash({ text = "Creating PR..." })
 	local change_id = context.change_id()
 	if not change_id then
 		flash({ text = "No revision selected", error = true })
@@ -190,7 +191,7 @@ function create_pr()
 	if pr_err then
 		flash({ text = "PR failed: " .. pr_err, error = true })
 	else
-		flash("Opened PR in browser")
+		flash({ text = "Opened PR in browser", sticky = true })
 	end
 end
 

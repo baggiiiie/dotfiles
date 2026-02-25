@@ -18,6 +18,7 @@ web:*.{html,css,js}*
 --glob=!*.excalidraw.*
 --glob=!.obsidian/*
 --glob=!.venv
+--glob=!DS_Store
 
 --glob-case-insensitive
 

@@ -81,28 +81,48 @@ function j --description "jjui or jj?"
     end
 end
 
+function tmux-init --description "init tmux session"
+    bash ~/Desktop/repos/personal/dotfiles/others/tmux-init-sesh.sh
+end
+
 # Jira wrapper with lazy-loaded identity
 function jira --description "Jira CLI wrapper with defaults"
     if not set -q jira_me
         set -g jira_me (command jira me)
     end
 
-    if test (count $argv) -eq 0
-        command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me) AND status not in ('Done', 'FIXED')" --order-by priority --updated -30d
-    else if test "$argv[1]" = all
-        command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me)" --order-by priority --updated -30d
-    else if test "$argv[1]" = search
-        if test (count $argv) -lt 2
+    # Parse -d flag for days
+    set -l days 30
+    set -l args
+    set -l i 1
+    while test $i -le (count $argv)
+        if test "$argv[$i]" = -d
+            set i (math $i + 1)
+            if test $i -le (count $argv)
+                set days $argv[$i]
+            end
+        else
+            set -a args $argv[$i]
+        end
+        set i (math $i + 1)
+    end
+
+    if test (count $args) -eq 0
+        command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me) AND status not in ('Done', 'FIXED')" --order-by priority --updated -{$days}d
+    else if test "$args[1]" = all
+        command jira issue list -q "(assignee = $jira_me OR reporter = $jira_me)" --order-by priority --updated -{$days}d
+    else if test "$args[1]" = search
+        if test (count $args) -lt 2
             echo "Usage: jira search <text>"
             return 1
         end
 
-        set -l search_text (string join " " -- $argv[2..-1])
+        set -l search_text (string join " " -- $args[2..-1])
         set -l escaped_search_text (string replace -a '"' '\"' -- "$search_text")
-        set -l jql "project = edgeos AND updated >= -45d AND (summary ~ \"$escaped_search_text\" OR description ~ \"$escaped_search_text\")"
+        set -l jql "project = edgeos AND updated >= -{$days}d AND (summary ~ \"$escaped_search_text\" OR description ~ \"$escaped_search_text\")"
         command jira issue list -q "$jql" --order-by lastViewed
     else
-        command jira $argv
+        command jira $args
     end
 end
 
