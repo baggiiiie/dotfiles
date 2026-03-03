@@ -1,14 +1,12 @@
 local M = {}
 function M.setup(config)
 	config.action("commit", function()
-		local applied = revisions.start_inline_describe()
-		if applied then
-			jj("new", "-A", context.change_id())
-			revisions.refresh()
-			local new_change_id = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
-			revisions.navigate({ to = new_change_id })
+		revisions.open_inline_describe()
+		if not wait_close() then
 			return
 		end
+		revisions.new()
+		wait_refresh()
 	end, {
 		desc = "commit",
 		key = { "c" },

@@ -66,7 +66,7 @@ scope = "revisions"
 desc = "new_insert_after"
 
 [[bindings]]
-action = "revisions.inline_describe"
+action = "revisions.open_inline_describe"
 desc = "inline describe"
 key = ["enter"]
 scope = "revisions.details"

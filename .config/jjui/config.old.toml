@@ -141,7 +141,7 @@ show = "interactive"
 [custom_commands.commit]
 key = ['c']
 lua = '''
-local applied = revisions.start_inline_describe()
+local applied = revisions.open_inline_describe()
 local checked_files = context.checked_files()
 if applied then
     jj("new", "-A", context.change_id())
