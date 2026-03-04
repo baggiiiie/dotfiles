@@ -65,14 +65,26 @@ function jj(...) end
 ---@param ... string
 function jj_async(...) end
 
+--- Execute a jj command asynchronously. Returns output and error when complete.
+---@param ... string
+---@return string output, string|nil error
+function jj_background(...) end
+
 --- Execute a jj command interactively in the terminal.
 ---@param ... string
 function jj_interactive(...) end
 
 -- User Interface
 
+---@class FlashOptions
+---@field text string
+---@field error? boolean
+---@field sticky? boolean
+
 --- Display a temporary message to the user.
----@param message string
+---@overload fun(message: string)
+---@overload fun(options: FlashOptions)
+---@param message string|FlashOptions
 function flash(message) end
 
 ---@class ChooseOptions
@@ -89,11 +101,21 @@ function choose(...) end
 ---@class InputOptions
 ---@field title? string
 ---@field prompt? string
+---@field value? string
 
 --- Show an input prompt.
 ---@param options InputOptions
 ---@return string|nil
 function input(options) end
+
+-- Internal await helpers
+
+--- Wait for the current view to close. Returns true if the action was applied.
+---@return boolean
+function wait_close() end
+
+--- Wait for a revision list refresh to complete.
+function wait_refresh() end
 
 -- Utilities
 
