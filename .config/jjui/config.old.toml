@@ -118,7 +118,7 @@ args = [
     "--",
     "bash",
     "-c",
-    "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r $change_id",
+    "/Users/ydai/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r $change_id",
     # "-c",
     # "jj diff --git --color always -r $change_id $file | delta --pager 'less -R +g'",
 ]
@@ -170,7 +170,7 @@ for line in output:gmatch("[^\n]+") do
     end
 end
 
-local cmd = "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh"
+local cmd = "/Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh"
 if #bookmarks > 0 then
     if #bookmarks > 1 then
         flash("Multiple bookmarks found, using: " .. bookmarks[1])

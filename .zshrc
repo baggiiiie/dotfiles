@@ -194,7 +194,7 @@ alias tl="tldr"
 alias nv="nvim"
 alias cat="bat"
 alias venv="source .venv/bin/activate"
-alias devsync="bash $HOME/Desktop/repos/work/devsync/dev-sync.sh"
+alias devsync="bash $HOME/repos/work/devsync/dev-sync.sh"
 alias ts="tailscale"
 alias ta="tmux a"
 alias j="jj"
@@ -233,10 +233,10 @@ function jjdiff() {
   lua_cmd+="vim.cmd('wincmd t') vim.cmd('diffthis')"
   nvim "$file" -c "lua $lua_cmd"
 }
-alias jjui="/Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good"
-alias eos="sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
+alias jjui="/Users/ydai/repos/personal/jjui/jjui/jjui-good"
+alias eos="sh /Users/ydai/repos/work/scripts/get_servers_info/get_eos_version.sh"
 alias hi="terminal-notifier -message '$(basename $(pwd))' -title 'im done' -sound ping"
-alias ghist="bash /Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
+alias ghist="bash /Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
 alias curl="curlie"
 alias dig="doggo"
 alias cc="claude --dangerously-skip-permissions"
@@ -331,7 +331,7 @@ source "$ZSHRC_DIR/.jj-completion.sh"
 # for remote tmux during ssh with ghostty
 export TERM=xterm-256color
 
-export TRY_PATH="$HOME/Desktop/repos/personal/tries"
+export TRY_PATH="$HOME/repos/personal/tries"
 # Lazy load try - only initialize when 'try' command is used
 try() {
   unset -f try

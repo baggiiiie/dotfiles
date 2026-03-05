@@ -39,7 +39,7 @@ bold = true
 [[actions]]
 name = "deltadiff"
 lua = '''
-jj_interactive("util", "exec", "--", "bash", "-c", "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r " .. context.change_id())
+jj_interactive("util", "exec", "--", "bash", "-c", "/Users/ydai/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -r " .. context.change_id())
 '''
 
 [[bindings]]

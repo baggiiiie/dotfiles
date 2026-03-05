@@ -3110,7 +3110,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/osascript /Users/ydai/Desktop/repos/personal/dotfiles/others/raise-teams-meeting"
+                                        "shell_command": "/usr/bin/osascript /Users/ydai/repos/personal/dotfiles/others/raise-teams-meeting"
                                     },
                                     {
                                         "set_variable": {

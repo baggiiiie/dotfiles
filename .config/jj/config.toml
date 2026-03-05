@@ -5,7 +5,7 @@ name = "baggiiiie"
 email = "yc@yingchaoooo.com"
 
 [[--scope]]
---when.repositories = ["~/Desktop/repos/work/"]
+--when.repositories = ["~/repos/work/"]
 
 [--scope.user]
 name = "ydai"
@@ -123,7 +123,7 @@ d = [
     "util",
     "exec",
     "--",
-    "/Users/ydai/Desktop/repos/personal/dotfiles/.config/jj/jj-diffnav.sh",
+    "/Users/ydai/repos/personal/dotfiles/.config/jj/jj-diffnav.sh",
 ]
 diff-y = [
     "util",
@@ -154,7 +154,7 @@ pr = [
     "--",
     "bash",
     "-c",
-    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh \"$@\"",
+    "/Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh \"$@\"",
     "$@",
 ]
 pull = [
@@ -163,7 +163,7 @@ pull = [
     "--",
     "bash",
     "-c",
-    "/Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/jj-pull-rebase.sh \"$@\"",
+    "/Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/jj-pull-rebase.sh \"$@\"",
     "$@",
 ]
 ws = ["workspace"]

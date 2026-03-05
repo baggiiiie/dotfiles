@@ -50,12 +50,12 @@ alias tl tldr
 alias nv nvim
 alias cat bat
 alias venv "source .venv/bin/activate.fish"
-alias devsync "bash $HOME/Desktop/repos/work/devsync/dev-sync.sh"
+alias devsync "bash $HOME/repos/work/devsync/dev-sync.sh"
 alias ts tailscale
 alias ta "tmux a"
-alias eos "sh /Users/ydai/Desktop/repos/work/scripts/get_servers_info/get_eos_version.sh"
+alias eos "sh /Users/ydai/repos/work/scripts/get_servers_info/get_eos_version.sh"
 alias hi "terminal-notifier -message (basename (pwd)) -title 'im done' -sound ping"
-alias ghist "bash /Users/ydai/Desktop/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
+alias ghist "bash /Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh"
 alias curl curlie
 alias dig doggo
 alias cc "claude --dangerously-skip-permissions"
@@ -75,14 +75,14 @@ end
 
 function j --description "jjui or jj?"
     if test (count $argv) -eq 0
-        /Users/ydai/Desktop/repos/personal/jjui/jjui/jjui-good
+        /Users/ydai/repos/personal/jjui/jjui/jjui-good
     else
         command jj $argv
     end
 end
 
 function tmux-init --description "init tmux session"
-    bash ~/Desktop/repos/personal/dotfiles/others/tmux-init-sesh.sh
+    bash ~/repos/personal/dotfiles/others/tmux-init-sesh.sh
 end
 
 # Jira wrapper with lazy-loaded identity
@@ -139,7 +139,7 @@ end
 
 # chpwd equivalent - auto-run on directory change
 function __fish_chpwd --on-variable PWD --description "Auto-load env on directory change"
-    set -l dotfiles_dir "$HOME/Desktop/repos/personal/dotfiles"
+    set -l dotfiles_dir "$HOME/repos/personal/dotfiles"
 
     __load_env_file "$dotfiles_dir/.env"
     __load_env_file "$PWD/.env"
@@ -155,7 +155,7 @@ function __fish_chpwd --on-variable PWD --description "Auto-load env on director
 end
 
 # try - inline the generated function instead of eval'ing Ruby at startup
-set -gx TRY_PATH "$HOME/Desktop/repos/personal/tries"
+set -gx TRY_PATH "$HOME/repos/personal/tries"
 function try
     set -l script_path "$HOME/.local/try.rb"
     set -l cmd

@@ -1,7 +1,8 @@
 #!/bin/bash
 
-REPO_DIR=("$HOME/Desktop/repos/work/" "$HOME/Desktop/repos/personal/" "$HOME/Desktop/repos/personal/tries/")
-sesh_to_init=("eosctl" "coffeeee" "jjui")
+REPO_DIR=("$HOME/repos/work/" "$HOME/repos/personal/" "$HOME/repos/personal/tries/")
+# sesh_to_init=("eosctl" "coffeeee" "jjui")
+sesh_to_init=()
 
 if [[ $# -eq 1 ]]; then
     session_name=$1
