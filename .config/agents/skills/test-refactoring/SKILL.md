@@ -1,5 +1,5 @@
 ---
-name: test-refactoring-workflow
+name: test-refactoring
 description: Systematic workflow for refactoring tests to use shared helpers and reduce duplication
 license: MIT
 compatibility: opencode
