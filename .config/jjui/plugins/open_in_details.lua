@@ -6,7 +6,19 @@ function M.setup(config)
 			flash({ text = "No file selected", error = true })
 			return
 		end
-		exec_shell("nvim " .. file)
+		local change_id = context.change_id()
+		local line = nil
+		if change_id then
+			local output, err = jj("diff", "-r", change_id, "--git", file, "--no-pager")
+			if not err and output then
+				line = output:match("@@ %S+ %+(%d+)")
+			end
+		end
+		if line then
+			exec_shell("nvim +" .. line .. " " .. file)
+		else
+			exec_shell("nvim " .. file)
+		end
 	end, {
 		desc = "open in vim",
 		key = { "O" },
