@@ -20,6 +20,29 @@ function M.get_bookmarks(rev)
 	return bookmarks
 end
 
+function M.get_bookmark_by_distance(rev)
+	local template = 'if(local_bookmarks, local_bookmarks.map(|b| b.name()).join(", ") ++ "\n")'
+	local args = {
+		"log",
+		"--no-graph",
+		"--color",
+		"never",
+		"-r",
+		"::" .. rev,
+		"-T",
+		template,
+	}
+
+	local output = jj(unpack(args))
+	local bookmarks = {}
+	for line in output:gmatch("[^\n]+") do
+		if line ~= "" then
+			table.insert(bookmarks, line)
+		end
+	end
+	return bookmarks
+end
+
 function M.perform_op(op, bookmark, current_change_id)
 	if string.find(op, "copy") then
 		copy_to_clipboard(bookmark)
