@@ -1,5 +1,4 @@
 local bookmark = require("plugins.bookmark")
-local bookmark2 = require("plugins.bookmark2")
 local bookmark_view = require("plugins.bookmark_view")
 local commit = require("plugins.commit")
 local copy = require("plugins.copy")
@@ -9,13 +8,25 @@ local pull_rebase = require("plugins.pull_rebase")
 
 function setup(config)
 	bookmark.setup(config)
-	bookmark2.setup(config)
 	bookmark_view.setup(config)
 	commit.setup(config)
 	copy.setup(config)
 	vim.setup(config)
 	create_pr.setup(config)
 	pull_rebase.setup(config)
+	config.action("diff from main", function()
+		jj_interactive(
+			"util",
+			"exec",
+			"--",
+			"bash",
+			"-c",
+			"/Users/ydai/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -f main -t " .. context.change_id()
+		)
+	end, {
+		scope = "revisions",
+		seq = { "w", "d" },
+	})
 	config.action("edit file", function()
 		local function first_hunk_new_lineno(git_diff)
 			for line in git_diff:gmatch("[^\n]+") do
