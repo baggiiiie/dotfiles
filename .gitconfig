@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
 	name = baggiiiie
-	email = yc@yingchaoooo.com
+	email = yc@yingchao.dev
 
 [credential "https://git.illumina.com"]
 	provider = github
@@ -29,20 +29,20 @@
 [pager]
     # Use a pager if the difftool output is larger than one screenful,
     # consistent with the behaviour of `git diff`.
-    difftool = true
-	diff = diffnav
+    ; difftool = true
+	; diff = diffnav
 ; [show]
 ;     tool = difftastic
 [diff]
     # Set difftastic as the default difftool, so we don't need to specify
     # `-t difftastic` every time.
     ; tool = difftastic
-    tool = delta
+    ; tool = delta
     ; external = delta
     colorMoved = default
-[difftool]
+; [difftool]
     # Run the difftool immediately, don't ask 'are you sure' each time.
-    prompt = false
+    ; prompt = false
 [push]
     default = simple
 	autoSetupRemote = true
@@ -62,8 +62,7 @@
 	autoupdate = true
 [core]
     excludesfile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RF
-	; pager = delta
+	pager = hunk pager
 [rebase]
 	autoSquash = true
 	autoStash = true
@@ -77,8 +76,6 @@
         # conflictstyle = zdiff3 
 [pull]
 	rebase = true
-[interactive]
-	diffFilter = diff-so-fancy --patch
 
 [delta "split-view"]
     side-by-side = true
@@ -97,5 +94,3 @@
 
 [color]
     ui = always
-; [difftool "difftastic"]
-; 	cmd = difft --width=$COLUMNS \"$LOCAL\" \"$REMOTE\"

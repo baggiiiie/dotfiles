@@ -34,6 +34,8 @@ shell-integration-features = no-cursor
 
 auto-update-channel = tip
 
+macos-option-as-alt = true
+
 # window-padding-x = 2
 #
 # # Spacing around the equals sign does not matter.

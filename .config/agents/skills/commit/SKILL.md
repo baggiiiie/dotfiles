@@ -1,6 +1,6 @@
 ---
 name: commit
-description: "Use when asked to commit, describe, or finalize changes. Triggers on any commit-related request. Detects whether the repo uses jj before proceeding."
+description: "Use when asked to commit, describe, or finalize changes. Triggers on any commit-related request."
 ---
 
 # Committing A Change
@@ -19,7 +19,7 @@ Manages the commit workflow for repositories using the Jujutsu version control s
 
 1. **Get ChangeID.** If user didn't provide a ChangeID, assume working copy (`@`).
 
-2. **Review the diff.** Run `jj diff -r $ChangeID -s` to see what changes are in the current working copy change.
+2. **Review the diff.** Run `jj diff -r $ChangeID -s --git --no-pager` to see what changes are in the current working copy change.
 
 3. **Determine the commit action**:
 

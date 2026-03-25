@@ -52,6 +52,9 @@ if ("/opt/homebrew/bin/brew" | path exists) {
     $env.PATH = ($env.PATH | prepend "/opt/homebrew/bin" | prepend "/opt/homebrew/sbin")
 }
 
+# Keep user npm globals ahead of Homebrew-installed binaries
+$env.PATH = ($env.PATH | prepend $"($nu.home-dir)/.npm-global/bin")
+
 # ~/.local/bin
 $env.PATH = ($env.PATH | prepend $"($nu.home-dir)/.local/bin")
 
