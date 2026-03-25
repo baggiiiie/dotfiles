@@ -1,5 +1,7 @@
 {
-  "workspace.library": ["types"],
-  "runtime.version": "Lua 5.4",
-  "diagnostics.globals": []
+  "workspace": {
+    "library": [
+      "/Users/ydai/.config/jjui/types.lua"
+    ]
+  }
 }
