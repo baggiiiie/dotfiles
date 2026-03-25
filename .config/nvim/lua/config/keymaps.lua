@@ -87,7 +87,7 @@ vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>",
 
 -- Disable AI assistants
 vim.keymap.set("n", "<leader>cx", function()
-  vim.cmd("Copilot disable")
+  -- vim.cmd("Copilot disable")
   vim.cmd("SupermavenToggle")
   vim.notify("Copilot/Supermaven disabled for this session", vim.log.levels.INFO, { title = "AI Assistants" })
 end, { desc = "Disable AI assistants" })
