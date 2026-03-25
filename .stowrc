@@ -1,6 +1,6 @@
 --target=~/
 --ignore=.stowrc
 --ignore=.DS_STORE
---ignore=.jj
+--ignore=^\.jj$
 --ignore=.git
 --ignore=dotenv-example

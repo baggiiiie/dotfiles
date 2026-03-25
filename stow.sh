@@ -3,56 +3,66 @@
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OLD_PATH_SEGMENT="repos/personal/dotfiles"
-REPO_PATH_SEGMENT="repos/personal/dotfiles"
 
-# Repair stale symlinks created before moving dotfiles from ~/repos to ~/repos.
-repair_links() {
-  local search_root="$1"
-  local max_depth="$2"
-  find "$search_root" -maxdepth "$max_depth" -type l -print0 2>/dev/null |
-    while IFS= read -r -d '' link; do
-      target="$(readlink "$link" || true)"
-      case "$target" in
-        *"$OLD_PATH_SEGMENT"*)
-          fixed_target="${target/Desktop\/repos\/personal\/dotfiles/repos\/personal\/dotfiles}"
-          if [[ "$fixed_target" != "$target" ]]; then
-            ln -snf "$fixed_target" "$link"
-          fi
-          ;;
-      esac
-    done
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+# Check if a symlink target looks like it belongs to this dotfiles repo.
+points_to_dotfiles() {
+  local target="$1"
+  [[ "$target" == "$DOTFILES_DIR"* || "$target" == *"/dotfiles/"* ]]
 }
 
-repair_links "$HOME" 1
-repair_links "$HOME/.config" 3
+# ---------------------------------------------------------------------------
+# Clean up existing symlinks before restow
+# ---------------------------------------------------------------------------
 
-# Remove links that are managed by this dotfiles repo so we can recreate them cleanly.
-remove_managed_links() {
-  find "$HOME" \
-    \( -path "$HOME/Library" -o -path "$HOME/.Trash" -o -path "$HOME/repos" \) -prune -o \
-    -type l -print0 2>/dev/null |
-    while IFS= read -r -d '' link; do
-      target="$(readlink "$link" || true)"
-      case "$target" in
-        *"$OLD_PATH_SEGMENT"*|*"$REPO_PATH_SEGMENT"*|"$DOTFILES_DIR"*)
+cleanup_links() {
+  local search_dirs=("$HOME" "$HOME/.config" "$HOME/.ssh")
+  local depths=(1 3 1)
+  local stale=()
+
+  for i in "${!search_dirs[@]}"; do
+    local dir="${search_dirs[$i]}"
+    local depth="${depths[$i]}"
+    [[ -d "$dir" ]] || continue
+
+    find "$dir" -maxdepth "$depth" -type l -print0 2>/dev/null |
+      while IFS= read -r -d '' link; do
+        local target
+        target="$(readlink "$link" 2>/dev/null || true)"
+
+        if ! points_to_dotfiles "$target"; then
+          continue  # not ours — leave it alone
+        fi
+
+        if [[ -e "$link" ]]; then
+          # Active managed link — remove so stow can recreate it.
           rm -f "$link"
-          ;;
-      esac
-    done
+          echo "removed: $link"
+        else
+          # Broken link that used to point to our dotfiles.
+          rm -f "$link"
+          echo "removed (stale): $link -> $target"
+        fi
+      done
+  done
 }
 
-is_simulation=false
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+dry_run=false
 for arg in "$@"; do
   case "$arg" in
-    -n|--no|--simulate)
-      is_simulation=true
-      ;;
+    -n|--no|--simulate) dry_run=true ;;
   esac
 done
 
-if [[ "$is_simulation" == false ]]; then
-  remove_managed_links
+if [[ "$dry_run" == false ]]; then
+  cleanup_links
 fi
 
 stow -t "$HOME" -d "$DOTFILES_DIR" --restow . "$@"
