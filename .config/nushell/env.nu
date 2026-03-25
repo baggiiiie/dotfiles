@@ -8,6 +8,14 @@ $env.MANPAGER = "nvim +Man!"
 # ---- PLATFORM DETECTION ----
 let platform = if (sys host | get name) == "Darwin" { "macOS" } else if (sys host | get name) == "Linux" { "Linux" } else { "Unknown" }
 
+# ---- XDG BASE DIRS ----
+# Many cross-platform CLIs (including lazygit) use these instead of macOS
+# ~/Library/Application Support paths when they are set.
+$env.XDG_CONFIG_HOME = $"($nu.home-dir)/.config"
+$env.XDG_CACHE_HOME = $"($nu.home-dir)/.cache"
+$env.XDG_DATA_HOME = $"($nu.home-dir)/.local/share"
+$env.XDG_STATE_HOME = $"($nu.home-dir)/.local/state"
+
 # ---- PATH CONFIGURATION ----
 # Start with the inherited PATH
 $env.PATH = ($env.PATH | split row (char esep))
@@ -35,6 +43,7 @@ if $platform == "macOS" {
         | append "/usr/local/go/bin"
         | append $"($nu.home-dir)/go/bin"
         | append "/opt/homebrew/opt/sqlite/bin"
+        | append "/usr/local/bin"
     )
 }
 
