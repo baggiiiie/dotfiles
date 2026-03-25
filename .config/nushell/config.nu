@@ -36,6 +36,9 @@ alias curl = curlie
 alias dig = doggo
 alias cc = claude --dangerously-skip-permissions
 
+const NUSHELL_CONFIG_DIR = (path self | path expand | path dirname)
+source ($NUSHELL_CONFIG_DIR | path join "completions" "ssh.nu")
+
 # c - copy stdin to clipboard
 def c [] { str trim | pbcopy }
 
