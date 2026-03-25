@@ -23,7 +23,7 @@ alias venv = bash -c "source .venv/bin/activate && exec $SHELL"
 alias devsync = bash $"($nu.home-dir)/repos/work/devsync/dev-sync.sh"
 alias ts = tailscale
 alias ta = tmux a
-def j [...args: string] {
+def --wrapped j [...args] {
     if ($args | is-empty) {
         ^/Users/ydai/repos/personal/jjui/jjui/jjui-good
     } else {
