@@ -14,10 +14,6 @@ brew "ripgrep"
 brew "stow"
 brew "tlrc"
 brew "zoxide"
-brew "zsh-autocomplete"
-brew "zsh-autosuggestions"
-brew "zsh-syntax-highlighting"
-brew "zsh-vi-mode"
 
 brew "daipeihust/tap/im-select" if OS.mac?
 brew "koekeishiya/formulae/yabai" if OS.mac?

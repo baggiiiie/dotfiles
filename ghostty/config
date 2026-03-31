@@ -3,7 +3,7 @@
 # This template file has been automatically created at the following
 # path since Ghostty couldn't find any existing config files on your system:
 #
-#   /Users/ydai/Library/Application Support/com.mitchellh.ghostty/config
+#   /Users/baggie/Library/Application Support/com.mitchellh.ghostty/config
 #
 # The template does not set any default options, since Ghostty ships
 # with sensible defaults for all options. Users should only need to set
@@ -20,12 +20,13 @@
 # # The config file consists of simple key-value pairs,
 # # separated by equals signs.
 
-theme = Gruvbox Dark Hard
+theme = dark:Gruvbox Dark Hard,light:Catppuccin Latte
 
 font-family = MesloLGL Nerd Font Mono
 window-decoration = server
 font-size = 17
 
+macos-option-as-alt = true
 mouse-hide-while-typing = true
 macos-non-native-fullscreen = true
 # macos-titlebar-style = hidden

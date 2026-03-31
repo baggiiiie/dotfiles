@@ -27,13 +27,12 @@ alias ts = tailscale
 alias ta = tmux a
 def --wrapped j [...args] {
     if ($args | is-empty) {
-        ^/Users/ydai/repos/personal/jjui/jjui/jjui-good
+        ^jjui
     } else {
         ^jj ...$args
     }
 }
-alias eos = sh /Users/ydai/repos/work/scripts/get_servers_info/get_eos_version.sh
-alias ghist = bash /Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/git-file-history.sh
+alias ghist = bash /Users/baggie/repos/dotfiles/others/git-file-history.sh
 alias curl = curlie
 alias dig = doggo
 alias cc = claude --dangerously-skip-permissions
@@ -75,8 +74,8 @@ def jira [...args: string] {
     }
 }
 
-# ---- Auto-load .env files on directory change (mirrors zsh chpwd) ----
-const ZSHRC_DIR = "/Users/ydai/repos/personal/dotfiles"
+# ---- Auto-load .env files on directory change ----
+const DOTFILES_DIR = ($NUSHELL_CONFIG_DIR | path dirname | path dirname)
 
 def --env load-dotenv [path: string] {
     if ($path | path exists) {
@@ -95,7 +94,7 @@ def --env load-dotenv [path: string] {
 }
 
 def --env apply-env-for-pwd [] {
-    load-dotenv $"($ZSHRC_DIR)/.env"
+    load-dotenv $"($DOTFILES_DIR)/.env"
 
     if ($"($env.PWD)/.env" | path exists) {
         load-dotenv $"($env.PWD)/.env"
@@ -103,7 +102,7 @@ def --env apply-env-for-pwd [] {
 
     if ($env.PWD | str contains "/work") {
         $env.GH_HOST = "git.illumina.com"
-        load-dotenv $"($ZSHRC_DIR)/.env-work"
+        load-dotenv $"($DOTFILES_DIR)/.env-work"
     } else if ($env.PWD | str contains "/personal") {
         $env.GH_HOST = "github.com"
     }
@@ -119,7 +118,7 @@ $env.config.hooks.env_change = {
 
 # ---- Tool initializations ----
 # Zoxide (z/zi commands, keeps built-in cd intact)
-source ($nu.default-config-dir | path join "vendor/autoload/zoxide.nu")
+# source ($nu.default-config-dir | path join "vendor/autoload/zoxide.nu")
 alias z = __zoxide_z
 alias zi = __zoxide_zi
 

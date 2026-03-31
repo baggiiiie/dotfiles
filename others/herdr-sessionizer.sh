@@ -33,6 +33,10 @@ resolve_cwd() {
     echo "$HOME"
     return
   fi
+  if [[ "$key" == "dotfiles" ]]; then
+    echo "$HOME/repos/dotfiles"
+    return
+  fi
   fd . "${REPO_DIR[@]}" -d 1 -t d 2>/dev/null | grep -E "/${key}/?\$" | sed 's:/$::' | head -1
 }
 

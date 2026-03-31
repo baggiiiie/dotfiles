@@ -97,7 +97,7 @@ end, { desc = "Disable AI assistants" })
 
 -- Terminal
 map({ "n", "t" }, "<leader>tt", function()
-  Snacks.terminal("zsh", { cwd = LazyVim.root() })
+  Snacks.terminal("nu", { cwd = LazyVim.root() })
 end, { desc = "Floating terminal" })
 
 -- Load nvim-diff-view to register :NvDiff command

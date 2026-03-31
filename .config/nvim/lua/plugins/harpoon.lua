@@ -3,7 +3,7 @@ return {
   name = "no-neck-harpoon",
   branch = "no-neck-harpoon",
   dependencies = { "nvim-lua/plenary.nvim" },
-  -- dir = "/Users/ydai/repos/personal/harpoon/",
+  -- dir = "/Users/baggie/repos/personal/harpoon/",
 
   lazy = false,
   config = function()

@@ -22,7 +22,7 @@ function setup(config)
 			"--",
 			"bash",
 			"-c",
-			"/Users/ydai/repos/personal/dotfiles/.config/jj/jj-diffnav.sh -f main -t " .. context.change_id()
+			"/Users/baggie/repos/dotfiles/.config/jj/jj-diffnav.sh -f main -t " .. context.change_id()
 		)
 	end, {
 		scope = "revisions",

@@ -45,7 +45,7 @@ lua = '''
 local checked = context.checked_change_ids()
 local cmd
 if checked and #checked > 0 then
-  cmd = "yadiff '" .. table.concat(checked, " | ") .. "'"
+  cmd = "npx @baggiiiie/yadiff '" .. table.concat(checked, " | ") .. "'"
 else
   local change_id = context.change_id()
   local at = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
@@ -53,7 +53,7 @@ else
     at = at:gsub("%s+", "")
   end
   local ref = change_id == at and "@" or change_id
-  cmd = "yadiff " .. ref
+  cmd = "npx @baggiiiie/yadiff " .. ref
 end
 local file = context.file()
 if file then

@@ -6,8 +6,8 @@ $env.VISUAL = "nvim"
 $env.MANPAGER = "nvim +Man!"
 
 # Some tools use $SHELL to run POSIX snippets (for example, `cmd || true`).
-# Keep Nushell as the interactive shell, but direct those subprocesses to zsh.
-$env.SHELL = "/bin/zsh"
+# Keep Nushell interactive while using Bash for those subprocesses.
+$env.SHELL = "/bin/bash"
 
 # ---- PLATFORM DETECTION ----
 let platform = if (sys host | get name) == "Darwin" { "macOS" } else if (sys host | get name) == "Linux" { "Linux" } else { "Unknown" }
@@ -19,6 +19,10 @@ $env.XDG_CONFIG_HOME = $"($nu.home-dir)/.config"
 $env.XDG_CACHE_HOME = $"($nu.home-dir)/.cache"
 $env.XDG_DATA_HOME = $"($nu.home-dir)/.local/share"
 $env.XDG_STATE_HOME = $"($nu.home-dir)/.local/state"
+
+# Cursor Agent auth was migrated from Linux as ~/.config/cursor/auth.json.
+# macOS otherwise defaults to Keychain and ignores that file.
+$env.AGENT_CLI_CREDENTIAL_STORE = "file"
 
 # ---- PATH CONFIGURATION ----
 # Start with the inherited PATH
@@ -117,5 +121,3 @@ $env.TRY_PATH = $"($nu.home-dir)/repos/personal/tries"
 
 # ---- Deduplicate PATH ----
 $env.PATH = ($env.PATH | uniq)
-
-

@@ -120,7 +120,7 @@ d = [
     "util",
     "exec",
     "--",
-    "/Users/ydai/repos/personal/dotfiles/.config/jj/jj-diffnav.sh",
+    "/Users/baggie/repos/dotfiles/.config/jj/jj-diffnav.sh",
 ]
 
 dup = ["duplicate"]
@@ -136,24 +136,6 @@ sq = ["squash"]
 sqi = ["squash", "--interactive"]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@"]
 spr = ["util", "exec", "--", "jj-spr"]
-pr = [
-    "util",
-    "exec",
-    "--",
-    "bash",
-    "-c",
-    "/Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/jj-create-pr.sh \"$@\"",
-    "$@",
-]
-pull = [
-    "util",
-    "exec",
-    "--",
-    "bash",
-    "-c",
-    "/Users/ydai/repos/personal/tries/2025-12-12-jj-git-integration/jj-pull-rebase.sh \"$@\"",
-    "$@",
-]
 ws = ["workspace"]
 forge = ["util", "exec", "--", "jj-forge"]
 

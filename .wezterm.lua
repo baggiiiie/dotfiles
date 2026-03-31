@@ -9,7 +9,7 @@ local act = wezterm.action
 -- config.font = wezterm.font("Fira Code", { weight = "Medium" })
 -- config.harfbuzz_features = { "zero", "cv02", "cv04", "cv14", "onum", "cv30" }
 
-config.default_prog = { "zsh" }
+config.default_prog = { "nu" }
 
 config.front_end = "WebGpu"
 config.freetype_load_target = "Light"

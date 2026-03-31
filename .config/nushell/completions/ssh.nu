@@ -121,7 +121,8 @@ def ssh-host-matches [host: string, query: string] {
     }
 }
 
-def complete-ssh-hosts [spans: list<string>] {
+def complete-ssh-hosts [place: record] {
+    let spans = $place.command
     let current = ($spans | last | default "")
     if (not (ssh-target-position $spans)) or ($current | str starts-with "-") {
         []

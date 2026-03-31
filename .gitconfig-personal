@@ -9,7 +9,5 @@
 [gpg]
 	format = ssh
 
-[gpg "ssh"]
-	allowedSignersFile = /Users/ydai/.ssh/allowed_signers
 [format]
 	signoff = true
