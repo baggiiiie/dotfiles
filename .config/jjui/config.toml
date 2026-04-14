@@ -1,3 +1,5 @@
+[ui.theme]
+
 [preview]
 file_command = [
     "diff",

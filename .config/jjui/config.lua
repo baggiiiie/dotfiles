@@ -5,6 +5,7 @@ local copy = require("plugins.copy")
 local vim = require("plugins.open_in_details")
 local create_pr = require("plugins.create_pr")
 local pull_rebase = require("plugins.pull_rebase")
+local path_utils = require("plugins.path_utils")
 
 function setup(config)
 	bookmark.setup(config)
@@ -40,9 +41,26 @@ function setup(config)
 			return nil
 		end
 
-		local diff = jj("diff", "--git", "-r", context.change_id(), context.file())
+		local file = context.file()
+		local repo_file, repo_err = path_utils.repo_relative(file)
+		if not repo_file then
+			flash({ text = repo_err, error = true })
+			return
+		end
+
+		local open_file, open_err = path_utils.absolute(file)
+		if not open_file then
+			flash({ text = open_err, error = true })
+			return
+		end
+
+		local diff = jj("diff", "--git", "-r", context.change_id(), repo_file)
 		local line_number = first_hunk_new_lineno(diff)
-		exec_shell(string.format("nvim +%q %q", line_number, context.file()))
+		if line_number then
+			exec_shell(string.format("nvim +%d %s", line_number, path_utils.shell_quote(open_file)))
+		else
+			exec_shell(string.format("nvim %s", path_utils.shell_quote(open_file)))
+		end
 	end, {
 		scope = "revisions.details",
 		key = { "x" },
