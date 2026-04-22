@@ -98,11 +98,11 @@ map({ "n", "t" }, "<leader>tt", function()
 end, { desc = "Floating terminal" })
 
 map("n", "<leader>gj", function()
-  require("config.jj").jj_file_show({ diff = true })
-end, { desc = "Diff file against jj revision" })
+  require("config.nvim-diff-view").file_show({ diff = true })
+end, { desc = "Diff file against revision" })
 map("n", "<leader>gJ", function()
-  require("config.jj").jj_file_show({ diff = false })
-end, { desc = "Show file at jj revision" })
+  require("config.nvim-diff-view").file_show({ diff = false })
+end, { desc = "Show file at revision" })
 
 -- Development utilities
 map("n", "<leader>rr", function()
