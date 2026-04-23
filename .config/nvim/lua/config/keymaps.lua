@@ -97,12 +97,24 @@ map({ "n", "t" }, "<leader>tt", function()
   Snacks.terminal("zsh", { cwd = LazyVim.root() })
 end, { desc = "Floating terminal" })
 
+-- Load nvim-diff-view to register :NvDiff command
+require("config.nvim-diff-view")
+
 map("n", "<leader>gj", function()
   require("config.nvim-diff-view").file_show({ diff = true })
 end, { desc = "Diff file against revision" })
 map("n", "<leader>gJ", function()
   require("config.nvim-diff-view").file_show({ diff = false })
 end, { desc = "Show file at revision" })
+map("n", "<leader>gr", function()
+  require("config.nvim-diff-view").diff_review()
+end, { desc = "Multi-file diff review" })
+map("x", "<leader>rc", function()
+  require("config.nvim-diff-view").add_comment()
+end, { desc = "Add review comment" })
+map("n", "<leader>rs", function()
+  require("config.nvim-diff-view").open_scratchpad()
+end, { desc = "Open review scratchpad" })
 
 -- Development utilities
 map("n", "<leader>rr", function()
