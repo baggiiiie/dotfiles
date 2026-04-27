@@ -213,12 +213,8 @@ local function open_file_at_index(idx)
   local rel_path = s.files[idx]
   local ft = filetype_for(rel_path)
 
-  -- Get revision contents
-  local rev_lines, err = file_contents_at_rev(s.vcs, s.repo_root, s.rev, rel_path)
-  if not rev_lines then
-    vim.notify(err, vim.log.levels.ERROR, { title = "diff review" })
-    return
-  end
+  -- Get revision contents (empty if file is new and didn't exist at rev)
+  local rev_lines = file_contents_at_rev(s.vcs, s.repo_root, s.rev, rel_path) or {}
 
   -- Clean up old diff state
   vim.cmd("diffoff!")
@@ -275,7 +271,7 @@ function M.diff_review(opts)
     return
   end
 
-  local prompt = ctx.vcs == "jj" and "jj revision to diff against" or "git branch/tag/commit to diff against"
+  local prompt = vcs == "jj" and "jj revision to diff against" or "git branch/tag/commit to diff against"
 
   vim.ui.input({ prompt = prompt }, function(rev)
     if not rev or rev == "" then
