@@ -36,6 +36,13 @@ auto-update-channel = tip
 
 macos-option-as-alt = true
 
+# In tmux, make Ghostty's prompt-jump keys send custom sequences to tmux.
+# tmux binds these to copy-mode previous-prompt/next-prompt in ~/.tmux.conf.
+keybind = super+shift+arrow_up=text:\x1b[9001~
+keybind = super+shift+arrow_down=text:\x1b[9002~
+keybind = super+arrow_up=text:\x1b[9001~
+keybind = super+arrow_down=text:\x1b[9002~
+
 # window-padding-x = 2
 #
 # # Spacing around the equals sign does not matter.
