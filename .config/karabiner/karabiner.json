@@ -596,7 +596,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "e",
+                                        "key_code": "b",
                                         "modifiers": [
                                             "left_option",
                                             "left_command"
@@ -630,7 +630,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "e",
+                                        "key_code": "b",
                                         "modifiers": [
                                             "left_option",
                                             "left_command"
@@ -1881,7 +1881,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/almost-maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/almost-maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -1919,7 +1919,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -1957,7 +1957,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/previous-display"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-to-previous-display"
                                     }
                                 ],
                                 "type": "basic"
@@ -1995,7 +1995,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/center"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/center"
                                     }
                                 ],
                                 "type": "basic"
@@ -2033,7 +2033,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/left-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/left-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2071,7 +2071,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/right-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/right-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2109,7 +2109,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2147,7 +2147,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2185,7 +2185,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2223,7 +2223,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2261,7 +2261,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-left"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-left"
                                     }
                                 ],
                                 "type": "basic"
@@ -2299,7 +2299,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-right"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-right"
                                     }
                                 ],
                                 "type": "basic"
@@ -2337,7 +2337,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-up"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-up"
                                     }
                                 ],
                                 "type": "basic"
@@ -2375,7 +2375,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-down"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-down"
                                     }
                                 ],
                                 "type": "basic"
@@ -2467,7 +2467,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/almost-maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/almost-maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -2502,7 +2502,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -2537,7 +2537,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/center"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/center"
                                     }
                                 ],
                                 "type": "basic"
@@ -2572,7 +2572,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/previous-display"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/previous-display"
                                     }
                                 ],
                                 "type": "basic"
@@ -2607,7 +2607,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/left-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/left-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2642,7 +2642,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/right-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/right-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2677,7 +2677,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2712,7 +2712,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2747,7 +2747,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2782,7 +2782,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2817,7 +2817,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-left"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-left"
                                     }
                                 ],
                                 "type": "basic"
@@ -2852,7 +2852,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-right"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-right"
                                     }
                                 ],
                                 "type": "basic"
@@ -2887,7 +2887,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-up"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-up"
                                     }
                                 ],
                                 "type": "basic"
@@ -2922,7 +2922,419 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-down"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-down"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Hyper Key sublayer \"c\", for AI commands",
+                        "manipulators": [
+                            {
+                                "description": "Toggle Hyper sublayer c",
+                                "from": {
+                                    "key_code": "c",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 150,
+                                    "basic.to_if_alone_timeout_milliseconds": 150,
+                                    "basic.to_if_held_down_threshold_milliseconds": 150
+                                },
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "c"
+                                        }
+                                    ]
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "halt": true,
+                                        "key_code": "c"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "set_variable": {
+                                            "key_up_value": 0,
+                                            "name": "hyper_sublayer_c",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m capture"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "a",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m capture --full-screen \"\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "r",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m capture \"\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "j",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m capture --full-screen \"this is a coding problem, write a brief breakdown of the problem first, answer in bullet points: goal, assumption, ask clarifying questions, overall approach.\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "l",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m ask \"write code, easy to understand, with comments to explain each steps. use meaningful variable names (don't make the variable names long, unless necessary).\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "u",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m ask \"walk through two test cases briefly\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "y",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m ask \"how can we improve the codes (code struture, algorithm, time/space complexity)?\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "i",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m ask \"walk through two edge cases\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "o",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m ask \"explain more, but briefly\""
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "n",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m scroll-ai-down"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "e",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m scroll-ai-up"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "d",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m dodge"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m toggle"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "g",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m show"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m new-session"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "v",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/ydai/.local/bin/m ask --voice"
                                     }
                                 ],
                                 "type": "basic"
@@ -2990,7 +3402,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/destiner/json-format/formatClipboard"
+                                        "shell_command": "open -g raycast-x://extensions/destiner/json-format/formatClipboard"
                                     },
                                     {
                                         "set_variable": {
@@ -3020,7 +3432,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/emoji-symbols/search-emoji-symbols"
                                     },
                                     {
                                         "set_variable": {
@@ -3050,37 +3462,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/dictionary/define-word"
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_x",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_sublayer_x",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "description": "ByteDance Log",
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -g raycast://extensions/chyroc/bytedance-raycast-tools/log_query"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/dictionary/define-word"
                                     },
                                     {
                                         "set_variable": {
@@ -3200,7 +3582,37 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/mooxl/coffee/caffeinateToggle"
+                                        "shell_command": "open -g raycast-x://extensions/mooxl/coffee/caffeinateToggle"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_x",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_x",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "description": "old raycast notes",
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -g raycast://extensions/raycast/raycast-notes/raycast-notes"
                                     },
                                     {
                                         "set_variable": {
@@ -3230,7 +3642,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/MisakiCoca/link-cleaner/main"
+                                        "shell_command": "open -g raycast-x://extensions/MisakiCoca/link-cleaner/main"
                                     },
                                     {
                                         "set_variable": {
