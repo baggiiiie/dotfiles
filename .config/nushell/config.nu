@@ -63,7 +63,7 @@ def --env y [...args: string] {
 def jira [...args: string] {
     let jira_me = (^jira me | str trim)
     if ($args | is-empty) {
-        let query = $"\(assignee = '($jira_me)' OR reporter = '($jira_me)'\) AND status not in \('Done', 'FIXED'\)"
+        let query = $"\(assignee = '($jira_me)' OR reporter = '($jira_me)' OR reporter = 'svc_edgeos_user' \) AND status not in \('Done', 'FIXED'\)"
         ^jira issue list -q $query --order-by priority --updated -30d
     } else if ($args.0 == "all") {
         let query = $"\(assignee = '($jira_me)' OR reporter = '($jira_me)'\)"

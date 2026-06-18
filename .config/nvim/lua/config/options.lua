@@ -40,6 +40,7 @@ vim.opt.colorcolumn = "80"
 vim.g.snacks_animate = false
 vim.g.trouble_lualine = true
 vim.g.root_spec = { "cwd" }
+vim.g.lazyvim_inlay_hints = false
 
 if vim.env.SSH_TTY then
   vim.g.clipboard = {
