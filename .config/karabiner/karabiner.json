@@ -596,7 +596,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "e",
+                                        "key_code": "b",
                                         "modifiers": [
                                             "left_option",
                                             "left_command"
@@ -630,7 +630,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "e",
+                                        "key_code": "b",
                                         "modifiers": [
                                             "left_option",
                                             "left_command"
@@ -1881,7 +1881,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/almost-maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/almost-maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -1919,7 +1919,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -1957,7 +1957,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/previous-display"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-to-previous-display"
                                     }
                                 ],
                                 "type": "basic"
@@ -1995,7 +1995,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/center"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/center"
                                     }
                                 ],
                                 "type": "basic"
@@ -2033,7 +2033,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/left-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/left-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2071,7 +2071,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/right-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/right-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2109,7 +2109,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2147,7 +2147,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2185,7 +2185,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2223,7 +2223,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2261,7 +2261,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-left"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-left"
                                     }
                                 ],
                                 "type": "basic"
@@ -2299,7 +2299,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-right"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-right"
                                     }
                                 ],
                                 "type": "basic"
@@ -2337,7 +2337,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-up"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-up"
                                     }
                                 ],
                                 "type": "basic"
@@ -2375,7 +2375,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-down"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-down"
                                     }
                                 ],
                                 "type": "basic"
@@ -2467,7 +2467,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/almost-maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/almost-maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -2502,7 +2502,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/maximize"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/maximize"
                                     }
                                 ],
                                 "type": "basic"
@@ -2537,7 +2537,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/center"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/center"
                                     }
                                 ],
                                 "type": "basic"
@@ -2572,7 +2572,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/previous-display"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/previous-display"
                                     }
                                 ],
                                 "type": "basic"
@@ -2607,7 +2607,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/left-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/left-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2642,7 +2642,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/right-half"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/right-half"
                                     }
                                 ],
                                 "type": "basic"
@@ -2677,7 +2677,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2712,7 +2712,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-left-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-left-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2747,7 +2747,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/top-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/top-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2782,7 +2782,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-right-quarter"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/bottom-right-quarter"
                                     }
                                 ],
                                 "type": "basic"
@@ -2817,7 +2817,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-left"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-left"
                                     }
                                 ],
                                 "type": "basic"
@@ -2852,7 +2852,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-right"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-right"
                                     }
                                 ],
                                 "type": "basic"
@@ -2887,7 +2887,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-up"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-up"
                                     }
                                 ],
                                 "type": "basic"
@@ -2922,7 +2922,13 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/window-management/move-down"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/window-management/move-down"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
                                     }
                                 ],
                                 "type": "basic"
@@ -2990,7 +2996,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/destiner/json-format/formatClipboard"
+                                        "shell_command": "open -g raycast-x://extensions/destiner/json-format/formatClipboard"
                                     },
                                     {
                                         "set_variable": {
@@ -3020,7 +3026,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/emoji-symbols/search-emoji-symbols"
                                     },
                                     {
                                         "set_variable": {
@@ -3050,37 +3056,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/raycast/dictionary/define-word"
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_x",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_sublayer_x",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "description": "ByteDance Log",
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -g raycast://extensions/chyroc/bytedance-raycast-tools/log_query"
+                                        "shell_command": "open -g raycast-x://extensions/raycast/dictionary/define-word"
                                     },
                                     {
                                         "set_variable": {
@@ -3200,7 +3176,37 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/mooxl/coffee/caffeinateToggle"
+                                        "shell_command": "open -g raycast-x://extensions/mooxl/coffee/caffeinateToggle"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_x",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_x",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "description": "old raycast notes",
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -g raycast://extensions/raycast/raycast-notes/raycast-notes"
                                     },
                                     {
                                         "set_variable": {
@@ -3230,7 +3236,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -g raycast://extensions/MisakiCoca/link-cleaner/main"
+                                        "shell_command": "open -g raycast-x://extensions/MisakiCoca/link-cleaner/main"
                                     },
                                     {
                                         "set_variable": {
