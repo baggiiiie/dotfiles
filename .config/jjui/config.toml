@@ -1,5 +1,3 @@
-[ui.theme]
-
 [preview]
 file_command = [
     "diff",
@@ -41,13 +39,36 @@ bold = true
 [[actions]]
 name = "deltadiff"
 lua = '''
-jj_interactive("util", "exec", "--", "bash", "-c", "hunk diff " .. context.change_id())
+local checked = context.checked_change_ids()
+local cmd
+if checked and #checked > 0 then
+  cmd = "yadiff '" .. table.concat(checked, " | ") .. "'"
+else
+  local change_id = context.change_id()
+  local at = jj("log", "-r", "@", "-T", "change_id.shortest()", "--no-graph")
+  if at then
+    at = at:gsub("%s+", "")
+  end
+  local ref = change_id == at and "@" or change_id
+  cmd = "yadiff " .. ref
+end
+local file = context.file()
+if file then
+  cmd = cmd .. " -- " .. file
+end
+jj_interactive("util", "exec", "--", "bash", "-c", cmd)
 '''
 
 [[bindings]]
 action = "deltadiff"
 key = "d"
 scope = "revisions"
+desc = "deltadiff"
+
+[[bindings]]
+action = "deltadiff"
+key = "d"
+scope = "revisions.details"
 desc = "deltadiff"
 
 [[actions]]

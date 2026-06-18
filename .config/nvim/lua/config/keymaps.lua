@@ -87,9 +87,12 @@ vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<cr>",
 
 -- Disable AI assistants
 vim.keymap.set("n", "<leader>cx", function()
-  -- vim.cmd("Copilot disable")
-  vim.cmd("SupermavenToggle")
-  vim.notify("Copilot/Supermaven disabled for this session", vim.log.levels.INFO, { title = "AI Assistants" })
+  if vim.fn.exists(":SupermavenToggle") == 2 then
+    vim.cmd("SupermavenToggle")
+    vim.notify("Supermaven disabled for this session", vim.log.levels.INFO, { title = "AI Assistants" })
+  else
+    vim.notify("No AI completion plugin is active", vim.log.levels.INFO, { title = "AI Assistants" })
+  end
 end, { desc = "Disable AI assistants" })
 
 -- Terminal

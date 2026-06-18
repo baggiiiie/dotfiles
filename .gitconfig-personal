@@ -1,6 +1,6 @@
 [user]
     user = baggiiiie
-	email = yc@yingchaoooo.com
+	email = yc@yingchao.dev
     signingkey = ~/.ssh/baggiiiie-github.pub
 
 [commit]

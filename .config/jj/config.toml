@@ -26,9 +26,19 @@ key = "~/.ssh/baggiiiie-github.pub"
 [ui]
 default-command = ["log"]
 
-# https://github.com/modem-dev/hunk/#jujutsu-pager-integration
-pager = ["hunk", "pager"]
+# Diff format: hunk (below) reads a git-format diff from stdin and renders its
+# own colors, so we feed it ":git" and let it do the coloring.
 diff-formatter = ":git"
+
+# Use hunk as the pager ONLY for `jj diff` / `jj show`. Everything else (log,
+# status, ...) falls back to jj's default `less -FRX`, which jj special-cases
+# to keep color. (hunk can't be auto-detected, so a global hunk pager would
+# drop color from `jj log` — hence the scope.)
+# https://github.com/jj-vcs/jj/discussions/4690
+[[--scope]]
+--when.commands = ["diff", "show"]
+[--scope.ui]
+pager = ["hunk", "pager"]
 
 # https://github.com/idursun/jjui/issues/314#issuecomment-3367379291
 # diff-formatter = [
@@ -58,8 +68,6 @@ diff-args = [
 [git]
 # Prevent pushing work in progress or anything explicitly labeled "private"
 private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'todo:*')"
-# recommended by https://zerowidth.com/2025/jj-tips-and-tricks
-# push-new-bookmarks = true
 abandon-unreachable-commits = true
 
 [snapshot]
