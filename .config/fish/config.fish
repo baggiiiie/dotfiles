@@ -266,3 +266,7 @@ bind -M insert \t fzf-tab-widget
 bind \cC clear-commandline
 bind -M insert \cC clear-commandline
 bind -M visual \cC clear-commandline
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+set --export --prepend PATH "/Users/ydai/.rd/bin"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

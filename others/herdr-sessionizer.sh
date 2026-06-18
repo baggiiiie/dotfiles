@@ -16,6 +16,11 @@
 
 set -euo pipefail
 
+# herdr launches keybind commands with a minimal PATH that omits the Homebrew
+# and zerobrew bin dirs, so tools like herdr/fd/sk/python3 are not found by bare
+# name. Prepend the locations they actually live in.
+export PATH="/opt/homebrew/bin:/opt/zerobrew/prefix/bin:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH"
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 LAST_WORKSPACE_HELPER="$SCRIPT_DIR/herdr-toggle-last-workspace.sh"
 

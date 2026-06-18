@@ -388,3 +388,9 @@ _zb_path_append() {
 
 _zb_path_append "$ZEROBREW_BIN"
 _zb_path_append "$ZEROBREW_PREFIX/bin"
+# Load local API credentials for Prime Agent
+if [ -f "$HOME/.env" ]; then
+  set -a
+  source "$HOME/.env"
+  set +a
+fi

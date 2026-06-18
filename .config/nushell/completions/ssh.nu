@@ -11,7 +11,7 @@ def ssh-host-candidates [] {
             | lines
             | each { |line|
                 let normalized = ($line | str trim | str replace -r '\\s+' ' ')
-                if (($normalized | str downcase) | str starts-with "host ") {
+                if ($normalized | str starts-with --ignore-case "host ") {
                     (
                         $normalized
                         | split row ' '
@@ -90,25 +90,31 @@ def ssh-target-position [spans: list<string>] {
 }
 
 def ssh-host-matches [host: string, query: string] {
-    let host_lc = ($host | str downcase)
-    let query_lc = ($query | str downcase)
-
-    if $query_lc == "" {
+    if $query == "" {
         true
-    } else if ($host_lc | str starts-with $query_lc) or ($host_lc | str contains $query_lc) {
+    } else if ($host | str starts-with --ignore-case $query) or ($host | str contains --ignore-case $query) {
         true
     } else {
-        let chars = ($query_lc | split chars)
-        mut rest = $host_lc
+        let host_chars = ($host | split chars)
+        let query_chars = ($query | split chars)
+        mut host_idx = 0
         mut matched = true
 
-        for ch in $chars {
-            let idx = ($rest | str index-of $ch)
-            if $idx == -1 {
+        for query_char in $query_chars {
+            mut found = false
+            while $host_idx < ($host_chars | length) {
+                let host_char = ($host_chars | get $host_idx)
+                $host_idx += 1
+                if ($host_char | str starts-with --ignore-case $query_char) {
+                    $found = true
+                    break
+                }
+            }
+
+            if not $found {
                 $matched = false
                 break
             }
-            $rest = ($rest | str substring ($idx + 1)..)
         }
 
         $matched

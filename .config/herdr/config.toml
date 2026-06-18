@@ -1,18 +1,33 @@
+onboarding = false
+
+# New interactive panes: herdr uses $SHELL when default_shell is empty, and
+# $SHELL here is /bin/zsh (not the account login shell nu). Pin it explicitly
+# so panes always start in Nushell.
+[terminal]
+default_shell = "/opt/homebrew/bin/nu"
+shell_mode = "login"
+kitty_graphics = true
+
 [theme]
 name = "gruvbox"
 auto_switch = false
 
-[ui.toast]
-delivery = "terminal"
-
 [ui]
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "priority"
+
+[ui.toast]
+delivery = "terminal"
 
 [experimental]
 pane_history = true
 switch_ascii_input_source_in_prefix = true
 
 [keys]
+# https://herdr.dev/docs/configuration/#keybindings
+# Only override custom actions; inherit the remaining built-in defaults.
+prefix = "ctrl+b"
+
 # Herdr default detach is prefix+q; prefix+d is unbound by default.
 detach = "prefix+d"
 # Herdr's built-in previous_workspace cycles through workspace order; use a
@@ -33,76 +48,95 @@ previous_tab = ""
 next_tab = ""
 switch_tab = ""
 
+# These built-in chords are used by project/plugin commands below.
+# Disable the built-ins explicitly instead of relying on command precedence.
+close_workspace = ""
+rename_pane = ""
+open_notification_target = ""
+swap_pane_left = ""
+swap_pane_down = ""
+swap_pane_up = ""
+swap_pane_right = ""
+
+# On Unix, pane/popup commands use /bin/sh -c; detached shell commands use
+# /bin/sh -lc, independently of terminal.default_shell. Keep helper logic
+# in explicit Bash scripts (which also set PATH for external tools).
 [[keys.command]]
-key = "prefix+shift+L"
+key = "prefix+shift+l"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-workspace.sh"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-workspace.sh"
+description = "toggle last workspace"
 
 [[keys.command]]
 key = "prefix+l"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh"
+description = "toggle last tab"
 
 [[keys.command]]
 key = "prefix+p"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-relative -1"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-relative -1"
+description = "previous tab (track last tab)"
 
 [[keys.command]]
 key = "prefix+n"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-relative 1"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-relative 1"
+description = "next tab (track last tab)"
 
 [[keys.command]]
 key = "prefix+1"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 1"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 1"
 
 [[keys.command]]
 key = "prefix+2"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 2"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 2"
 
 [[keys.command]]
 key = "prefix+3"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 3"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 3"
 
 [[keys.command]]
 key = "prefix+4"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 4"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 4"
 
 [[keys.command]]
 key = "prefix+5"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 5"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 5"
 
 [[keys.command]]
 key = "prefix+6"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 6"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 6"
 
 [[keys.command]]
 key = "prefix+7"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 7"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 7"
 
 [[keys.command]]
 key = "prefix+8"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 8"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 8"
 
 [[keys.command]]
 key = "prefix+9"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 9"
+command = "bash ~/repos/personal/dotfiles/others/herdr-toggle-last-tab.sh --focus-number 9"
 
 # tmux prefix+! equivalent: break the current pane out into a new tab/window.
+# Implementation: others/herdr-break-pane.sh.
 [[keys.command]]
 key = "prefix+!"
 type = "shell"
-command = "pane_id=$(herdr pane current | python3 -c 'import json,sys; print(json.load(sys.stdin).get(\"result\",{}).get(\"pane\",{}).get(\"pane_id\",\"\"))' 2>/dev/null); pane_id=${pane_id:-${HERDR_PANE_ID:-}}; [ -n \"$pane_id\" ] && herdr pane move \"$pane_id\" --new-tab --focus >/dev/null 2>&1 || true"
+command = "bash ~/repos/personal/dotfiles/others/herdr-break-pane.sh"
+description = "move pane to a new tab"
 
 # Project sessionizer — mirrors the prefix+<letter> bindings in ~/.tmux.conf.
 # Each shortcut focuses an existing workspace (matched by label, full key then
@@ -111,63 +145,96 @@ command = "pane_id=$(herdr pane current | python3 -c 'import json,sys; print(jso
 # prefix+f            fuzzy-pick a project (interactive, opens a temp pane)
 # prefix+<Shift+X>     jump directly to a project
 #
-# NOTE: prefix+shift+d here overrides herdr's built-in close_workspace binding.
+# Conflicting built-in actions are disabled explicitly in [keys] above.
 [[keys.command]]
 key = "prefix+f"
 type = "pane"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh"
+description = "pick a project workspace"
 
 [[keys.command]]
 key = "prefix+shift+c"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/simple-cv"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/simple-cv"
 
 [[keys.command]]
 key = "prefix+shift+j"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/jjui"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/jjui"
 
 [[keys.command]]
 key = "prefix+shift+y"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/yadiff"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/yadiff"
 
 [[keys.command]]
 key = "prefix+shift+o"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/obsidian-backup"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/obsidian-backup"
 
-[[keys.command]]
-key = "prefix+shift+a"
-type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh work/actions"
+# [[keys.command]]
+# key = "prefix+shift+a"
+# type = "shell"
+# command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh work/actions"
 
 [[keys.command]]
 key = "prefix+shift+d"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/dotfiles"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh personal/dotfiles"
 
 [[keys.command]]
 key = "prefix+shift+e"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh work/eosctl"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh work/eosctl"
 
 [[keys.command]]
 key = "prefix+shift+u"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh work/edgeos-ui"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh work/edgeos-ui"
 
 [[keys.command]]
 key = "prefix+shift+h"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh home"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh home"
 
 [[keys.command]]
 key = "prefix+shift+k"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh work/edgeos-karate-test-automation"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh work/edgeos-karate-test-automation"
 
 [[keys.command]]
 key = "prefix+shift+s"
 type = "shell"
-command = "bash $HOME/repos/personal/dotfiles/others/herdr-sessionizer.sh work/edgeos-innovation-projects"
+command = "bash ~/repos/personal/dotfiles/others/herdr-sessionizer.sh work/edgeos-innovation-projects"
+
+# Terminal annotations, https://github.com/plannotator/herdr-annotate
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "annotate.capture"
+description = "annotate text"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "plugin_action"
+command = "annotate.copy-context"
+description = "copy annotations as context"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "annotate.manage"
+description = "manage annotations"
+
+# Document review (plannotator-tui)
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "annotate.open"
+description = "review documents in this folder"
+
+[[keys.command]]
+key = "prefix+shift+p"
+type = "plugin_action"
+command = "annotate.last"
+description = "review the agent's last reply"

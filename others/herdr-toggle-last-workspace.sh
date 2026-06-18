@@ -6,6 +6,10 @@
 
 set -euo pipefail
 
+# herdr launches keybind commands with a minimal PATH that omits the Homebrew
+# and zerobrew bin dirs, so herdr/python3 are not found by bare name.
+export PATH="/opt/homebrew/bin:/opt/zerobrew/prefix/bin:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH"
+
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/herdr"
 STATE_FILE="$STATE_DIR/last-workspace.json"
 

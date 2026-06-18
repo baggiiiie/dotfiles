@@ -19,6 +19,7 @@ web:*.{html,css,js}*
 --glob=!.obsidian/*
 --glob=!.venv
 --glob=!DS_Store
+--glob=!*node_modules*
 
 --glob-case-insensitive
 

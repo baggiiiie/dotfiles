@@ -5,6 +5,10 @@ $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"
 $env.MANPAGER = "nvim +Man!"
 
+# Some tools use $SHELL to run POSIX snippets (for example, `cmd || true`).
+# Keep Nushell as the interactive shell, but direct those subprocesses to zsh.
+$env.SHELL = "/bin/zsh"
+
 # ---- PLATFORM DETECTION ----
 let platform = if (sys host | get name) == "Darwin" { "macOS" } else if (sys host | get name) == "Linux" { "Linux" } else { "Unknown" }
 

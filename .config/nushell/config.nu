@@ -19,7 +19,9 @@ alias lg = lazygit
 alias tl = tldr
 alias nv = nvim
 alias cat = bat
-alias venv = bash -c "source .venv/bin/activate && exec $SHELL"
+def venv [] {
+    ^bash -c $"source .venv/bin/activate && exec '($nu.current-exe)'"
+}
 alias devsync = bash $"($nu.home-dir)/repos/work/devsync/dev-sync.sh"
 alias ts = tailscale
 alias ta = tmux a

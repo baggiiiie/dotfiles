@@ -26,6 +26,9 @@ width_percentage = 65.0
 [suggest.exec]
 mode = "fuzzy"
 
+[bookmark]
+interactive_bookmark_pane = true
+
 [ui]
 auto_refresh_interval = 30
 enable_mouse = true

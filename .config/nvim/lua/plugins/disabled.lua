@@ -9,4 +9,8 @@ return {
   { "nvim-lualine/lualine.nvim", enabled = false },
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   { "supermaven-inc/supermaven-nvim", enabled = false },
+  {
+    "neovim/nvim-lspconfig",
+    opts = { servers = { pyright = { enabled = false }, basedpyright = { enabled = false } } },
+  },
 }
