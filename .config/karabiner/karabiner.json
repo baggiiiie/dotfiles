@@ -575,13 +575,13 @@
                         ]
                     },
                     {
-                        "description": "Terminal mod for Cursor",
+                        "description": "Terminal mod for t3code",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                            "^com\\.t3tools\\.t3code$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -608,13 +608,13 @@
                         ]
                     },
                     {
-                        "description": "Terminal mod for Cursor - 2",
+                        "description": "Terminal mod for t3code - 2",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                            "^com\\.t3tools\\.t3code$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -3057,36 +3057,6 @@
                                 "to": [
                                     {
                                         "shell_command": "open -g raycast-x://extensions/raycast/dictionary/define-word"
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_x",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_sublayer_x",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "description": "Raise Teams Meeting Window",
-                                "from": {
-                                    "key_code": "t",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "/usr/bin/osascript /Users/ydai/repos/personal/dotfiles/others/raise-teams-meeting"
                                     },
                                     {
                                         "set_variable": {
