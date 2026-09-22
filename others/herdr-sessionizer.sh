@@ -17,14 +17,28 @@
 set -euo pipefail
 
 # herdr launches keybind commands with a minimal PATH that omits the Homebrew
-# and zerobrew bin dirs, so tools like herdr/fd/sk/python3 are not found by bare
+# and zerobrew bin dirs, so tools like herdr/fd/fzf/python3 are not found by bare
 # name. Prepend the locations they actually live in.
 export PATH="/opt/homebrew/bin:/opt/zerobrew/prefix/bin:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH"
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 LAST_WORKSPACE_HELPER="$SCRIPT_DIR/herdr-toggle-last-workspace.sh"
 
-REPO_DIR=("$HOME/repos/work/" "$HOME/repos/personal/" "$HOME/repos/personal/tries/")
+# Print repository directories as null-delimited paths. Top-level repositories
+# live directly in ~/repos; grouped work/personal repositories are supported
+# when those directories exist.
+list_projects() {
+  local root
+
+  if [[ -d "$HOME/repos" ]]; then
+    fd . "$HOME/repos" -d 1 -t d --exclude work --exclude personal --print0
+  fi
+
+  for root in "$HOME/repos/work" "$HOME/repos/personal" "$HOME/repos/personal/tries"; do
+    [[ -d "$root" ]] || continue
+    fd . "$root" -d 1 -t d --exclude tries --print0
+  done
+}
 
 # Resolve a project key (e.g. "personal/jjui", "work/eosctl", "home") to a cwd.
 resolve_cwd() {
@@ -33,11 +47,12 @@ resolve_cwd() {
     echo "$HOME"
     return
   fi
-  if [[ "$key" == "dotfiles" ]]; then
-    echo "$HOME/repos/dotfiles"
+
+  local candidate="$HOME/repos/$key"
+  if [[ -d "$candidate" ]]; then
+    echo "$candidate"
     return
   fi
-  fd . "${REPO_DIR[@]}" -d 1 -t d 2>/dev/null | grep -E "/${key}/?\$" | sed 's:/$::' | head -1
 }
 
 # Focus an existing workspace with this label, or create one at cwd.
@@ -83,11 +98,16 @@ if [[ $# -ge 1 ]]; then
   focus_or_create "$key" "$cwd"
 else
   # Fuzzy mode: prefix+f -> interactive picker (requires a pane).
-  name=$(fd . "${REPO_DIR[@]}" -d 1 -t d --print0 2>/dev/null \
-    | xargs -0 stat -f '%m %N' 2>/dev/null | sort -rn \
-    | awk '{sub(/^[0-9]+ /,""); sub(/\/$/,""); n=split($0,a,"/"); print a[n-1]"/"a[n]}' \
-    | sk --layout=reverse) || true
+  name=$(
+    while IFS= read -r -d '' path; do
+      path="${path%/}"
+      printf '%s\t%s\n' "$(stat -f '%m' "$path")" "${path#"$HOME/repos/"}"
+    done < <(list_projects) \
+      | sort -rn \
+      | cut -f2- \
+      | fzf --layout=reverse
+  ) || true
   [[ -z "${name:-}" ]] && exit 0
-  cwd="$(fd . "${REPO_DIR[@]}" -d 1 -t d 2>/dev/null | grep -E "/${name}/?\$" | sed 's:/$::' | head -1)"
+  cwd="$(resolve_cwd "$name")"
   focus_or_create "$name" "$cwd"
 fi

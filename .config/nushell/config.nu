@@ -118,9 +118,7 @@ $env.config.hooks.env_change = {
 
 # ---- Tool initializations ----
 # Zoxide (z/zi commands, keeps built-in cd intact)
-# source ($nu.default-config-dir | path join "vendor/autoload/zoxide.nu")
-alias z = __zoxide_z
-alias zi = __zoxide_zi
+source ($nu.default-config-dir | path join "vendor/autoload/zoxide.nu")
 
 # https://www.nushell.sh/book/line_editor.html#keybindings
 $env.config.keybindings ++= [{
