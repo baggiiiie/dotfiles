@@ -6,8 +6,12 @@
       "click": "cmd+]",
       "hold": "opt+f",
       "up": "none",
-      "down": "none",
-      "left": "none",
+      "down": {
+        "script": "/Users/baggie/repos/dotfiles/.config/karabiner/chatgpt-search.sh"
+      },
+      "left": {
+        "script": "/Users/baggie/repos/dotfiles/.config/karabiner/quick-search.sh"
+      },
       "right": "none",
       "holdDelayMs": 400,
       "dragSensitivityPercent": 100,

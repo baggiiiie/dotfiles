@@ -1,3 +1,5 @@
 .DS_Store
 .env*
 .config/jj/repos/
+.config/karabiner/search-selection
+.config/karabiner/.search-selection.*
