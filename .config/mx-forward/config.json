@@ -1,0 +1,78 @@
+{
+  "testMode": false,
+  "buttons": {
+    "forward": {
+      "enabled": true,
+      "click": "cmd+]",
+      "hold": "opt+f",
+      "up": "none",
+      "down": "none",
+      "left": "none",
+      "right": "none",
+      "holdDelayMs": 400,
+      "dragSensitivityPercent": 100,
+      "zoomSpeedPercent": 200
+    },
+    "back": {
+      "enabled": true,
+      "click": "cmd+[",
+      "hold": {
+        "clickWithModifiers": ["cmd"]
+      },
+      "up": "none",
+      "down": "none",
+      "left": "none",
+      "right": "none",
+      "holdDelayMs": 400,
+      "dragSensitivityPercent": 100,
+      "zoomSpeedPercent": 200
+    },
+    "gesture": {
+      "enabled": true,
+      "click": "missionControl",
+      "hold": "none",
+      "up": "missionControl",
+      "down": "appExpose",
+      "left": "desktopLeft",
+      "right": "desktopRight",
+      "holdDelayMs": 400,
+      "dragSensitivityPercent": 100,
+      "zoomSpeedPercent": 200
+    },
+    "top": {
+      "enabled": true,
+      "click": "smartZoom",
+      "hold": "none",
+      "up": "zoom",
+      "down": "zoom",
+      "left": "none",
+      "right": "none",
+      "holdDelayMs": 400,
+      "dragSensitivityPercent": 100,
+      "zoomSpeedPercent": 200
+    },
+    "wheelButton": {
+      "enabled": true,
+      "click": "cmd+w",
+      "hold": "shift+cmd+t",
+      "up": "scroll",
+      "down": "scroll",
+      "left": "scroll",
+      "right": "scroll",
+      "holdDelayMs": 300,
+      "dragSensitivityPercent": 100,
+      "zoomSpeedPercent": 200
+    }
+  },
+  "wheel": {
+    "enabled": true,
+    "speedPercent": 150,
+    "accelerationPercent": 100,
+    "natural": true,
+    "mode": "ratchet"
+  },
+  "thumbWheel": {
+    "speedPercent": 50,
+    "direction": "reversed"
+  }
+}
